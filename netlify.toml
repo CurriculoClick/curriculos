@@ -1,8 +1,13 @@
 [build]
   publish = "."
 
+# Redirect para o CMS UI
+[[redirects]]
+  from = "/admin/config.yml"
+  to   = "/admin/config.yml"
+  status = 200
+
 [[redirects]]
   from = "/admin/*"
   to   = "/admin/index.html"
-  status = 200
-  force  = true 
+  status = 200 
