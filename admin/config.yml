@@ -1,0 +1,24 @@
+backend:
+  name: git-gateway        # usa Netlify Identity + Git Gateway
+  branch: main             # branch principal do repositório
+
+media_folder: "ativos/imagens/uploads"
+public_folder: "/ativos/imagens/uploads"
+
+collections:
+  - name: "curriculos"
+    label: "Currículos"
+    folder: "dados"
+    create: true
+    slug: "{{slug}}"
+    extension: "json"
+    fields:
+      - { label: "Nome completo",    name: "inicio.nome",           widget: "string" }
+      - { label: "Profissão",         name: "inicio.profissao",      widget: "string" }
+      - { label: "Foto de perfil",    name: "inicio.foto_perfil",    widget: "image" }
+      - { label: "Idade",             name: "inicio.idade",          widget: "string" }
+      - { label: "Estado civil",      name: "inicio.estado_civil",   widget: "string" }
+      - { label: "Localização",       name: "inicio.localizacao",    widget: "string" }
+      - { label: "Email",             name: "inicio.email",          widget: "string" }
+      - { label: "Telefone",          name: "inicio.telefone",       widget: "string" }
+      # adicione aqui outras seções: habilidades, idiomas, experiência, certificados, educação, interesses etc. 
