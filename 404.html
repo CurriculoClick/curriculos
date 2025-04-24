@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Página não encontrada</title>
+
+    <!-- Importação do Fontawesome -->
+    <script src="https://kit.fontawesome.com/cb81440751.js" crossorigin="anonymous"></script>
+
+    <!-- Importação das folhas de estilo em CSS3 -->
+    <link rel="stylesheet" href="ativos/estilos/estilo.css" type="text/css">
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="ativos/imagens/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="ativos/imagens/favicon/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="ativos/imagens/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="ativos/imagens/favicon/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="ativos/imagens/favicon/android-chrome-512x512.png">
+    <style>
+      .erro404 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        min-height: 70vh;
+      }
+      .error-animation {
+        font-size: 6rem;
+        font-weight: bold;
+        color: #ff6b6b;
+        animation: bounce 1.5s infinite;
+      }
+      @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+      }
+      #countdown {
+        font-weight: bold;
+        color: var(--color-primary);
+      }
+    </style>
+</head>
+<body>
+    <header class="l-cabecalho" id="cabecalho">
+        <nav class="navegacao bd-container">
+            <a href="index.html" class="navegacao_logo">Milena Pacheco</a>
+            <div class="navegacao_toggle" id="navegacao-toggle">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <main class="l-principal bd-container">
+        <section class="section erro404 bd-grid">
+            <div class="error-animation">404</div>
+            <h2 class="section-subtitulo">Currículo não encontrado</h2>
+            <p>Não foi possível encontrar o currículo solicitado.</p>
+            <p>Você será redirecionado para o modelo de currículo em <span id="countdown">10</span> segundos.</p>
+            <p><a href="index.html">Clique aqui</a> se não quiser aguardar.</p>
+        </section>
+    </main>
+
+    <script>
+        let contador = 10;
+        const display = document.getElementById('countdown');
+        const interval = setInterval(() => {
+            contador--;
+            if (display) display.textContent = contador;
+            if (contador <= 0) {
+                clearInterval(interval);
+                window.location.href = 'index.html';
+            }
+        }, 1000);
+    </script>
+</body>
+</html> 

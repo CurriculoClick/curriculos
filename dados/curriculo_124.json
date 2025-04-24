@@ -1,0 +1,81 @@
+{
+  "inicio": {
+    "nome": "Jessica Oliveira",
+    "profissao": "Designer Gráfica",
+    "botao_baixar": "Baixar Currículo",
+    "idade": "27 anos",
+    "estado_civil": "Solteira",
+    "localizacao": "Rio de Janeiro - Brasil",
+    "email": "jessica.oliveira@exemplo.com",
+    "telefone": "(21) 9 8123-4567",
+    "foto_perfil": "dados/fotos/foto_124.png"
+  },
+  "social": {
+    "facebook": "https://facebook.com/jessica.oliveira",
+    "instagram": "https://instagram.com/jessica_oli",
+    "linkedin": "https://www.linkedin.com/in/jessica-oliveira"
+  },
+  "perfil": {
+    "descricao": "Designer Gráfica com 5 anos de experiência em branding e criação de identidade visual. Apaixonada por comunicação visual que conecta marcas e pessoas."
+  },
+  "habilidades": [
+    { "nome": "Adobe Photoshop", "nivel": 90 },
+    { "nome": "Adobe Illustrator", "nivel": 85 },
+    { "nome": "Adobe InDesign", "nivel": 80 },
+    { "nome": "Figma", "nivel": 75 }
+  ],
+  "idiomas": [
+    { "nome": "Português", "estrelas": 5 },
+    { "nome": "Inglês", "estrelas": 4 },
+    { "nome": "Espanhol", "estrelas": 3 }
+  ],
+  "experiencia_profissional": [
+    {
+      "cargo": "Designer Gráfica Pleno",
+      "empresa": "Studio Criativo RJ",
+      "periodo": "Janeiro 2021 - Atual",
+      "descricao": "Desenvolvimento de peças de comunicação visual, criação de campanhas de mídia social e branding para clientes nacionais e internacionais."
+    },
+    {
+      "cargo": "Estagiária de Design",
+      "empresa": "Agência Pixel",
+      "periodo": "Julho 2018 - Dezembro 2020",
+      "descricao": "Apoio na criação de layouts, edição de imagens e preparação de arquivos para impressão."
+    }
+  ],
+  "certificacoes": [
+    {
+      "titulo": "Certificação em Branding",
+      "ano": "2022",
+      "detalhes": "Escola de Design do Rio"
+    },
+    {
+      "titulo": "UX/UI Design",
+      "ano": "2021",
+      "detalhes": "Coursera - CalArts"
+    }
+  ],
+  "educacao": [
+    {
+      "titulo": "Bacharelado em Design Gráfico",
+      "instituicao": "UFRJ - Brasil",
+      "periodo": "2015 - 2018"
+    }
+  ],
+  "interesses": [
+    "Fotografia",
+    "Arte Digital",
+    "Viagens",
+    "Moda"
+  ],
+  "whatsapp": {
+    "ativo": true,
+    "numero": "5521981234567",
+    "cumprimentos": {
+      "manha": "Bom dia!",
+      "tarde": "Boa tarde!",
+      "noite": "Boa noite!"
+    },
+    "mensagemPosCumprimento": "Oi! Em que posso ajudar no seu projeto de design?"
+  }
+} 

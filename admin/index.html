@@ -5,6 +5,17 @@
     <title>CMS Currículos Top</title>
   </head>
   <body>
+    <!-- Carrega o Netlify Identity Widget -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script>
+      if (window.netlifyIdentity) {
+        // Inicializa o widget para processar tokens de convite e mostrar formulários
+        window.netlifyIdentity.init();
+        window.netlifyIdentity.on('login', () => {
+          document.location.href = '/admin/';
+        });
+      }
+    </script>
     <!-- Carrega o bundle do Netlify CMS -->
     <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
   </body>

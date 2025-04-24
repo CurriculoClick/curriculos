@@ -1,0 +1,437 @@
+<!--
+ Sistema Currículos Top
+-->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Currículos Top | Milena Pacheco</title>
+
+        <!-- Importação do Fontawesome -->
+        <script src="https://kit.fontawesome.com/cb81440751.js" crossorigin="anonymous"></script>
+
+        <!-- Importação das folhas de estilo em CSS3 -->
+        <link rel="stylesheet" href="ativos/estilos/estilo.css" type="text/css">
+
+        <!-- Favicon -->
+        <link rel="apple-touch-icon" sizes="180x180" href="ativos/imagens/favicon/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="ativos/imagens/favicon/favicon-16x16.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="ativos/imagens/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="ativos/imagens/favicon/android-chrome-192x192.png">
+        <link rel="icon" type="image/png" sizes="512x512" href="ativos/imagens/favicon/android-chrome-512x512.png">
+    </head>
+
+    <body>
+        <header class="l-cabecalho" id="cabecalho">
+            <!-- Menu de navegação -->
+            <nav class="navegacao bd-container">
+                <a href="#" class="navegacao_logo">Milena Pacheco</a>
+                <div class="navegacao_menu" id="navegacao-menu">
+                    <ul class="navegacao_lista">
+
+                        <li class="navegacao_item">
+                            <a href="#inicio" class="navegacao_link active-link">
+                                <i class="fa-solid fa-house navegacao_icone"></i>Início
+                            </a>
+                        </li>
+
+                        <li class="navegacao_item">
+                            <a href="#perfil" class="navegacao_link">
+                                <i class="fa-solid fa-user navegacao_icone"></i>Perfil
+                            </a>
+                        </li>
+
+                        <li class="navegacao_item">
+                            <a href="#habilidades" class="navegacao_link">
+                                <i class="fa-solid fa-wand-magic-sparkles navegacao_icone"></i>Habilidades
+                            </a>
+                        </li>
+
+                        <li class="navegacao_item">
+                            <a href="#idiomas" class="navegacao_link">
+                                <i class="fa-solid fa-comments navegacao_icone"></i>Idiomas
+                            </a>
+                        </li>
+
+                        <li class="navegacao_item">
+                            <a href="#experiencia" class="navegacao_link">
+                                <i class="fa-solid fa-briefcase navegacao_icone"></i>Experiência
+                            </a>
+                        </li>
+
+                        <li class="navegacao_item">
+                            <a href="#certificados" class="navegacao_link">
+                                <i class="fa-solid fa-graduation-cap navegacao_icone"></i>Certificados
+                            </a>
+                        </li>
+
+                        <li class="navegacao_item">
+                            <a href="#educacao" class="navegacao_link">
+                                <i class="fa-solid fa-book-bookmark navegacao_icone"></i>Educação
+                            </a>
+                        </li>
+
+                        <li class="navegacao_item">
+                            <a href="#interesses" class="navegacao_link">
+                                <i class="fa-solid fa-icons navegacao_icone"></i>Interesses
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+
+                <div class="navegacao_toggle" id="navegacao-toggle">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+            </nav>
+        </header>
+
+        <main class="l-principal bd-container">
+            <!-- Currículo -->
+            <div class="curriculo" id="area-curriculo">
+                <div class="curriculo_esquerda">
+
+                    <!-- INÍCIO -->
+                    <section class="inicio" id="inicio">
+                        <div class="inicio_container section bd-grid">
+
+                            <div class="inicio_dados bd-grid">
+                                <img src="ativos/imagens/foto.png" alt="Foto" class="inicio_imagem" id="inicio-imagem">
+                                <h1 class="inicio_titulo">Milena <b>Pacheco</b></h1>
+                                <h3 class="inicio_profissao">Administradora</h3>
+                                <div>
+                                    <a download="" id="botao-download" class="inicio_botao-movel">Baixar</a>
+                                </div>
+                            </div>
+
+                            <div class="inicio_endereco bd-grid">
+                                <span class="inicio_informacao" id="idade">
+                                    <i class="fa-solid fa-cake-candles inicio_icone"></i> 32 anos
+                                    <i class="fa-solid fa-ring inicio_icone" style="margin-left:calc(0.75rem + 5px)"></i> Noiva
+                                </span>
+                                <span class="inicio_informacao" id="localizacao">
+                                    <i class="fa-solid fa-location-dot inicio_icone"></i> Cidade Nova - Brasil
+                                </span>
+                                <span class="inicio_informacao" id="email">
+                                    <a href="mailto:milena.pch@exemplo.com" class="inicio_link">
+                                        <i class="fa-solid fa-envelope inicio_icone"></i> milena.pch@exemplo.com
+                                    </a>
+                                </span>
+                                <span class="inicio_informacao" id="telefone">
+                                    <a href="tel:+33611451165" class="inicio_link">
+                                        <i class="fa-solid fa-phone inicio_icone"></i> (99) 9 9999 9999
+                                    </a>
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <!-- Botão de seleção claro e escuro -->
+                        <i class="fa-solid fa-moon mudar-tema" title="Tema" id="botao-tema"></i>
+                        <i class="fa-solid fa-palette" title="Cores" id="botao-cores"></i>
+                        <div id="cores-picker-panel">
+                            <span class="color-swatch" data-color="default" style="background-color: var(--cor-container-alt)" title="Padrão"></span>
+                            <span class="color-swatch" data-color="#FDEEF4" style="background-color: #FDEEF4" title="Pérola"></span>
+                            <span class="color-swatch" data-color="#FFA6C9" style="background-color: #FFA6C9" title="Rosa Cravo"></span>
+                            <span class="color-swatch" data-color="#FFB1AB" style="background-color: #FFB1AB" title="Rosa Sorvete"></span>
+                            <span class="color-swatch" data-color="#FFB19A" style="background-color: #FFB19A" title="Salmão Pálido"></span>
+                            <span class="color-swatch" data-color="#EDCA9F" style="background-color: #EDCA9F" title="Areia do Deserto"></span>
+                            <span class="color-swatch" data-color="#FFE4E1" style="background-color: #FFE4E1" title="Rosa Suave"></span>
+                            <span class="color-swatch" data-color="#FDEE00" style="background-color: #FDEE00" title="Aureolina"></span>
+                            <span class="color-swatch" data-color="#7DDBC6" style="background-color: #7DDBC6" title="Bermuda"></span>
+                            <span class="color-swatch" data-color="#73A9C2" style="background-color: #73A9C2" title="Azul Monstro"></span>
+                            <span class="color-swatch" data-color="#A1E9DE" style="background-color: #A1E9DE" title="Folha d'Água"></span>
+                            <span class="color-swatch" data-color="#0C7A79" style="background-color: #0C7A79" title="Verde Surfista"></span>
+                            <span class="color-swatch" data-color="#B1D27B" style="background-color: #B1D27B" title="Verde Oliva Pálido"></span>
+                            <span class="color-swatch" data-color="#D6CEF6" style="background-color: #D6CEF6" title="Lunático"></span>
+                        </div>
+
+                        <!-- Botão para gerar e baixar o PDF. Disponível para desktop. -->
+                        <i class="fa-solid fa-download gerar-pdf" title="Gerar arquivo PDF" id="botao-curriculo"></i>
+
+                    </section>
+
+                    <!-- REDES SOCIAIS -->
+                    <section class="redes-sociais section">
+                        <h2 class="section-titulo">Redes Sociais</h2>
+
+                        <div class="redes-sociais_container bd-grid">
+                            
+                            <a href="https://facebook.com/" target="_blank" class="redes-sociais_link">
+                                <i class="fa-brands fa-facebook redes-sociais_icone"></i> @milena
+                            </a>
+                            <a href="https://instagram.com/" target="_blank" class="redes-sociais_link">
+                                <i class="fa-brands fa-instagram redes-sociais_icone"></i> @milena
+                            </a>
+                            <a href="https://www.linkedin.com/" target="_blank" class="redes-sociais_link">
+                                <i class="fa-brands fa-linkedin redes-sociais_icone"></i> milena
+                            </a>
+                        </div>
+                    </section>
+
+                    <!-- PERFIL PROFISSIONAL -->
+                    <section class="perfil section" id="perfil">
+                        <h2 class="section-titulo">Perfil</h2>
+
+                        <p class="perfil_descricao">
+                            4 anos atuando na administração de pequenas e médias empresas em funções diversas. A habilidade com softwares de gestão e o comprometimento intenso com o crescimento da organização.
+                        </p>
+                    </section>
+
+                    <!-- HABILIDADES -->
+                    <section class="habilidades section" id="habilidades">
+                        <h2 class="section-titulo">Habilidades</h2>
+                        <div class="habilidades_container">
+                            <div class="habilidades_conteudo bd-grid">
+                                <div class="habilidades_nome">
+                                    <span class="habilidades_texto">Word</span>
+                                    <div class="habilidades_barra">
+                                        <span class="habilidades_progresso" style="width: 85%;"></span>
+                                    </div>
+                                </div>
+                                <div class="habilidades_nome">
+                                    <span class="habilidades_texto">Power Point</span>
+                                    <div class="habilidades_barra">
+                                        <span class="habilidades_progresso" style="width: 75%;"></span>
+                                    </div>
+                                </div>
+                                <div class="habilidades_nome">
+                                    <span class="habilidades_texto">Excel</span>
+                                    <div class="habilidades_barra">
+                                        <span class="habilidades_progresso" style="width: 95%;"></span>
+                                    </div>
+                                </div>
+                                <div class="habilidades_nome">
+                                    <span class="habilidades_texto">Teams</span>
+                                    <div class="habilidades_barra">
+                                        <span class="habilidades_progresso" style="width: 80%;"></span>
+                                    </div>
+                                </div>
+                                <div class="habilidades_nome">
+                                    <span class="habilidades_texto">CRM | ERP</span>
+                                    <div class="habilidades_barra">
+                                        <span class="habilidades_progresso" style="width: 70%;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </section>
+
+                    <!-- IDIOMAS -->
+                    <section class="idiomas section" id="idiomas">
+                        <h2 class="section-titulo">Idiomas</h2>
+
+                        <div class="idiomas_container">
+                            <ul class="idiomas_conteudo bd-grid">
+                                <li class="idiomas_nome">
+                                    <span class="idiomas_texto">Português</span>
+                                    <span class="idiomas_estrelas">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </span>
+                                </li>
+                                <li class="idiomas_nome">
+                                    <span class="idiomas_texto">Inglês</span>
+                                    <span class="idiomas_estrelas">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </span>
+                                </li>
+                                <li class="idiomas_nome">
+                                    <span class="idiomas_texto">Espanhol</span>
+                                    <span class="idiomas_estrelas">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star idiomas_estrelas_desmarcado"></i>
+                                        <i class="fa-solid fa-star idiomas_estrelas_desmarcado"></i>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+
+                </div>
+
+                <div class="curriculo_direita">
+
+                    <!-- EXPERIÊNCIA -->
+                    <section class="experiencia section" id="experiencia">
+                        <h2 class="section-titulo">Experiência Profissional</h2>
+
+                        <div class="experiencia_container bd-grid">
+                            <div class="experiencia_conteudo">
+                                <div class="experiencia_tempo">
+                                    <span class="experiencia_circulo"></span>
+                                    <span class="experiencia_linha"></span>
+                                </div>
+                                <div class="experiencia_dados bd-grid">
+                                    <h3 class="experiencia_titulo">Vice-Presidente Executiva</h3>
+                                    <span class="experiencia_empresa">Pizza Hunt - Brasil</span>
+                                    <span class="experiencia_ano">Janeiro 2022 - Atividade Atual</span>
+                                    <p class="experiencia_descricao">
+                                        Aumento de 68% na receita trimestral da empresa através da implementação de iniciativas de marketing para estimular as vendas.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="experiencia_conteudo">
+                                <div class="experiencia_tempo">
+                                    <span class="experiencia_circulo"></span>
+                                </div>
+                                <div class="experiencia_dados bd-grid">
+                                    <h3 class="experiencia_titulo">Administração Financeira</h3>
+                                    <span class="experiencia_empresa">Domino's Pizza | Brasil</span>
+                                    <span class="experiencia_ano">Setembro 2020 - Dezembro 2021</span>
+                                    <p class="experiencia_descricao">
+                                        Planejamento financeiro, controle financeiro e tomada de decisões financeiras estratégicas.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- CERTIFICADOS -->
+                    <section class="certificados section" id="certificados">
+                        <h2 class="section-titulo">Certificados</h2>
+
+                        <div class="certificados_container bd-grid">
+                            <div class="certificados_conteudo">
+                                <div class="certificados_item">
+                                    <span class="certificados_circulo"></span>
+                                </div>
+                                <div class="certificados_dados bd-grid">
+                                    <h3 class="certificados_ano">2023</h3>
+                                    <span class="certificados_titulo">Coursera | Administração Financeira</span>
+                                </div>
+                            </div>
+                            <div class="certificados_conteudo">
+                                <div class="certificados_item">
+                                    <span class="certificados_circulo"></span>
+                                </div>
+                                <div class="certificados_dados bd-grid">
+                                    <h3 class="certificados_ano">2021</h3>
+                                    <span class="certificados_titulo">Udemy | Gestão de Administração
+                                        <span class="certificados_honras">44,5 horas</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="certificados_conteudo">
+                                <div class="certificados_item">
+                                    <span class="certificados_circulo"></span>
+                                </div>
+                                <div class="certificados_dados bd-grid">
+                                    <h3 class="certificados_ano">2018</h3>
+                                    <span class="certificados_titulo">Alura | Formação, Gestão e Aplicações SAP
+                                        <span class="certificados_honras">17,2 horas</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- EDUCAÇÃO -->
+                    <section class="educacao section" id="educacao">
+                        <h2 class="section-titulo">Educação</h2>
+
+                        <div class="educacao_container bd-grid">
+                            <div class="educacao_conteudo">
+                                <div class="educacao_tempo">
+                                    <span class="educacao_circulo"></span>
+                                    <span class="educacao_linha"></span>
+                                </div>
+                                <div class="educacao_dados bd-grid">
+                                    <h3 class="educacao_titulo">Administração</h3>
+                                    <span class="educacao_estudos">Centro Educacional Anhanguera - Brasil</span>
+                                    <span class="educacao_ano">2022 - Cursando</span>
+                                </div>
+                            </div>
+                            <div class="educacao_conteudo">
+                                <div class="educacao_tempo">
+                                    <span class="educacao_circulo"></span>
+                                    <span class="educacao_linha"></span>
+                                </div>
+                                <div class="educacao_dados bd-grid">
+                                    <h3 class="educacao_titulo">Bacharelado em Ciências da Computação</h3>
+                                    <span class="educacao_estudos">Estácio - Brasil</span>
+                                    <span class="educacao_ano">2018 - 2021</span>
+                                </div>
+                            </div>
+                            <div class="educacao_conteudo">
+                                <div class="educacao_tempo">
+                                    <span class="educacao_circulo"></span>
+                                </div>
+                                <div class="educacao_dados bd-grid">
+                                    <h3 class="educacao_titulo">Graduação em Ciências Econômicas</h3>
+                                    <span class="educacao_estudos">Estácio - Brasil</span>
+                                    <span class="educacao_ano">2015 - 2018</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- INTERESSES -->
+                    <section class="interesses section" id="interesses">
+                        <h2 class="section-titulo">Interesses</h2>
+                        <div class="interesses_container bd-grid">
+                            <div class="interesses_conteudo">
+                                <i class="fa-solid fa-paw interesses_icone"></i>
+                                <span class="interesses_nome">Pets</span>
+                            </div>
+                            <div class="interesses_conteudo">
+                                <i class="fa-solid fa-suitcase interesses_icone"></i>
+                                <span class="interesses_nome">Viagens</span>
+                            </div>
+                            <div class="interesses_conteudo">
+                                <i class="fa-solid fa-film interesses_icone"></i>
+                                <span class="interesses_nome">Filmes/Séries</span>
+                            </div>
+                            <div class="interesses_conteudo">
+                                <i class="fa-solid fa-leaf interesses_icone"></i>
+                                <span class="interesses_nome">Natureza</span>
+                            </div>
+                            <div class="interesses_conteudo">
+                                <i class="fa-solid fa-utensils interesses_icone"></i>
+                                <span class="interesses_nome">Culinária</span>
+                            </div>
+                            <div class="interesses_conteudo">
+                                <i class="fa-solid fa-gamepad interesses_icone"></i>
+                                <span class="interesses_nome">Vídeo Games</span>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+        </main>
+
+        <a href="#" class="voltar-ao-topo" id="voltar-ao-topo">
+            <i class="fa-solid fa-arrow-up voltar-ao-topo_icone"></i>
+        </a>
+
+        <!-- HTML2PDF.js -->
+            <!-- Versão 0.9.3 -->
+        <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="ativos/javascripts/html2pdf.v0.9.3.bundle.min.js"></script>
+
+        <!-- Arquivo para carregamento dinâmico de dados -->
+        <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+        <script src="ativos/javascripts/carregarDados.js"></script>
+
+        <!-- Arquivo principal de JavaScript -->
+        <script src="ativos/javascripts/principal.js"></script>
+        <script src="whatsapp-widget.js"></script>
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9323d1716c2f53bb',t:'MTc0NDk3NTcwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+
+</html>
