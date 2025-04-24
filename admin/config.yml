@@ -1,6 +1,7 @@
 backend:
-  name: git-gateway        # usa Netlify Identity + Git Gateway
-  branch: main             # branch principal do repositório
+  name: github
+  repo: thiagodelgado/curriculostop
+  branch: main
 
 media_folder: "ativos/imagens/uploads"
 public_folder: "/ativos/imagens/uploads"
