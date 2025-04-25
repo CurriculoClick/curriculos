@@ -1,41 +1,25 @@
 <!doctype html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CMS Currículo Click</title>
-  </head>
-  <body>
-    <!-- Netlify Identity Widget -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    
-    <!-- Inicialização manual do CMS -->
-    <script>
-      window.CMS_MANUAL_INIT = true;
-    </script>
-    
-    <!-- Netlify CMS -->
-    <script src="https://unpkg.com/netlify-cms@^2.10.192/dist/netlify-cms.js"></script>
-    
-    <script>
-      // Inicialização do Identity e CMS
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", user => {
-          if (!user) window.netlifyIdentity.open();
-        });
-      }
-      
-      // Configuração explícita do caminho do config.yml
-      // Utilizando caminho relativo à URL atual
-      const configPath = '/admin/config.yml';
-      
-      // Inicialização manual do CMS
-      window.CMS.init({
-        config: {
-          load_config_file: true,
-          config_file: configPath
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CMS Currículo Click</title>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+  <!-- Inclui o script do Netlify CMS -->
+  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+  <script>
+    // Garante que o Identity seja inicializado antes do CMS
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/admin/";
+          });
         }
       });
-    </script>
-  </body>
+    }
+  </script>
+</body>
 </html> 
