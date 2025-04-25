@@ -412,15 +412,28 @@ function aplicarDadosAoCurriculo(dados) {
                     'séries': 'fa-film',
                     'natureza': 'fa-leaf',
                     'culinária': 'fa-utensils',
-                    'vídeo games': 'fa-gamepad',
+                    'vídeo game': 'fa-gamepad',
                     'games': 'fa-gamepad',
                     'livros': 'fa-book',
                     'música': 'fa-music',
                     'arte': 'fa-palette',
                     'esportes': 'fa-futbol',
                     'fotografia': 'fa-camera',
-                    'tecnologia': 'fa-laptop',
-                    'dança': 'fa-person-dancing'
+                    'voluntariado': 'fa-hand-holding-heart',
+                    'tecnologia': 'fa-laptop-code',
+                    'jardinagem': 'fa-seedling',
+                    'escrita': 'fa-pen-nib',
+                    'dança': 'fa-person-dancing',
+                    'meditação': 'fa-spa',
+                    'moda': 'fa-tshirt',
+                    'história': 'fa-book-open',
+                    'idiomas': 'fa-language',
+                    'astronomia': 'fa-rocket',
+                    'xadrez': 'fa-chess',
+                    'podcasts': 'fa-podcast',
+                    'ciclismo': 'fa-bicycle',
+                    'colecionismo': 'fa-box',
+                    'customizavel': 'fa-cogs'
                 };
                 
                 // Verificar se o interesse corresponde a algum ícone conhecido
