@@ -1,7 +1,7 @@
 backend:
   name: git-gateway # Usa Netlify Identity para autenticação
-  branch: master # Branch que o CMS vai usar. Verifique se 'master' ou 'main' é a correta.
-  # repo: thiagodelgado/curriculoclick # Verifique se este é o repositório correto. Removi temporariamente para garantir que não é o problema.
+  branch: main # Branch principal do seu repositório
+  repo: thiagodelgado/curriculoclick # Repositório GitHub
 
 media_folder: "ativos/imagens/uploads" # Pasta onde as mídias serão salvas
 public_folder: "/ativos/imagens/uploads" # Caminho público para as mídias
