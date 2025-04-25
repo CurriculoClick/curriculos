@@ -1,49 +1,4 @@
 {
-  "inicio": {
-    "nome": "Carlos Alberto Silva",
-    "profissao": "Desenvolvedor Full Stack",
-    "botao_baixar": "Baixar CV",
-    "idade": "28 anos",
-    "estado_civil": "Solteiro",
-    "localizacao": "São Paulo - Brasil",
-    "email": "carlos.silva@exemplo.com",
-    "telefone": "(11) 9 8765 4321",
-    "foto_perfil": "dados/uploads/foto_123.png"
-  },
-  "social": {
-    "facebook": "https://facebook.com/carlosdev",
-    "instagram": "https://instagram.com/carlos_dev",
-    "linkedin": "https://www.linkedin.com/in/carlos-dev"
-  },
-  "perfil": {
-    "descricao": "Desenvolvedor Full Stack com 5 anos de experiência em tecnologias web modernas. Especialista em React, Node.js e bases de dados SQL/NoSQL. Apaixonado por criar soluções elegantes para problemas complexos e trabalhar em equipes ágeis."
-  },
-  "habilidades": [
-    { "nome": "JavaScript", "nivel": 95 },
-    { "nome": "React", "nivel": 90 },
-    { "nome": "Node.js", "nivel": 85 },
-    { "nome": "TypeScript", "nivel": 80 },
-    { "nome": "MongoDB", "nivel": 75 }
-  ],
-  "idiomas": [
-    { "nome": "Português", "estrelas": 5 },
-    { "nome": "Inglês", "estrelas": 4 },
-    { "nome": "Espanhol", "estrelas": 3 }
-  ],
-  "experiencia_profissional": [
-    {
-      "cargo": "Desenvolvedor Full Stack Sênior",
-      "empresa": "TechSolutions - Brasil",
-      "periodo": "Janeiro 2023 - Atual",
-      "descricao": "Lidero uma equipe de 5 desenvolvedores na criação de aplicações web e APIs para clientes internacionais. Implementei CI/CD que reduziu o tempo de deploy em 70%."
-    },
-    {
-      "cargo": "Desenvolvedor Front-end",
-      "empresa": "WebDev Soluções | Brasil",
-      "periodo": "Março 2020 - Dezembro 2022",
-      "descricao": "Desenvolvimento de interfaces de usuário responsivas e acessíveis usando React e TypeScript. Implementei testes automatizados que aumentaram a cobertura de código em 45%."
-    }
-  ],
   "certificacoes": [
     {
       "titulo": "AWS Certified Developer - Associate",
@@ -61,6 +16,79 @@
       "detalhes": "OpenJS Foundation"
     }
   ],
+  "inicio": {
+    "foto_perfil": "dados/uploads/carlos-alberto-silva.png",
+    "idade": "28 anos",
+    "botao_baixar": "Baixar CV",
+    "telefone": "(11) 9 8765 4321",
+    "localizacao": "São Paulo - Brasil",
+    "nome": "Carlos Alberto Silva",
+    "estado_civil": "Solteiro",
+    "email": "carlos.silva@exemplo.com",
+    "profissao": "Desenvolvedor Full Stack"
+  },
+  "perfil": {
+    "descricao": "Desenvolvedor Full Stack com 5 anos de experiência em tecnologias web modernas. Especialista em React, Node.js e bases de dados SQL/NoSQL. Apaixonado por criar soluções elegantes para problemas complexos e trabalhar em equipes ágeis."
+  },
+  "social": {
+    "facebook": "https://facebook.com/carlosdev",
+    "instagram": "https://instagram.com/carlos_dev",
+    "linkedin": "https://www.linkedin.com/in/carlos-dev"
+  },
+  "experiencia_profissional": [
+    {
+      "cargo": "Desenvolvedor Full Stack Sênior",
+      "empresa": "TechSolutions - Brasil",
+      "periodo": "Janeiro 2023 - Atual",
+      "descricao": "Lidero uma equipe de 5 desenvolvedores na criação de aplicações web e APIs para clientes internacionais. Implementei CI/CD que reduziu o tempo de deploy em 70%."
+    },
+    {
+      "cargo": "Desenvolvedor Front-end",
+      "empresa": "WebDev Soluções | Brasil",
+      "periodo": "Março 2020 - Dezembro 2022",
+      "descricao": "Desenvolvimento de interfaces de usuário responsivas e acessíveis usando React e TypeScript. Implementei testes automatizados que aumentaram a cobertura de código em 45%."
+    }
+  ],
+  "whatsapp": {
+    "ativo": true,
+    "numero": "5511987654321",
+    "cumprimentos": {
+      "manha": "Bom dia!",
+      "tarde": "Boa tarde!",
+      "noite": "Boa noite!"
+    },
+    "mensagemPosCumprimento": "Como posso te ajudar?"
+  },
+  "interesses": [
+    "Tecnologia",
+    "Música",
+    "Viagens",
+    "Fotografia",
+    "Livros",
+    "Games"
+  ],
+  "habilidades": [
+    {
+      "nome": "JavaScript",
+      "nivel": 95
+    },
+    {
+      "nome": "React",
+      "nivel": 90
+    },
+    {
+      "nome": "Node.js",
+      "nivel": 85
+    },
+    {
+      "nome": "TypeScript",
+      "nivel": 80
+    },
+    {
+      "nome": "MongoDB",
+      "nivel": 75
+    }
+  ],
   "educacao": [
     {
       "titulo": "Mestrado em Ciência da Computação",
@@ -73,22 +101,18 @@
       "periodo": "2018 - 2021"
     }
   ],
-  "interesses": [
-    "Tecnologia",
-    "Música",
-    "Viagens",
-    "Fotografia",
-    "Livros",
-    "Games"
-  ],
-  "whatsapp": {
-    "ativo": true,
-    "numero": "5511987654321",
-    "cumprimentos": {
-      "manha": "Bom dia!",
-      "tarde": "Boa tarde!",
-      "noite": "Boa noite!"
+  "idiomas": [
+    {
+      "nome": "Português",
+      "estrelas": 5
     },
-    "mensagemPosCumprimento": "Como posso te ajudar?"
-  }
+    {
+      "nome": "Inglês",
+      "estrelas": 4
+    },
+    {
+      "nome": "Espanhol",
+      "estrelas": 3
+    }
+  ]
 }
