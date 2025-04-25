@@ -2,25 +2,51 @@
 <html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CMS Currículo Click</title>
   </head>
   <body>
-    <!-- Carrega o Netlify Identity Widget -->
+    <!-- Netlify Identity Widget -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    
+    <!-- Inicialização do Identity Widget -->
     <script>
       if (window.netlifyIdentity) {
-        // Inicializa o widget para processar tokens de convite e mostrar formulários
-        window.netlifyIdentity.init();
-        window.netlifyIdentity.on('login', () => {
-          document.location.href = '/admin/';
+        window.netlifyIdentity.on("init", user => {
+          if (!user) window.netlifyIdentity.open();
+        });
+        window.netlifyIdentity.on("login", () => {
+          document.location.href = "/admin/";
         });
       }
     </script>
-    <!-- Desabilita init automático do Netlify CMS -->
-    <script>window.CMS_MANUAL_INIT = true;</script>
-    <!-- Carrega o bundle do Netlify CMS já com locale pt-BR -->
-    <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js?locale=pt-BR"></script>
-    <!-- Inicializa o CMS usando config.yml padrão -->
-    <script>window.CMS.init();</script>
+    
+    <!-- Netlify CMS -->
+    <script src="https://unpkg.com/netlify-cms@^2.10.192/dist/netlify-cms.js"></script>
+    
+    <!-- Script para garantir carregamento do config.yml -->
+    <script>
+      // Verifique se o CMS já foi inicializado
+      if (!window.CMS) {
+        // Se não, carregue explicitamente o config
+        window.CMS_MANUAL_INIT = true;
+        window.CMS_CONFIG_URL = '/admin/config.yml';
+        
+        // Inicialize manualmente após carregar o script
+        setTimeout(() => {
+          if (window.initCMS) {
+            window.initCMS();
+          } else if (window.CMS) {
+            window.CMS.init({
+              config: {
+                load_config_file: true,
+                config_file: window.CMS_CONFIG_URL,
+                locale: 'pt-BR'
+              }
+            });
+          }
+        }, 1000);
+      }
+    </script>
   </body>
 </html> 
