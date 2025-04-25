@@ -1,35 +1,39 @@
 {
+  "certificacoes": [
+    {
+      "titulo": "Coursera | Administração Financeira",
+      "ano": "2023"
+    },
+    {
+      "titulo": "Udemy | Gestão de Administração",
+      "ano": "2021",
+      "detalhes": "44,5 horas"
+    },
+    {
+      "titulo": "Alura | Formação, Gestão e Aplicações SAP",
+      "ano": "2018",
+      "detalhes": "17,2 horas"
+    }
+  ],
   "inicio": {
-    "nome": "Milena Pacheco",
-    "profissao": "Administradora",
-    "botao_baixar": "Baixar",
+    "foto_perfil": "dados/uploads/modelo/modelo.png",
     "idade": "32 anos",
-    "estado_civil": "Noiva",
-    "localizacao": "Cidade Nova - Brasil",
-    "email": "milena.pch@exemplo.com",
+    "botao_baixar": "Baixar",
     "telefone": "(99) 9 9999 9999",
-    "foto_perfil": "dados/uploads/foto.png"
+    "localizacao": "Cidade Nova - Brasil",
+    "nome": "Milena Pacheco",
+    "estado_civil": "Noiva",
+    "email": "milena.pch@exemplo.com",
+    "profissao": "Administradora"
+  },
+  "perfil": {
+    "descricao": "4 anos atuando na administração de pequenas e médias empresas em funções diversas. A habilidade com softwares de gestão e o comprometimento intenso com o crescimento da organização."
   },
   "social": {
     "facebook": "https://facebook.com/",
     "instagram": "https://instagram.com/",
     "linkedin": "https://www.linkedin.com/"
   },
-  "perfil": {
-    "descricao": "4 anos atuando na administração de pequenas e médias empresas em funções diversas. A habilidade com softwares de gestão e o comprometimento intenso com o crescimento da organização."
-  },
-  "habilidades": [
-    { "nome": "Word", "nivel": 85 },
-    { "nome": "Power Point", "nivel": 75 },
-    { "nome": "Excel", "nivel": 95 },
-    { "nome": "Teams", "nivel": 80 },
-    { "nome": "CRM | ERP", "nivel": 70 }
-  ],
-  "idiomas": [
-    { "nome": "Português", "estrelas": 5 },
-    { "nome": "Inglês", "estrelas": 5 },
-    { "nome": "Espanhol", "estrelas": 3 }
-  ],
   "experiencia_profissional": [
     {
       "cargo": "Vice-Presidente Executiva",
@@ -44,21 +48,75 @@
       "descricao": "Planejamento financeiro, controle financeiro e tomada de decisões financeiras estratégicas."
     }
   ],
-  "certificacoes": [
-    { "titulo": "Coursera | Administração Financeira", "ano": "2023" },
-    { "titulo": "Udemy | Gestão de Administração", "ano": "2021", "detalhes": "44,5 horas" },
-    { "titulo": "Alura | Formação, Gestão e Aplicações SAP", "ano": "2018", "detalhes": "17,2 horas" }
-  ],
-  "educacao": [
-    { "titulo": "Administração", "instituicao": "Centro Educacional Anhanguera - Brasil", "periodo": "2022 - Cursando" },
-    { "titulo": "Bacharelado em Ciências da Computação", "instituicao": "Estácio - Brasil", "periodo": "2018 - 2021" },
-    { "titulo": "Graduação em Ciências Econômicas", "instituicao": "Estácio - Brasil", "periodo": "2015 - 2018" }
-  ],
-  "interesses": ["Pets", "Viagens", "Filmes/Séries", "Natureza", "Culinária", "Vídeo Games"],
   "whatsapp": {
     "ativo": true,
     "numero": "5511999999999",
-    "cumprimentos": { "manha": "Bom dia!", "tarde": "Boa tarde!", "noite": "Boa noite!" },
+    "cumprimentos": {
+      "manha": "Bom dia!",
+      "tarde": "Boa tarde!",
+      "noite": "Boa noite!"
+    },
     "mensagemPosCumprimento": "Como posso te ajudar?"
-  }
+  },
+  "interesses": [
+    "Pets",
+    "Viagens",
+    "Filmes/Séries",
+    "Natureza",
+    "Culinária",
+    "Vídeo Games"
+  ],
+  "habilidades": [
+    {
+      "nome": "Word",
+      "nivel": 85
+    },
+    {
+      "nome": "Power Point",
+      "nivel": 75
+    },
+    {
+      "nome": "Excel",
+      "nivel": 95
+    },
+    {
+      "nome": "Teams",
+      "nivel": 80
+    },
+    {
+      "nome": "CRM | ERP",
+      "nivel": 70
+    }
+  ],
+  "educacao": [
+    {
+      "titulo": "Administração",
+      "instituicao": "Centro Educacional Anhanguera - Brasil",
+      "periodo": "2022 - Cursando"
+    },
+    {
+      "titulo": "Bacharelado em Ciências da Computação",
+      "instituicao": "Estácio - Brasil",
+      "periodo": "2018 - 2021"
+    },
+    {
+      "titulo": "Graduação em Ciências Econômicas",
+      "instituicao": "Estácio - Brasil",
+      "periodo": "2015 - 2018"
+    }
+  ],
+  "idiomas": [
+    {
+      "nome": "Português",
+      "estrelas": 5
+    },
+    {
+      "nome": "Inglês",
+      "estrelas": 5
+    },
+    {
+      "nome": "Espanhol",
+      "estrelas": 3
+    }
+  ]
 }
