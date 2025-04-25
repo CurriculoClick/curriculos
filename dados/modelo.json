@@ -1,85 +1,64 @@
 {
   "inicio": {
-    "nome": "SEU NOME COMPLETO",
-    "profissao": "SUA PROFISSÃO",
-    "botao_baixar": "Baixar Currículo",
-    "idade": "SUA IDADE",
-    "estado_civil": "Solteiro",
-    "localizacao": "SUA LOCALIZAÇÃO (Cidade, Estado)",
-    "email": "SEU EMAIL",
-    "telefone": "SEU TELEFONE (com DDD)",
-    "foto_perfil": "assets/imagens/foto.png"
+    "nome": "Milena Pacheco",
+    "profissao": "Administradora",
+    "botao_baixar": "Baixar",
+    "idade": "32 anos",
+    "estado_civil": "Noiva",
+    "localizacao": "Cidade Nova - Brasil",
+    "email": "milena.pch@exemplo.com",
+    "telefone": "(99) 9 9999 9999",
+    "foto_perfil": "dados/uploads/foto.png"
   },
   "social": {
-    "facebook": "LINK PARA SEU FACEBOOK (opcional)",
-    "instagram": "LINK PARA SEU INSTAGRAM (opcional)",
-    "linkedin": "LINK PARA SEU LINKEDIN (opcional)"
+    "facebook": "https://facebook.com/",
+    "instagram": "https://instagram.com/",
+    "linkedin": "https://www.linkedin.com/"
   },
   "perfil": {
-    "descricao": "Uma breve descrição profissional sobre você, seus objetivos e suas principais qualificações."
+    "descricao": "4 anos atuando na administração de pequenas e médias empresas em funções diversas. A habilidade com softwares de gestão e o comprometimento intenso com o crescimento da organização."
   },
   "habilidades": [
-    { "nome": "Habilidade 1", "nivel": 80 },
-    { "nome": "Habilidade 2", "nivel": 90 },
-    { "nome": "Habilidade 3", "nivel": 75 },
-    { "nome": "Outra Habilidade", "nivel": 60 }
+    { "nome": "Word", "nivel": 85 },
+    { "nome": "Power Point", "nivel": 75 },
+    { "nome": "Excel", "nivel": 95 },
+    { "nome": "Teams", "nivel": 80 },
+    { "nome": "CRM | ERP", "nivel": 70 }
   ],
   "idiomas": [
     { "nome": "Português", "estrelas": 5 },
-    { "nome": "Inglês", "estrelas": 4 },
-    { "nome": "Espanhol", "estrelas": 2 }
+    { "nome": "Inglês", "estrelas": 5 },
+    { "nome": "Espanhol", "estrelas": 3 }
   ],
   "experiencia_profissional": [
     {
-      "cargo": "Cargo 1",
-      "empresa": "Empresa 1",
-      "periodo": "Mês Ano - Mês Ano",
-      "descricao": "Descrição das suas responsabilidades e conquistas nesta experiência."
+      "cargo": "Vice-Presidente Executiva",
+      "empresa": "Pizza Hunt - Brasil",
+      "periodo": "Janeiro 2022 - Atividade Atual",
+      "descricao": "Aumento de 68% na receita trimestral da empresa através da implementação de iniciativas de marketing para estimular as vendas."
     },
     {
-      "cargo": "Cargo Anterior",
-      "empresa": "Empresa Anterior",
-      "periodo": "Ano - Ano",
-      "descricao": "Outra descrição de experiência profissional."
+      "cargo": "Administração Financeira",
+      "empresa": "Domino's Pizza | Brasil",
+      "periodo": "Setembro 2020 - Dezembro 2021",
+      "descricao": "Planejamento financeiro, controle financeiro e tomada de decisões financeiras estratégicas."
     }
   ],
   "certificacoes": [
-    {
-      "titulo": "Nome da Certificação 1",
-      "ano": "Ano",
-      "detalhes": "Informações adicionais sobre a certificação (opcional)."
-    },
-    {
-      "titulo": "Outra Certificação",
-      "ano": "Ano"
-    }
+    { "titulo": "Coursera | Administração Financeira", "ano": "2023" },
+    { "titulo": "Udemy | Gestão de Administração", "ano": "2021", "detalhes": "44,5 horas" },
+    { "titulo": "Alura | Formação, Gestão e Aplicações SAP", "ano": "2018", "detalhes": "17,2 horas" }
   ],
   "educacao": [
-    {
-      "titulo": "Seu Curso/Formação",
-      "instituicao": "Nome da Instituição",
-      "periodo": "Ano - Ano"
-    },
-    {
-      "titulo": "Outro Curso/Formação",
-      "instituicao": "Outra Instituição",
-      "periodo": "Ano"
-    }
+    { "titulo": "Administração", "instituicao": "Centro Educacional Anhanguera - Brasil", "periodo": "2022 - Cursando" },
+    { "titulo": "Bacharelado em Ciências da Computação", "instituicao": "Estácio - Brasil", "periodo": "2018 - 2021" },
+    { "titulo": "Graduação em Ciências Econômicas", "instituicao": "Estácio - Brasil", "periodo": "2015 - 2018" }
   ],
-  "interesses": [
-    "Interesse 1",
-    "Interesse 2",
-    "Interesse 3",
-    "Outro Interesse"
-  ],
+  "interesses": ["Pets", "Viagens", "Filmes/Séries", "Natureza", "Culinária", "Vídeo Games"],
   "whatsapp": {
     "ativo": true,
     "numero": "5511999999999",
-    "cumprimentos": {
-      "manha": "Bom dia!",
-      "tarde": "Boa tarde!",
-      "noite": "Boa noite!"
-    },
+    "cumprimentos": { "manha": "Bom dia!", "tarde": "Boa tarde!", "noite": "Boa noite!" },
     "mensagemPosCumprimento": "Como posso te ajudar?"
   }
 }

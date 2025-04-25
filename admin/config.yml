@@ -3,8 +3,10 @@ backend:
   branch: main # Branch principal do seu repositório
   repo: thiagodelgado/curriculoclick # Repositório GitHub
 
-media_folder: "ativos/imagens/uploads" # Pasta onde as mídias serão salvas
-public_folder: "/ativos/imagens/uploads" # Caminho público para as mídias
+locale: 'pt-BR' # Define o idioma da interface do CMS
+
+media_folder: "dados/uploads" # Pasta onde as mídias serão salvas
+public_folder: "/dados/uploads" # Caminho público para as mídias
 
 # Adicionando as coleções de volta
 collections:
