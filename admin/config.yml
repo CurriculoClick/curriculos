@@ -96,6 +96,8 @@ collections:
     slug: "{{slug}}"
     extension: "json"
     format: "json"  # Instrui o CMS a ler o arquivo como JSON para pré-preenchimento
+    editor:
+      preview: true
     pattern: '^((?!modelo).)*\\.json$' # Padrão para encontrar arquivos .json exceto 'modelo.json'
     fields: # Os campos são os mesmos do modelo
       - { label: "Nome completo",    name: "inicio.nome",           widget: "string" }
@@ -164,7 +166,7 @@ collections:
             - { label: "Música",        value: "fa-solid fa-music" }
       - { label: "WhatsApp ativo?",    name: "whatsapp.ativo",        widget: "boolean", default: false }
       - { label: "WhatsApp número (completo com país/área)", name: "whatsapp.numero", widget: "string", required: false }
-      - { label: "Cumprimento manhã",  name: "whatsapp.cumprimentos.manha", widget: "string", required: false }
-      - { label: "Cumprimento tarde",  name: "whatsapp.cumprimentos.tarde", widget: "string", required: false }
-      - { label: "Cumprimento noite",  name: "whatsapp.cumprimentos.noite", widget: "string", required: false }
+      - { label: "Cumprimento manhã",  name: "whatsapp.cumprimentos.manha", widget: "string", required: false, default: "Bom dia!" }
+      - { label: "Cumprimento tarde",  name: "whatsapp.cumprimentos.tarde", widget: "string", required: false, default: "Boa tarde!" }
+      - { label: "Cumprimento noite",  name: "whatsapp.cumprimentos.noite", widget: "string", required: false, default: "Boa noite!" }
       - { label: "Mensagem pós cumprimento", name: "whatsapp.mensagemPosCumprimento", widget: "string", required: false } 
