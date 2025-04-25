@@ -6,6 +6,8 @@ backend:
 media_folder: "ativos/imagens/uploads" # Pasta onde as mídias serão salvas
 public_folder: "/ativos/imagens/uploads" # Caminho público para as mídias
 
+site_url: https://curriculoclick.netlify.app # URL principal do seu site
+
 # Nenhuma coleção definida por enquanto, para simplificar o teste de login.
 # Adicionaremos as coleções após o login funcionar.
 collections:
