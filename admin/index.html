@@ -2,7 +2,7 @@
 <html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
-    <title>CMS Currículos Top</title>
+    <title>CMS Currículo Click</title>
   </head>
   <body>
     <!-- Carrega o Netlify Identity Widget -->
@@ -16,7 +16,11 @@
         });
       }
     </script>
-    <!-- Carrega o bundle do Netlify CMS -->
-    <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+    <!-- Desabilita init automático do Netlify CMS -->
+    <script>window.CMS_MANUAL_INIT = true;</script>
+    <!-- Carrega o bundle do Netlify CMS já com locale pt-BR -->
+    <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js?locale=pt-BR"></script>
+    <!-- Inicializa o CMS usando config.yml padrão -->
+    <script>window.CMS.init();</script>
   </body>
 </html> 
