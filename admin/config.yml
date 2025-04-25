@@ -79,6 +79,7 @@ collections:
   - name: "curriculos" # Coleção para os múltiplos currículos
     label: "Currículos"
     folder: "dados" # Pasta onde os arquivos JSON estão
+    preview_path: "/?id={{slug}}" # Caminho para visualizar o currículo no site final
     create: true # Permitir criar novos currículos
     slug: "{{slug}}" # Nome do arquivo será baseado no slug (geralmente do título/nome)
     extension: "json"
