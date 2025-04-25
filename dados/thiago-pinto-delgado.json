@@ -1,0 +1,17 @@
+{
+  "whatsapp": {
+    "ativo": false,
+    "numero": "5521992170753"
+  },
+  "inicio": {
+    "foto_perfil": "dados/uploads/thiago-pinto-delgado/suporte-digital-objetiva.png",
+    "idade": "32",
+    "botao_baixar": "22222222222222222222",
+    "telefone": "21992170753",
+    "localizacao": "2222222222222222222",
+    "nome": "THIAGO PINTO DELGADO",
+    "estado_civil": "3333333333333333333",
+    "email": "thiagodelgado@outlook.com",
+    "profissao": "pirusão"
+  }
+}
