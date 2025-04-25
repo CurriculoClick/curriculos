@@ -9,44 +9,33 @@
     <!-- Netlify Identity Widget -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     
-    <!-- Inicialização do Identity Widget -->
+    <!-- Inicialização manual do CMS -->
     <script>
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", user => {
-          if (!user) window.netlifyIdentity.open();
-        });
-        window.netlifyIdentity.on("login", () => {
-          document.location.href = "/admin/";
-        });
-      }
+      window.CMS_MANUAL_INIT = true;
     </script>
     
     <!-- Netlify CMS -->
     <script src="https://unpkg.com/netlify-cms@^2.10.192/dist/netlify-cms.js"></script>
     
-    <!-- Script para garantir carregamento do config.yml -->
     <script>
-      // Verifique se o CMS já foi inicializado
-      if (!window.CMS) {
-        // Se não, carregue explicitamente o config
-        window.CMS_MANUAL_INIT = true;
-        window.CMS_CONFIG_URL = '/admin/config.yml';
-        
-        // Inicialize manualmente após carregar o script
-        setTimeout(() => {
-          if (window.initCMS) {
-            window.initCMS();
-          } else if (window.CMS) {
-            window.CMS.init({
-              config: {
-                load_config_file: true,
-                config_file: window.CMS_CONFIG_URL,
-                locale: 'pt-BR'
-              }
-            });
-          }
-        }, 1000);
+      // Inicialização do Identity e CMS
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", user => {
+          if (!user) window.netlifyIdentity.open();
+        });
       }
+      
+      // Configuração explícita do caminho do config.yml
+      // Utilizando caminho relativo à URL atual
+      const configPath = 'config.yml';
+      
+      // Inicialização manual do CMS
+      window.CMS.init({
+        config: {
+          load_config_file: true,
+          config_file: configPath
+        }
+      });
     </script>
   </body>
 </html> 
