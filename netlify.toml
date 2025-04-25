@@ -1,20 +1,25 @@
 [build]
   publish = "."
 
-# Serve o config.yml do CMS diretamente
+# Servir arquivos estáticos do CMS diretamente
 [[redirects]]
   from = "/admin/config.yml"
   to = "/admin/config.yml"
   status = 200
   force = true
 
-# Redirect /admin para o index.html do CMS
+# Servir outros arquivos estáticos do CMS
+[[redirects]]
+  from = "/admin/*.*"
+  to = "/admin/:splat"
+  status = 200
+
+# Redirecionar outras rotas /admin para o SPA
 [[redirects]]
   from = "/admin"
   to = "/admin/index.html"
   status = 200
 
-# Wildcard para servir o CMS SPA em rotas /admin/*
 [[redirects]]
   from = "/admin/*"
   to = "/admin/index.html"
