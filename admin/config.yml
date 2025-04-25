@@ -67,8 +67,38 @@ collections:
           - label: "Interesses"
             name: "interesses"
             widget: "list"
-            summary: "{{fields.value}}" # Mostra o próprio interesse na lista
-            field: {label: "Interesse", name: "value", widget: "string"}
+            max: 8 # Limita a seleção a no máximo 8 interesses
+            field:
+              label: "Interesse"
+              name: "value"
+              widget: "select"
+              options:
+                - { label: "🐶 Pets", value: "Pets" }
+                - { label: "🌳 Natureza", value: "Natureza" }
+                - { label: "✈️ Viagens", value: "Viagens" }
+                - { label: "🎮 Vídeo Game", value: "Vídeo Game" }
+                - { label: "🎬 Filmes/Séries", value: "Filmes/Séries" }
+                - { label: "🍳 Culinária", value: "Culinária" }
+                - { label: "🏅 Esportes", value: "Esportes" }
+                - { label: "📚 Leitura", value: "Leitura" }
+                - { label: "🎵 Música", value: "Música" }
+                - { label: "📷 Fotografia", value: "Fotografia" }
+                - { label: "🤝 Voluntariado", value: "Voluntariado" }
+                - { label: "💻 Tecnologia", value: "Tecnologia" }
+                - { label: "🌱 Jardinagem", value: "Jardinagem" }
+                - { label: "🎨 Arte", value: "Arte" }
+                - { label: "✍️ Escrita", value: "Escrita" }
+                - { label: "💃 Dança", value: "Dança" }
+                - { label: "🧘‍♂️ Meditação", value: "Meditação" }
+                - { label: "👗 Moda", value: "Moda" }
+                - { label: "📜 História", value: "História" }
+                - { label: "🗣️ Idiomas", value: "Idiomas" }
+                - { label: "🔭 Astronomia", value: "Astronomia" }
+                - { label: "♟️ Xadrez", value: "Xadrez" }
+                - { label: "🎙️ Podcasts", value: "Podcasts" }
+                - { label: "🚴 Ciclismo", value: "Ciclismo" }
+                - { label: "📦 Colecionismo", value: "Colecionismo" }
+                - { label: "🔧 Customizável", value: "Customizavel" }
           - { label: "WhatsApp ativo?",    name: "whatsapp.ativo",        widget: "boolean", default: false }
           - { label: "WhatsApp número (completo com país/área)", name: "whatsapp.numero", widget: "string", required: false }
           - { label: "Cumprimento manhã",  name: "whatsapp.cumprimentos.manha", widget: "string", required: false }
@@ -135,8 +165,38 @@ collections:
       - label: "Interesses"
         name: "interesses"
         widget: "list"
-        summary: "{{fields.value}}" # Mostra o próprio interesse na lista
-        field: {label: "Interesse", name: "value", widget: "string"}
+        max: 8 # Limita a seleção a no máximo 8 interesses
+        field:
+          label: "Interesse"
+          name: "value"
+          widget: "select"
+          options:
+            - { label: "🐶 Pets", value: "Pets" }
+            - { label: "🌳 Natureza", value: "Natureza" }
+            - { label: "✈️ Viagens", value: "Viagens" }
+            - { label: "🎮 Vídeo Game", value: "Vídeo Game" }
+            - { label: "🎬 Filmes/Séries", value: "Filmes/Séries" }
+            - { label: "🍳 Culinária", value: "Culinária" }
+            - { label: "🏅 Esportes", value: "Esportes" }
+            - { label: "📚 Leitura", value: "Leitura" }
+            - { label: "🎵 Música", value: "Música" }
+            - { label: "📷 Fotografia", value: "Fotografia" }
+            - { label: "🤝 Voluntariado", value: "Voluntariado" }
+            - { label: "💻 Tecnologia", value: "Tecnologia" }
+            - { label: "🌱 Jardinagem", value: "Jardinagem" }
+            - { label: "🎨 Arte", value: "Arte" }
+            - { label: "✍️ Escrita", value: "Escrita" }
+            - { label: "💃 Dança", value: "Dança" }
+            - { label: "🧘‍♂️ Meditação", value: "Meditação" }
+            - { label: "👗 Moda", value: "Moda" }
+            - { label: "📜 História", value: "História" }
+            - { label: "🗣️ Idiomas", value: "Idiomas" }
+            - { label: "🔭 Astronomia", value: "Astronomia" }
+            - { label: "♟️ Xadrez", value: "Xadrez" }
+            - { label: "🎙️ Podcasts", value: "Podcasts" }
+            - { label: "🚴 Ciclismo", value: "Ciclismo" }
+            - { label: "📦 Colecionismo", value: "Colecionismo" }
+            - { label: "🔧 Customizável", value: "Customizavel" }
       - { label: "WhatsApp ativo?",    name: "whatsapp.ativo",        widget: "boolean", default: false }
       - { label: "WhatsApp número (completo com país/área)", name: "whatsapp.numero", widget: "string", required: false }
       - { label: "Cumprimento manhã",  name: "whatsapp.cumprimentos.manha", widget: "string", required: false }
