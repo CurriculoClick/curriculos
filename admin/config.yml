@@ -17,67 +17,19 @@ collections:
         label: "Modelo Milena"
         name: "modelo"
         fields:
-          - label: "Gênero"
-            name: "genero"
-            widget: "select"
-            options:
-              - { label: "Masculino", value: "masculino" }
-              - { label: "Feminino", value: "feminino" }
-            default: "masculino"
-          - label: "Estado civil"
-            name: "estado_civil"
-            widget: "select"
-            options:
-              - { label: "<i class='fa fa-user'></i> Solteiro(a)", value: "solteiro" }
-              - { label: "<i class='fa fa-heart'></i> Namorando", value: "namorando" }
-              - { label: "<i class='fa fa-ring'></i> Noivo(a)", value: "noivo" }
-              - { label: "<i class='fa fa-ring'></i> Casado(a)", value: "casado" }
-              - { label: "<i class='fa fa-user-times'></i> Separado(a)", value: "separado" }
-              - { label: "<i class='fa fa-user-slash'></i> Divorciado(a)", value: "divorciado" }
-              - { label: "<i class='fa fa-user-injured'></i> Viúvo(a)", value: "viuvo" }
-          - { label: "Início", name: "inicio", widget: "object", fields:
-              - { label: "Nome completo", name: "nome", widget: "string" }
-              - { label: "Profissão",     name: "profissao",     widget: "string" }
-              - { label: "Foto de perfil",name: "foto_perfil",   widget: "image" }
-              - { label: "Idade",         name: "idade",         widget: "string" }
-              - { label: "Estado civil",  name: "estado_civil",  widget: "string" }
-              - { label: "Localização",   name: "localizacao",   widget: "string" }
-              - { label: "Email",         name: "email",         widget: "string" }
-              - { label: "Telefone",      name: "telefone",      widget: "string" }
-              - { label: "Texto Botão Baixar", name: "botao_baixar", widget: "string" }
-            }
-          - label: "Redes Sociais"
-            name: "social"
-            widget: "list"
-            fields:
-              - label: "Rede"
-                name: "rede"
-                widget: "select"
-                options:
-                  - { label: "<i class='fa fa-youtube'></i> YouTube", value: "youtube" }
-                  - { label: "<i class='fa fa-facebook'></i> Facebook", value: "facebook" }
-                  - { label: "<i class='fa fa-instagram'></i> Instagram", value: "instagram" }
-                  - { label: "<i class='fab fa-tiktok'></i> TikTok", value: "tiktok" }
-                  - { label: "<i class='fab fa-weixin'></i> WeChat", value: "wechat" }
-                  - { label: "<i class='fab fa-facebook-messenger'></i> Facebook Messenger", value: "facebook-messenger" }
-                  - { label: "<i class='fab fa-twitter'></i> Twitter/X", value: "twitter" }
-                  - { label: "<i class='fab fa-linkedin'></i> LinkedIn", value: "linkedin" }
-                  - { label: "<i class='fab fa-discord'></i> Discord", value: "discord" }
-                  - { label: "<i class='fab fa-snapchat'></i> Snapchat", value: "snapchat" }
-                  - { label: "<i class='fab fa-telegram'></i> Telegram", value: "telegram" }
-                  - { label: "<i class='fa fa-music'></i> Douyin", value: "douyin" }
-                  - { label: "<i class='fa fa-video'></i> Kuaishou", value: "kuaishou" }
-                  - { label: "<i class='fab fa-weibo'></i> Weibo", value: "weibo" }
-                  - { label: "<i class='fab fa-qq'></i> QQ", value: "qq" }
-                  - { label: "<i class='fab fa-pinterest'></i> Pinterest", value: "pinterest" }
-                  - { label: "<i class='fab fa-reddit'></i> Reddit", value: "reddit" }
-                  - { label: "<i class='fa fa-globe'></i> Personalizável", value: "custom" }
-              - { label: "URL", name: "url", widget: "string" }
-          - label: "Perfil profissional"
-            name: "perfil"
-            widget: "object"
-            fields:
-              - { label: "Descrição", name: "descricao", widget: "text" }
+          - { label: "Nome completo",    name: "inicio.nome",           widget: "string" }
+          - { label: "Profissão",         name: "inicio.profissao",      widget: "string" }
+          - { label: "Foto de perfil",    name: "inicio.foto_perfil",    widget: "image" }
+          - { label: "Idade",             name: "inicio.idade",          widget: "string" }
+          - { label: "Estado civil",      name: "inicio.estado_civil",   widget: "string" }
+          - { label: "Localização",       name: "inicio.localizacao",    widget: "string" }
+          - { label: "Email",             name: "inicio.email",          widget: "string" }
+          - { label: "Telefone",          name: "inicio.telefone",       widget: "string" }
+          - { label: "Texto Botão Baixar",   name: "inicio.botao_baixar",   widget: "string" }
+          - { label: "Facebook URL",      name: "social.facebook",       widget: "string" }
+          - { label: "Instagram URL",     name: "social.instagram",      widget: "string" }
+          - { label: "LinkedIn URL",      name: "social.linkedin",       widget: "string" }
+          - { label: "Perfil profissional (Descrição)",name: "perfil.descricao",     widget: "text" }
           - label: "Habilidades"
             name: "habilidades"
             widget: "list"
@@ -121,139 +73,61 @@ collections:
               name: "value"
               widget: "select"
               options:
-                - { label: "<i class='fa fa-paw'></i> Pets", value: "Pets" }
-                - { label: "<i class='fa fa-leaf'></i> Natureza", value: "Natureza" }
-                - { label: "<i class='fa fa-plane'></i> Viagens", value: "Viagens" }
-                - { label: "<i class='fa fa-gamepad'></i> Vídeo Game", value: "Vídeo Game" }
-                - { label: "<i class='fa fa-film'></i> Filmes/Séries", value: "Filmes/Séries" }
-                - { label: "<i class='fa fa-utensils'></i> Culinária", value: "Culinária" }
-                - { label: "<i class='fa fa-trophy'></i> Esportes", value: "Esportes" }
-                - { label: "<i class='fa fa-book'></i> Leitura", value: "Leitura" }
-                - { label: "<i class='fa fa-music'></i> Música", value: "Música" }
-                - { label: "<i class='fa fa-camera'></i> Fotografia", value: "Fotografia" }
-                - { label: "<i class='fa fa-hands-helping'></i> Voluntariado", value: "Voluntariado" }
-                - { label: "<i class='fa fa-laptop-code'></i> Tecnologia", value: "Tecnologia" }
-                - { label: "<i class='fa fa-seedling'></i> Jardinagem", value: "Jardinagem" }
-                - { label: "<i class='fa fa-palette'></i> Arte", value: "Arte" }
-                - { label: "<i class='fa fa-pen-nib'></i> Escrita", value: "Escrita" }
-                - { label: "<i class='fa fa-running'></i> Dança", value: "Dança" }
-                - { label: "<i class='fa fa-spa'></i> Meditação", value: "Meditação" }
-                - { label: "<i class='fa fa-tshirt'></i> Moda", value: "Moda" }
-                - { label: "<i class='fa fa-scroll'></i> História", value: "História" }
-                - { label: "<i class='fa fa-language'></i> Idiomas", value: "Idiomas" }
-                - { label: "<i class='fa fa-meteor'></i> Astronomia", value: "Astronomia" }
-                - { label: "<i class='fa fa-chess-knight'></i> Xadrez", value: "Xadrez" }
-                - { label: "<i class='fa fa-podcast'></i> Podcasts", value: "Podcasts" }
-                - { label: "<i class='fa fa-bicycle'></i> Ciclismo", value: "Ciclismo" }
-                - { label: "<i class='fa fa-box-open'></i> Colecionismo", value: "Colecionismo" }
-                - { label: "<i class='fa fa-star'></i> Customizável", value: "Customizavel" }
-          - label: "WhatsApp"
-            name: "whatsapp"
-            widget: "object"
-            fields:
-              - { label: "Ativo?", name: "ativo", widget: "boolean", default: false }
-              - { label: "Número (país/área)", name: "numero", widget: "string", required: false }
-              - label: "Cumprimentos"
-                name: "cumprimentos"
-                widget: "object"
-                fields:
-                  - { label: "Manhã", name: "manha", widget: "string", required: false }
-                  - { label: "Tarde", name: "tarde", widget: "string", required: false }
-                  - { label: "Noite", name: "noite", widget: "string", required: false }
-              - { label: "Mensagem pós cumprimento", name: "mensagemPosCumprimento", widget: "string", required: false }
-              - { label: "Mensagem de redirecionamento", name: "mensagemRedirecionamento", widget: "string", required: false }
+                - { label: "🐶 Pets", value: "Pets" }
+                - { label: "🌳 Natureza", value: "Natureza" }
+                - { label: "✈️ Viagens", value: "Viagens" }
+                - { label: "🎮 Vídeo Game", value: "Vídeo Game" }
+                - { label: "🎬 Filmes/Séries", value: "Filmes/Séries" }
+                - { label: "🍳 Culinária", value: "Culinária" }
+                - { label: "🏅 Esportes", value: "Esportes" }
+                - { label: "📚 Leitura", value: "Leitura" }
+                - { label: "🎵 Música", value: "Música" }
+                - { label: "📷 Fotografia", value: "Fotografia" }
+                - { label: "🤝 Voluntariado", value: "Voluntariado" }
+                - { label: "💻 Tecnologia", value: "Tecnologia" }
+                - { label: "🌱 Jardinagem", value: "Jardinagem" }
+                - { label: "🎨 Arte", value: "Arte" }
+                - { label: "✍️ Escrita", value: "Escrita" }
+                - { label: "💃 Dança", value: "Dança" }
+                - { label: "🧘‍♂️ Meditação", value: "Meditação" }
+                - { label: "👗 Moda", value: "Moda" }
+                - { label: "📜 História", value: "História" }
+                - { label: "🗣️ Idiomas", value: "Idiomas" }
+                - { label: "🔭 Astronomia", value: "Astronomia" }
+                - { label: "♟️ Xadrez", value: "Xadrez" }
+                - { label: "🎙️ Podcasts", value: "Podcasts" }
+                - { label: "🚴 Ciclismo", value: "Ciclismo" }
+                - { label: "📦 Colecionismo", value: "Colecionismo" }
+                - { label: "🔧 Customizável", value: "Customizavel" }
+          - { label: "WhatsApp ativo?",    name: "whatsapp.ativo",        widget: "boolean", default: false }
+          - { label: "WhatsApp número (completo com país/área)", name: "whatsapp.numero", widget: "string", required: false }
+          - { label: "Cumprimento manhã",  name: "whatsapp.cumprimentos.manha", widget: "string", required: false }
+          - { label: "Cumprimento tarde",  name: "whatsapp.cumprimentos.tarde", widget: "string", required: false }
+          - { label: "Cumprimento noite",  name: "whatsapp.cumprimentos.noite", widget: "string", required: false }
+          - { label: "Mensagem pós cumprimento", name: "whatsapp.mensagemPosCumprimento", widget: "string", required: false }
 
   - name: "curriculos" # Coleção para os múltiplos currículos
     label: "Currículos"
     folder: "dados" # Pasta onde os arquivos JSON estão
-    identifier_field: "inicio.nome" # Usar nome completo como rótulo no menu
-    thumbnail_url_field: "inicio.foto_perfil" # Exibir foto de perfil como miniatura
     preview_path: "/?id={{slug}}" # Caminho para visualizar o currículo no site final
     create: true # Permitir criar novos currículos
     slug: "{{slug}}" # Nome do arquivo será baseado no slug (geralmente do título/nome)
     extension: "json"
     pattern: '^((?!modelo).)*\.json$' # Padrão para encontrar arquivos .json exceto 'modelo.json'
-    fields:
-      - label: "Gênero"
-        name: "genero"
-        widget: "select"
-        options:
-          - { label: "Masculino", value: "masculino" }
-          - { label: "Feminino", value: "feminino" }
-        default: "masculino"
-      - label: "Estado civil"
-        name: "estado_civil"
-        widget: "select"
-        options:
-          - { label: "<i class='fa fa-user'></i> Solteiro(a)", value: "solteiro" }
-          - { label: "<i class='fa fa-heart'></i> Namorando", value: "namorando" }
-          - { label: "<i class='fa fa-ring'></i> Noivo(a)", value: "noivo" }
-          - { label: "<i class='fa fa-ring'></i> Casado(a)", value: "casado" }
-          - { label: "<i class='fa fa-user-times'></i> Separado(a)", value: "separado" }
-          - { label: "<i class='fa fa-user-slash'></i> Divorciado(a)", value: "divorciado" }
-          - { label: "<i class='fa fa-user-injured'></i> Viúvo(a)", value: "viuvo" }
-      - label: "Início"
-        name: "inicio"
-        widget: "object"
-        fields:
-          - label: "Gênero"
-            name: "genero"
-            widget: "select"
-            options:
-              - { label: "Masculino", value: "masculino" }
-              - { label: "Feminino", value: "feminino" }
-            default: "masculino"
-          - label: "Estado civil"
-            name: "estado_civil"
-            widget: "select"
-            options:
-              - { label: "<i class='fa fa-user'></i> Solteiro(a)", value: "solteiro" }
-              - { label: "<i class='fa fa-heart'></i> Namorando", value: "namorando" }
-              - { label: "<i class='fa fa-ring'></i> Noivo(a)", value: "noivo" }
-              - { label: "<i class='fa fa-ring'></i> Casado(a)", value: "casado" }
-              - { label: "<i class='fa fa-user-times'></i> Separado(a)", value: "separado" }
-              - { label: "<i class='fa fa-user-slash'></i> Divorciado(a)", value: "divorciado" }
-              - { label: "<i class='fa fa-user-injured'></i> Viúvo(a)", value: "viuvo" }
-          - { label: "Nome completo", name: "nome", widget: "string" }
-          - { label: "Profissão", name: "profissao", widget: "string" }
-          - { label: "Foto de perfil", name: "foto_perfil", widget: "image" }
-          - { label: "Idade", name: "idade", widget: "string" }
-          - { label: "Localização", name: "localizacao", widget: "string" }
-          - { label: "Email", name: "email", widget: "string" }
-          - { label: "Telefone", name: "telefone", widget: "string" }
-          - { label: "Texto Botão Baixar", name: "botao_baixar", widget: "string" }
-      - label: "Redes Sociais"
-        name: "social"
-        widget: "list"
-        fields:
-          - label: "Rede"
-            name: "rede"
-            widget: "select"
-            options:
-              - { label: "<i class='fa fa-youtube'></i> YouTube", value: "youtube" }
-              - { label: "<i class='fa fa-facebook'></i> Facebook", value: "facebook" }
-              - { label: "<i class='fa fa-instagram'></i> Instagram", value: "instagram" }
-              - { label: "<i class='fab fa-tiktok'></i> TikTok", value: "tiktok" }
-              - { label: "<i class='fab fa-weixin'></i> WeChat", value: "wechat" }
-              - { label: "<i class='fab fa-facebook-messenger'></i> Facebook Messenger", value: "facebook-messenger" }
-              - { label: "<i class='fab fa-twitter'></i> Twitter/X", value: "twitter" }
-              - { label: "<i class='fab fa-linkedin'></i> LinkedIn", value: "linkedin" }
-              - { label: "<i class='fab fa-discord'></i> Discord", value: "discord" }
-              - { label: "<i class='fab fa-snapchat'></i> Snapchat", value: "snapchat" }
-              - { label: "<i class='fab fa-telegram'></i> Telegram", value: "telegram" }
-              - { label: "<i class='fa fa-music'></i> Douyin", value: "douyin" }
-              - { label: "<i class='fa fa-video'></i> Kuaishou", value: "kuaishou" }
-              - { label: "<i class='fab fa-weibo'></i> Weibo", value: "weibo" }
-              - { label: "<i class='fab fa-qq'></i> QQ", value: "qq" }
-              - { label: "<i class='fab fa-pinterest'></i> Pinterest", value: "pinterest" }
-              - { label: "<i class='fab fa-reddit'></i> Reddit", value: "reddit" }
-              - { label: "<i class='fa fa-globe'></i> Personalizável", value: "custom" }
-          - { label: "URL", name: "url", widget: "string" }
-      - label: "Perfil profissional"
-        name: "perfil"
-        widget: "object"
-        fields:
-          - { label: "Descrição", name: "descricao", widget: "text" }
+    fields: # Os campos são os mesmos do modelo
+      - { label: "Nome completo",    name: "inicio.nome",           widget: "string" }
+      - { label: "Profissão",         name: "inicio.profissao",      widget: "string" }
+      - { label: "Foto de perfil",    name: "inicio.foto_perfil",    widget: "image" }
+      - { label: "Idade",             name: "inicio.idade",          widget: "string" }
+      - { label: "Estado civil",      name: "inicio.estado_civil",   widget: "string" }
+      - { label: "Localização",       name: "inicio.localizacao",    widget: "string" }
+      - { label: "Email",             name: "inicio.email",          widget: "string" }
+      - { label: "Telefone",          name: "inicio.telefone",       widget: "string" }
+      - { label: "Texto Botão Baixar",   name: "inicio.botao_baixar",   widget: "string" }
+      - { label: "Facebook URL",      name: "social.facebook",       widget: "string" }
+      - { label: "Instagram URL",     name: "social.instagram",      widget: "string" }
+      - { label: "LinkedIn URL",      name: "social.linkedin",       widget: "string" }
+      - { label: "Perfil profissional (Descrição)",name: "perfil.descricao",     widget: "text" }
       - label: "Habilidades"
         name: "habilidades"
         widget: "list"
@@ -322,19 +196,10 @@ collections:
             - { label: "<i class='fa fa-podcast'></i> Podcasts", value: "Podcasts" }
             - { label: "<i class='fa fa-bicycle'></i> Ciclismo", value: "Ciclismo" }
             - { label: "<i class='fa fa-box-open'></i> Colecionismo", value: "Colecionismo" }
-            - { label: "<i class='fa fa-star'></i> Customizável", value: "Customizavel" }
-      - label: "WhatsApp"
-        name: "whatsapp"
-        widget: "object"
-        fields:
-          - { label: "Ativo?", name: "ativo", widget: "boolean", default: false }
-          - { label: "Número (país/área)", name: "numero", widget: "string", required: false }
-          - label: "Cumprimentos"
-            name: "cumprimentos"
-            widget: "object"
-            fields:
-              - { label: "Manhã", name: "manha", widget: "string", required: false }
-              - { label: "Tarde", name: "tarde", widget: "string", required: false }
-              - { label: "Noite", name: "noite", widget: "string", required: false }
-          - { label: "Mensagem pós cumprimento", name: "mensagemPosCumprimento", widget: "string", required: false }
-          - { label: "Mensagem de redirecionamento", name: "mensagemRedirecionamento", widget: "string", required: false } 
+            - { label: "<i class='fa fa-cogs'></i> Customizável", value: "Customizavel" }
+      - { label: "WhatsApp ativo?",    name: "whatsapp.ativo",        widget: "boolean", default: false }
+      - { label: "WhatsApp número (completo com país/área)", name: "whatsapp.numero", widget: "string", required: false }
+      - { label: "Cumprimento manhã",  name: "whatsapp.cumprimentos.manha", widget: "string", required: false }
+      - { label: "Cumprimento tarde",  name: "whatsapp.cumprimentos.tarde", widget: "string", required: false }
+      - { label: "Cumprimento noite",  name: "whatsapp.cumprimentos.noite", widget: "string", required: false }
+      - { label: "Mensagem pós cumprimento", name: "whatsapp.mensagemPosCumprimento", widget: "string", required: false } 
