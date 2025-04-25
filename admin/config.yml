@@ -6,14 +6,137 @@ backend:
 media_folder: "ativos/imagens/uploads" # Pasta onde as mídias serão salvas
 public_folder: "/ativos/imagens/uploads" # Caminho público para as mídias
 
-# Nenhuma coleção definida por enquanto, para simplificar o teste de login.
-# Adicionaremos as coleções após o login funcionar.
+# Adicionando as coleções de volta
 collections:
-  - name: "paginas_teste" # Nome da coleção (identificador)
-    label: "Páginas de Teste" # Rótulo que aparece na UI do CMS
-    folder: "_paginas_teste" # Pasta onde os arquivos desta coleção serão salvos
-    create: true # Permitir criar novos itens
-    slug: "{{slug}}" # Como gerar o nome do arquivo (a partir do título, por exemplo)
-    fields: # Campos para cada item da coleção
-      - {label: "Título", name: "title", widget: "string"}
-      - {label: "Conteúdo", name: "body", widget: "markdown"} 
+  - name: "modelo" # Coleção para o arquivo único de modelo
+    label: "Modelo Padrão"
+    files:
+      - file: "dados/modelo.json"
+        label: "Modelo Padrão"
+        name: "modelo"
+        fields:
+          - { label: "Nome completo",    name: "inicio.nome",           widget: "string" }
+          - { label: "Profissão",         name: "inicio.profissao",      widget: "string" }
+          - { label: "Foto de perfil",    name: "inicio.foto_perfil",    widget: "image" }
+          - { label: "Idade",             name: "inicio.idade",          widget: "string" }
+          - { label: "Estado civil",      name: "inicio.estado_civil",   widget: "string" }
+          - { label: "Localização",       name: "inicio.localizacao",    widget: "string" }
+          - { label: "Email",             name: "inicio.email",          widget: "string" }
+          - { label: "Telefone",          name: "inicio.telefone",       widget: "string" }
+          - { label: "Texto Botão Baixar",   name: "inicio.botao_baixar",   widget: "string" }
+          - { label: "Facebook URL",      name: "social.facebook",       widget: "string" }
+          - { label: "Instagram URL",     name: "social.instagram",      widget: "string" }
+          - { label: "LinkedIn URL",      name: "social.linkedin",       widget: "string" }
+          - { label: "Perfil profissional (Descrição)",name: "perfil.descricao",     widget: "text" }
+          - label: "Habilidades"
+            name: "habilidades"
+            widget: "list"
+            fields:
+              - { label: "Nome",           name: "nome",                  widget: "string" }
+              - { label: "Nível (0-100)",  name: "nivel",                 widget: "number", value_type: "int", min: 0, max: 100 }
+          - label: "Idiomas"
+            name: "idiomas"
+            widget: "list"
+            fields:
+              - { label: "Nome",           name: "nome",                  widget: "string" }
+              - { label: "Estrelas (1-5)", name: "estrelas",              widget: "number", value_type: "int", min: 1, max: 5 }
+          - label: "Experiência Profissional"
+            name: "experiencia_profissional"
+            widget: "list"
+            fields:
+              - { label: "Cargo",          name: "cargo",                 widget: "string" }
+              - { label: "Empresa",        name: "empresa",               widget: "string" }
+              - { label: "Período",        name: "periodo",               widget: "string" }
+              - { label: "Descrição",      name: "descricao",             widget: "text" }
+          - label: "Certificações"
+            name: "certificacoes"
+            widget: "list"
+            fields:
+              - { label: "Título",         name: "titulo",                widget: "string" }
+              - { label: "Ano",            name: "ano",                   widget: "string" }
+              - { label: "Detalhes (Opcional)", name: "detalhes",              widget: "text", required: false }
+          - label: "Educação"
+            name: "educacao"
+            widget: "list"
+            fields:
+              - { label: "Título",         name: "titulo",                widget: "string" }
+              - { label: "Instituição",    name: "instituicao",           widget: "string" }
+              - { label: "Período",        name: "periodo",               widget: "string" }
+          - label: "Interesses"
+            name: "interesses"
+            widget: "list"
+            summary: "{{fields.value}}" # Mostra o próprio interesse na lista
+            field: {label: "Interesse", name: "value", widget: "string"}
+          - { label: "WhatsApp ativo?",    name: "whatsapp.ativo",        widget: "boolean", default: false }
+          - { label: "WhatsApp número (completo com país/área)", name: "whatsapp.numero", widget: "string", required: false }
+          - { label: "Cumprimento manhã",  name: "whatsapp.cumprimentos.manha", widget: "string", required: false }
+          - { label: "Cumprimento tarde",  name: "whatsapp.cumprimentos.tarde", widget: "string", required: false }
+          - { label: "Cumprimento noite",  name: "whatsapp.cumprimentos.noite", widget: "string", required: false }
+          - { label: "Mensagem pós cumprimento", name: "whatsapp.mensagemPosCumprimento", widget: "string", required: false }
+
+  - name: "curriculos" # Coleção para os múltiplos currículos
+    label: "Currículos"
+    folder: "dados" # Pasta onde os arquivos JSON estão
+    create: true # Permitir criar novos currículos
+    slug: "{{slug}}" # Nome do arquivo será baseado no slug (geralmente do título/nome)
+    extension: "json"
+    pattern: '^((?!modelo).)*\.json$' # Padrão para encontrar arquivos .json exceto 'modelo.json'
+    fields: # Os campos são os mesmos do modelo
+      - { label: "Nome completo",    name: "inicio.nome",           widget: "string" }
+      - { label: "Profissão",         name: "inicio.profissao",      widget: "string" }
+      - { label: "Foto de perfil",    name: "inicio.foto_perfil",    widget: "image" }
+      - { label: "Idade",             name: "inicio.idade",          widget: "string" }
+      - { label: "Estado civil",      name: "inicio.estado_civil",   widget: "string" }
+      - { label: "Localização",       name: "inicio.localizacao",    widget: "string" }
+      - { label: "Email",             name: "inicio.email",          widget: "string" }
+      - { label: "Telefone",          name: "inicio.telefone",       widget: "string" }
+      - { label: "Texto Botão Baixar",   name: "inicio.botao_baixar",   widget: "string" }
+      - { label: "Facebook URL",      name: "social.facebook",       widget: "string" }
+      - { label: "Instagram URL",     name: "social.instagram",      widget: "string" }
+      - { label: "LinkedIn URL",      name: "social.linkedin",       widget: "string" }
+      - { label: "Perfil profissional (Descrição)",name: "perfil.descricao",     widget: "text" }
+      - label: "Habilidades"
+        name: "habilidades"
+        widget: "list"
+        fields:
+          - { label: "Nome",           name: "nome",                  widget: "string" }
+          - { label: "Nível (0-100)",  name: "nivel",                 widget: "number", value_type: "int", min: 0, max: 100 }
+      - label: "Idiomas"
+        name: "idiomas"
+        widget: "list"
+        fields:
+          - { label: "Nome",           name: "nome",                  widget: "string" }
+          - { label: "Estrelas (1-5)", name: "estrelas",              widget: "number", value_type: "int", min: 1, max: 5 }
+      - label: "Experiência Profissional"
+        name: "experiencia_profissional"
+        widget: "list"
+        fields:
+          - { label: "Cargo",          name: "cargo",                 widget: "string" }
+          - { label: "Empresa",        name: "empresa",               widget: "string" }
+          - { label: "Período",        name: "periodo",               widget: "string" }
+          - { label: "Descrição",      name: "descricao",             widget: "text" }
+      - label: "Certificações"
+        name: "certificacoes"
+        widget: "list"
+        fields:
+          - { label: "Título",         name: "titulo",                widget: "string" }
+          - { label: "Ano",            name: "ano",                   widget: "string" }
+          - { label: "Detalhes (Opcional)", name: "detalhes",              widget: "text", required: false }
+      - label: "Educação"
+        name: "educacao"
+        widget: "list"
+        fields:
+          - { label: "Título",         name: "titulo",                widget: "string" }
+          - { label: "Instituição",    name: "instituicao",           widget: "string" }
+          - { label: "Período",        name: "periodo",               widget: "string" }
+      - label: "Interesses"
+        name: "interesses"
+        widget: "list"
+        summary: "{{fields.value}}" # Mostra o próprio interesse na lista
+        field: {label: "Interesse", name: "value", widget: "string"}
+      - { label: "WhatsApp ativo?",    name: "whatsapp.ativo",        widget: "boolean", default: false }
+      - { label: "WhatsApp número (completo com país/área)", name: "whatsapp.numero", widget: "string", required: false }
+      - { label: "Cumprimento manhã",  name: "whatsapp.cumprimentos.manha", widget: "string", required: false }
+      - { label: "Cumprimento tarde",  name: "whatsapp.cumprimentos.tarde", widget: "string", required: false }
+      - { label: "Cumprimento noite",  name: "whatsapp.cumprimentos.noite", widget: "string", required: false }
+      - { label: "Mensagem pós cumprimento", name: "whatsapp.mensagemPosCumprimento", widget: "string", required: false } 
