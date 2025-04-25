@@ -1,35 +1,35 @@
 {
+  "certificacoes": [
+    {
+      "titulo": "AWS Certified Solutions Architect",
+      "ano": "2021",
+      "detalhes": "Amazon Web Services"
+    },
+    {
+      "titulo": "Microsoft Certified: Azure Developer Associate",
+      "ano": "2022",
+      "detalhes": "Microsoft"
+    }
+  ],
   "inicio": {
-    "nome": "Bruna Monteiro",
-    "profissao": "Contadora",
-    "botao_baixar": "Baixar Currículo",
+    "foto_perfil": "dados/uploads/bruna-monteiro.png",
     "idade": "30 anos",
-    "estado_civil": "Casada",
-    "localizacao": "Belo Horizonte - Brasil",
-    "email": "bruna.monteiro@exemplo.com",
+    "botao_baixar": "Baixar Currículo",
     "telefone": "(31) 9 9876-5432",
-    "foto_perfil": "dados/uploads/foto_125.png"
+    "localizacao": "Belo Horizonte - Brasil",
+    "nome": "Bruna Monteiro",
+    "estado_civil": "Casada",
+    "email": "bruna.monteiro@exemplo.com",
+    "profissao": "Contadora"
+  },
+  "perfil": {
+    "descricao": "Contadora com 8 anos de experiência em contabilidade financeira e gestão de tributos, especialista em análise de balanços e fluxo de caixa, focada na otimização de processos contábeis e compliance."
   },
   "social": {
     "facebook": "https://facebook.com/bruna.monteiro",
     "instagram": "https://instagram.com/bruna.monteiro",
     "linkedin": "https://www.linkedin.com/in/bruna-monteiro"
   },
-  "perfil": {
-    "descricao": "Contadora com 8 anos de experiência em contabilidade financeira e gestão de tributos, especialista em análise de balanços e fluxo de caixa, focada na otimização de processos contábeis e compliance."
-  },
-  "habilidades": [
-    { "nome": "Java", "nivel": 90 },
-    { "nome": "Node.js", "nivel": 85 },
-    { "nome": "Python", "nivel": 80 },
-    { "nome": "Docker", "nivel": 75 },
-    { "nome": "AWS", "nivel": 70 }
-  ],
-  "idiomas": [
-    { "nome": "Português", "estrelas": 5 },
-    { "nome": "Inglês", "estrelas": 5 },
-    { "nome": "Alemão", "estrelas": 3 }
-  ],
   "experiencia_profissional": [
     {
       "cargo": "Engenheira de Software Sênior",
@@ -44,31 +44,6 @@
       "descricao": "Implementação de APIs RESTful em Java e Spring Boot, integração com bancos de dados relacionais e NoSQL."
     }
   ],
-  "certificacoes": [
-    {
-      "titulo": "AWS Certified Solutions Architect",
-      "ano": "2021",
-      "detalhes": "Amazon Web Services"
-    },
-    {
-      "titulo": "Microsoft Certified: Azure Developer Associate",
-      "ano": "2022",
-      "detalhes": "Microsoft"
-    }
-  ],
-  "educacao": [
-    {
-      "titulo": "Bacharelado em Ciência da Computação",
-      "instituicao": "UFMG - Brasil",
-      "periodo": "2012 - 2016"
-    }
-  ],
-  "interesses": [
-    "Tecnologia",
-    "Corrida",
-    "Leitura",
-    "Viagens"
-  ],
   "whatsapp": {
     "ativo": true,
     "numero": "5531998765432",
@@ -78,5 +53,54 @@
       "noite": "Boa noite!"
     },
     "mensagemPosCumprimento": "Olá! Posso ajudar com detalhes sobre oportunidades de engenharia de software?"
-  }
-} 
+  },
+  "interesses": [
+    "Tecnologia",
+    "Corrida",
+    "Leitura",
+    "Viagens"
+  ],
+  "habilidades": [
+    {
+      "nome": "Java",
+      "nivel": 90
+    },
+    {
+      "nome": "Node.js",
+      "nivel": 85
+    },
+    {
+      "nome": "Python",
+      "nivel": 80
+    },
+    {
+      "nome": "Docker",
+      "nivel": 75
+    },
+    {
+      "nome": "AWS",
+      "nivel": 70
+    }
+  ],
+  "educacao": [
+    {
+      "titulo": "Bacharelado em Ciência da Computação",
+      "instituicao": "UFMG - Brasil",
+      "periodo": "2012 - 2016"
+    }
+  ],
+  "idiomas": [
+    {
+      "nome": "Português",
+      "estrelas": 5
+    },
+    {
+      "nome": "Inglês",
+      "estrelas": 5
+    },
+    {
+      "nome": "Alemão",
+      "estrelas": 3
+    }
+  ]
+}
