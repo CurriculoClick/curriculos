@@ -9,10 +9,10 @@ public_folder: "/ativos/imagens/uploads" # Caminho público para as mídias
 # Adicionando as coleções de volta
 collections:
   - name: "modelo" # Coleção para o arquivo único de modelo
-    label: "Modelo Padrão"
+    label: "Modelo Milena"
     files:
       - file: "dados/modelo.json"
-        label: "Modelo Padrão"
+        label: "Modelo Milena"
         name: "modelo"
         fields:
           - { label: "Nome completo",    name: "inicio.nome",           widget: "string" }
