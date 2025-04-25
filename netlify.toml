@@ -1,20 +1,23 @@
 [build]
   publish = "."
 
-# Redirect para o CMS UI
+# Redirect para habilitar CMS UI (config.yml direto)
 [[redirects]]
   from = "/admin/config.yml"
   to   = "/admin/config.yml"
   status = 200
+  force = true
 
+# Redirect para raiz do admin
 [[redirects]]
   from = "/admin"
   to   = "/admin/"
   status = 200
   force = true
 
+# Wildcard para servir o admin SPA (sem interceptar config.yml)
 [[redirects]]
   from = "/admin/*"
   to   = "/admin/index.html"
   status = 200
-  force = true 
+  force = false 
