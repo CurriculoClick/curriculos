@@ -171,32 +171,32 @@ collections:
           name: "value"
           widget: "select"
           options:
-            - { label: "🐶 Pets", value: "Pets" }
-            - { label: "🌳 Natureza", value: "Natureza" }
-            - { label: "✈️ Viagens", value: "Viagens" }
-            - { label: "🎮 Vídeo Game", value: "Vídeo Game" }
-            - { label: "🎬 Filmes/Séries", value: "Filmes/Séries" }
-            - { label: "🍳 Culinária", value: "Culinária" }
-            - { label: "🏅 Esportes", value: "Esportes" }
-            - { label: "📚 Leitura", value: "Leitura" }
-            - { label: "🎵 Música", value: "Música" }
-            - { label: "📷 Fotografia", value: "Fotografia" }
-            - { label: "🤝 Voluntariado", value: "Voluntariado" }
-            - { label: "💻 Tecnologia", value: "Tecnologia" }
-            - { label: "🌱 Jardinagem", value: "Jardinagem" }
-            - { label: "🎨 Arte", value: "Arte" }
-            - { label: "✍️ Escrita", value: "Escrita" }
-            - { label: "💃 Dança", value: "Dança" }
-            - { label: "🧘‍♂️ Meditação", value: "Meditação" }
-            - { label: "👗 Moda", value: "Moda" }
-            - { label: "📜 História", value: "História" }
-            - { label: "🗣️ Idiomas", value: "Idiomas" }
-            - { label: "🔭 Astronomia", value: "Astronomia" }
-            - { label: "♟️ Xadrez", value: "Xadrez" }
-            - { label: "🎙️ Podcasts", value: "Podcasts" }
-            - { label: "🚴 Ciclismo", value: "Ciclismo" }
-            - { label: "📦 Colecionismo", value: "Colecionismo" }
-            - { label: "🔧 Customizável", value: "Customizavel" }
+            - { label: "<i class='fa fa-paw'></i> Pets", value: "Pets" }
+            - { label: "<i class='fa fa-leaf'></i> Natureza", value: "Natureza" }
+            - { label: "<i class='fa fa-plane'></i> Viagens", value: "Viagens" }
+            - { label: "<i class='fa fa-gamepad'></i> Vídeo Game", value: "Vídeo Game" }
+            - { label: "<i class='fa fa-film'></i> Filmes/Séries", value: "Filmes/Séries" }
+            - { label: "<i class='fa fa-utensils'></i> Culinária", value: "Culinária" }
+            - { label: "<i class='fa fa-trophy'></i> Esportes", value: "Esportes" }
+            - { label: "<i class='fa fa-book'></i> Leitura", value: "Leitura" }
+            - { label: "<i class='fa fa-music'></i> Música", value: "Música" }
+            - { label: "<i class='fa fa-camera'></i> Fotografia", value: "Fotografia" }
+            - { label: "<i class='fa fa-hands-helping'></i> Voluntariado", value: "Voluntariado" }
+            - { label: "<i class='fa fa-laptop-code'></i> Tecnologia", value: "Tecnologia" }
+            - { label: "<i class='fa fa-seedling'></i> Jardinagem", value: "Jardinagem" }
+            - { label: "<i class='fa fa-palette'></i> Arte", value: "Arte" }
+            - { label: "<i class='fa fa-pen-nib'></i> Escrita", value: "Escrita" }
+            - { label: "<i class='fa fa-running'></i> Dança", value: "Dança" }
+            - { label: "<i class='fa fa-spa'></i> Meditação", value: "Meditação" }
+            - { label: "<i class='fa fa-tshirt'></i> Moda", value: "Moda" }
+            - { label: "<i class='fa fa-scroll'></i> História", value: "História" }
+            - { label: "<i class='fa fa-language'></i> Idiomas", value: "Idiomas" }
+            - { label: "<i class='fa fa-meteor'></i> Astronomia", value: "Astronomia" }
+            - { label: "<i class='fa fa-chess-knight'></i> Xadrez", value: "Xadrez" }
+            - { label: "<i class='fa fa-podcast'></i> Podcasts", value: "Podcasts" }
+            - { label: "<i class='fa fa-bicycle'></i> Ciclismo", value: "Ciclismo" }
+            - { label: "<i class='fa fa-box-open'></i> Colecionismo", value: "Colecionismo" }
+            - { label: "<i class='fa fa-cogs'></i> Customizável", value: "Customizavel" }
       - { label: "WhatsApp ativo?",    name: "whatsapp.ativo",        widget: "boolean", default: false }
       - { label: "WhatsApp número (completo com país/área)", name: "whatsapp.numero", widget: "string", required: false }
       - { label: "Cumprimento manhã",  name: "whatsapp.cumprimentos.manha", widget: "string", required: false }
