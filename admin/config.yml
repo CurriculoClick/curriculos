@@ -1,7 +1,7 @@
 backend:
   name: git-gateway
-  repo: githubUsername/githubRepo
   branch: master
+  repo: githubUsername/githubRepo
 
 media_folder: "ativos/imagens/uploads"
 public_folder: "/ativos/imagens/uploads"
