@@ -410,22 +410,6 @@ img {
         z-index: var(--z-fixo);
         transition: all 0.5s ease;
     }
-    /* mover toggle para esquerda e centralizar logo */
-    .navegacao {
-        position: relative;
-        justify-content: center !important;
-    }
-
-    .navegacao_toggle {
-        position: absolute;
-        left: var(--margem-3);
-    }
-
-    .navegacao_logo {
-        flex: none;
-        width: 100%;
-        text-align: center;
-    }
 }
 
 .navegacao_logo,
@@ -435,6 +419,8 @@ img {
 }
 
 .navegacao_toggle {
+    position: absolute;
+    left: 0;
     font-size: 1.2rem;
     cursor: pointer;
 }
