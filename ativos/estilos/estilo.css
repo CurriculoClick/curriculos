@@ -419,9 +419,10 @@ img {
 }
 
 .navegacao_toggle {
+    position: absolute;
+    left: 0;
     font-size: 1.2rem;
     cursor: pointer;
-    left: var(--margem-3);
 }
 
 .navegacao_lista {
