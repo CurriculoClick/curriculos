@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Estado Civil e Ícones</title>
+    <!-- Importação do FontAwesome -->
+    <script src="https://kit.fontawesome.com/cb81440751.js" crossorigin="anonymous"></script>
+    <style>
+        body { font-family: sans-serif; padding: 2rem; background: #f5f5f5; }
+        .lista-estado-civil { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; }
+        .lista-estado-civil li {
+            display: flex; align-items: center;
+            background: #fff; padding: 0.75rem 1rem;
+            border: 1px solid #ddd; border-radius: 4px;
+        }
+        .lista-estado-civil i {
+            margin-right: 0.75rem; font-size: 1.2rem; width: 1.5rem; text-align: center;
+            color: #333;
+        }
+        .lista-estado-civil span { font-size: 1rem; color: #333; }
+    </style>
+</head>
+<body>
+    <h1>Estados Civis Disponíveis</h1>
+    <ul class="lista-estado-civil">
+        <li><i class="fa-solid fa-ring"></i> <span>Noiva</span></li>
+        <li><i class="fa-solid fa-ring"></i> <span>Noivo</span></li>
+        <li><i class="fa-solid fa-heart"></i> <span>Casada</span></li>
+        <li><i class="fa-solid fa-heart"></i> <span>Casado</span></li>
+        <li><i class="fa-solid fa-person-circle-exclamation"></i> <span>Divorciada</span></li>
+        <li><i class="fa-solid fa-person-circle-exclamation"></i> <span>Divorciado</span></li>
+        <li><i class="fa-solid fa-gem"></i> <span>Viúva</span></li>
+        <li><i class="fa-solid fa-gem"></i> <span>Viúvo</span></li>
+        <li><i class="fa-solid fa-user"></i> <span>Solteira</span></li>
+        <li><i class="fa-solid fa-user"></i> <span>Solteiro</span></li>
+    </ul>
+</body>
+</html> 

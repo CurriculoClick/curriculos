@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Condições e Ícones</title>
+    <!-- Importação do FontAwesome -->
+    <script src="https://kit.fontawesome.com/cb81440751.js" crossorigin="anonymous"></script>
+    <style>
+        body { font-family: sans-serif; padding: 2rem; background: #f5f5f5; }
+        .lista-condicao { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; }
+        .lista-condicao li {
+            display: flex; align-items: center;
+            background: #fff; padding: 0.75rem 1rem;
+            border: 1px solid #ddd; border-radius: 4px;
+            position: relative;
+        }
+        .lista-condicao i {
+            margin-right: 0.75rem; font-size: 1.2rem; width: 1.5rem; text-align: center;
+            color: #333;
+        }
+        .lista-condicao span { font-size: 1rem; color: #333; }
+        .info-button { background: none; border: none; cursor: pointer; margin-left: 0.5rem; color: #333; }
+        .info-box { display: none; background: #fff; border: 1px solid #ccc; padding: 1rem; margin: 0.5rem 0 1rem; width: auto; max-width: 100%; box-shadow: 0 2px 6px rgba(0,0,0,0.2); z-index: 100; }
+        .info-box.visible { display: block; }
+    </style>
+</head>
+<body>
+    <h1>Condições Disponíveis <button type="button" class="info-button" onclick="toggleInfo(event)"><i class="fa-solid fa-info-circle"></i></button></h1>
+    <div class="info-box" id="info-condicoes-info">
+        <p>Existem condições reconhecidas como PCDs. Seguindo seu padrão, aqui vai a lista completa, com algumas a mais:</p>
+        <ul>
+            <li>PCD Autista</li>
+            <li>PCD Surdo</li>
+            <li>PCD Mudo</li>
+            <li>PCD Surdo-Mudo</li>
+            <li>PCD Cego</li>
+            <li>PCD Baixa Visão</li>
+            <li>PCD Deficiência Física</li>
+            <li>PCD Deficiência Intelectual</li>
+            <li>PCD Deficiência Psicossocial</li>
+            <li>PCD Deficiência Múltipla</li>
+            <li>PCD Nanismo</li>
+            <li>PCD Paralisia Cerebral</li>
+            <li>PCD Amputação de Membros</li>
+            <li>PCD Mobilidade Reduzida (ex.: quem usa cadeira de rodas, muletas ou próteses)</li>
+            <li>PCD Doenças Raras (quando geram limitações — ex.: esclerose múltipla, distrofia muscular)</li>
+            <li>PCD Síndrome de Down (embora Down seja tecnicamente uma deficiência intelectual, alguns preferem especificar)</li>
+        </ul>
+        <p>Essas cobrem quase 100% dos casos que você pode encontrar em cadastros, programas de inclusão, concursos, etc.</p>
+    </div>
+    <ul class="lista-condicao">
+        <li><i class="fa-solid fa-puzzle-piece"></i><span>PCD Autista</span></li>
+        <li><i class="fa-solid fa-deaf"></i><span>PCD Surdo</span></li>
+        <li><i class="fa-solid fa-volume-xmark"></i><span>PCD Mudo</span></li>
+        <li><i class="fa-solid fa-sign-language"></i><span>PCD Surdo-Mudo</span></li>
+        <li><i class="fa-solid fa-blind"></i><span>PCD Cego</span></li>
+        <li><i class="fa-solid fa-low-vision"></i><span>PCD Baixa Visão</span></li>
+        <li><i class="fa-solid fa-wheelchair"></i><span>PCD Deficiência Física</span></li>
+        <li><i class="fa-solid fa-brain"></i><span>PCD Deficiência Intelectual</span></li>
+        <li><i class="fa-solid fa-hands-helping"></i><span>PCD Deficiência Psicossocial</span></li>
+        <li><i class="fa-solid fa-universal-access"></i><span>PCD Deficiência Múltipla</span></li>
+        <li><i class="fa-solid fa-child"></i><span>PCD Nanismo</span></li>
+        <li><i class="fa-solid fa-wheelchair"></i><span>PCD Paralisia Cerebral</span></li>
+        <li><i class="fa-solid fa-shoe-prints"></i><span>PCD Amputação de Membros</span></li>
+        <li><i class="fa-solid fa-person-walking"></i><span>PCD Mobilidade Reduzida</span></li>
+        <li><i class="fa-solid fa-virus"></i><span>PCD Doenças Raras</span></li>
+        <li><i class="fa-solid fa-dna"></i><span>PCD Síndrome de Down</span></li>
+    </ul>
+    <script>
+        function toggleInfo(event) {
+            event.preventDefault();
+            var box = document.getElementById('info-condicoes-info');
+            box.classList.toggle('visible');
+        }
+    </script>
+</body>
+</html> 

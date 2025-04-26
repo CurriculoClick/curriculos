@@ -13,8 +13,10 @@ function obterIdDaUrl() {
 // Função para carregar os dados do currículo a partir do JSON
 async function carregarDadosCliente(id) {
     try {
-        // Busca o JSON pelo slug (arquivo id.json)
-        const resposta = await fetch(`dados/${id}.json`);
+        // Carrega JSON pelo path padrão
+        const path = `dados/${id}.json`;
+        console.log(`Carregando currículo: ${path}`);
+        const resposta = await fetch(path);
         if (!resposta.ok) {
             throw new Error(`Não foi possível carregar o currículo (ID: ${id})`);
         }
@@ -32,23 +34,33 @@ async function carregarDadosCliente(id) {
 function aplicarDadosAoCurriculo(dados) {
     // INÍCIO
     if (dados.inicio) {
-        // Nome completo
-        const nomeFormatado = dados.inicio.nome;
+        // Nome (alternando normal e negrito em cada parte)
+        const nomeParts = dados.inicio.nome.split(' ');
+        const nomeFormatado = nomeParts.map((parte, idx) => idx % 2 === 1 ? `<b>${parte}</b>` : parte).join(' ');
         
-        document.title = `Currículo Click | ${dados.inicio.nome}`;
-        const nomeEl = document.getElementById('inicio-nome');
-        if (nomeEl) nomeEl.innerHTML = nomeFormatado;
+        // Atualizar título da página com o nome do candidato
+        document.title = `Currículos Top | ${dados.inicio.nome}`;
         
-        const logoEl = document.querySelector('.navegacao_logo');
-        if (logoEl) logoEl.textContent = dados.inicio.nome;
-        
-        // Profissão
-        if (dados.inicio.profissao) {
-            const profissaoEl = document.getElementById('inicio-profissao');
-            if (profissaoEl) profissaoEl.textContent = dados.inicio.profissao;
+        const tituloEl = document.querySelector('.inicio_titulo');
+        if (tituloEl) {
+            tituloEl.innerHTML = nomeFormatado;
         }
         
-        // Texto do botão Baixar
+        // Atualizar também o logo da navegação
+        const logoEl = document.querySelector('.navegacao_logo');
+        if (logoEl) {
+            logoEl.textContent = dados.inicio.nome;
+        }
+        
+        // Profissão (anima com Typed.js simulando erro e correção)
+        if (dados.inicio.profissao) {
+            const profissaoEl = document.querySelector('.inicio_profissao');
+            if (profissaoEl) {
+                animateProfession(profissaoEl, dados.inicio.profissao);
+            }
+        }
+        
+        // Botão Baixar
         if (dados.inicio.botao_baixar) {
             const botaoEl = document.getElementById('botao-download');
             if (botaoEl) botaoEl.textContent = dados.inicio.botao_baixar;
@@ -59,79 +71,117 @@ function aplicarDadosAoCurriculo(dados) {
             const fotoEl = document.getElementById('inicio-imagem');
             if (fotoEl) {
                 fotoEl.src = dados.inicio.foto_perfil;
-                fotoEl.onerror = () => fotoEl.src = 'ativos/imagens/placeholder.png';
+                fotoEl.onerror = function() {
+                    // Ao falhar, tenta buscar em dados/uploads/<id>/<id>.<ext>
+                    const idCurr = obterIdDaUrl();
+                    const src = dados.inicio.foto_perfil;
+                    const ext = src.includes('.') ? src.slice(src.lastIndexOf('.')) : '';
+                    const fallback = idCurr ? `dados/uploads/${idCurr}/${idCurr}${ext}` : '';
+                    if (fallback) {
+                        this.onerror = function() {
+                            this.src = 'ativos/imagens/placeholder.png';
+                        };
+                        this.src = fallback;
+                    } else {
+                        this.src = 'ativos/imagens/placeholder.png';
+                    }
+                };
             }
         }
         
-        // Idade
-        const idadeEl = document.getElementById('inicio-idade');
-        if (idadeEl && dados.inicio.idade) {
-            idadeEl.innerHTML = `<i class="fa-solid fa-cake-candles inicio_icone"></i> ${dados.inicio.idade}`;
-        }
-        // Estado civil
-        const estadoEl = document.getElementById('inicio-estado');
-        if (estadoEl && dados.inicio.estado_civil) {
-            const key = dados.inicio.estado_civil.toLowerCase();
-            const mapIcon = {
-                solteiro: 'fa-user',
-                namorando: 'fa-heart',
-                noivo: 'fa-ring',
-                casado: 'fa-ring',
-                separado: 'fa-user-times',
-                divorciado: 'fa-user-slash',
-                viuvo: 'fa-user-injured'
-            };
-            const ic = mapIcon[key.replace(/\(a\)$/,'')] || 'fa-user';
-            estadoEl.innerHTML = `<i class="fa-solid ${ic} inicio_icone"></i> ${dados.inicio.estado_civil}`;
+        // Idade e estado civil
+        if (dados.inicio.idade) {
+            const idadeEl = document.getElementById('idade');
+            if (idadeEl) {
+                let content = `<i class="fa-solid fa-cake-candles inicio_icone"></i> ${dados.inicio.idade}`;
+                if (dados.inicio.estado_civil) {
+                    const status = dados.inicio.estado_civil.toLowerCase();
+                    let icone = 'fa-user';
+                    if (status.includes('noiva') || status.includes('noivo')) {
+                        icone = 'fa-ring';
+                    } else if (status.includes('casad')) {
+                        icone = 'fa-heart';
+                    }
+                    content += ` <i class="fa-solid ${icone} inicio_icone" style="margin-left:calc(0.75rem + 5px)"></i> ${dados.inicio.estado_civil}`;
+                }
+                idadeEl.innerHTML = content;
+            }
         }
         
         // Localização
-        const locEl = document.getElementById('inicio-localizacao');
-        if (locEl && dados.inicio.localizacao) locEl.innerHTML = `<i class="fa-solid fa-location-dot inicio_icone"></i> ${dados.inicio.localizacao}`;
+        if (dados.inicio.localizacao) {
+            const localizacaoEl = document.getElementById('localizacao');
+            if (localizacaoEl) localizacaoEl.innerHTML = `<i class="fa-solid fa-location-dot inicio_icone"></i> ${dados.inicio.localizacao}`;
+        }
         
         // Email
-        const emailEl = document.getElementById('inicio-email');
-        if (emailEl && dados.inicio.email) {
-            emailEl.innerHTML = `<a href="mailto:${dados.inicio.email}" class="inicio_link"><i class="fa-solid fa-envelope inicio_icone"></i> ${dados.inicio.email}</a>`;
+        if (dados.inicio.email) {
+            const emailAnchor = document.querySelector('#email a');
+            if (emailAnchor) {
+                emailAnchor.href = `mailto:${dados.inicio.email}`;
+                emailAnchor.innerHTML = `<i class="fa-solid fa-envelope inicio_icone"></i> ${dados.inicio.email}`;
+            }
         }
         
         // Telefone
-        const telEl = document.getElementById('inicio-telefone');
-        if (telEl && dados.inicio.telefone) {
-            telEl.innerHTML = `<a href="tel:${dados.inicio.telefone.replace(/\D/g,'')}" class="inicio_link"><i class="fa-solid fa-phone inicio_icone"></i> ${dados.inicio.telefone}</a>`;
+        if (dados.inicio.telefone) {
+            const telefoneAnchor = document.querySelector('#telefone a');
+            if (telefoneAnchor) {
+                telefoneAnchor.href = `tel:${dados.inicio.telefone.replace(/\D/g, '')}`;
+                telefoneAnchor.innerHTML = `<i class="fa-solid fa-phone inicio_icone"></i> ${dados.inicio.telefone}`;
+            }
         }
     }
     
     // REDES SOCIAIS
-    if (dados.social) {
+    if (Array.isArray(dados.social) && dados.social.length > 0) {
         const socialContainer = document.querySelector('.redes-sociais_container');
-        if (socialContainer) {
-            // Converte objeto em array, se necessário
-            const lista = Array.isArray(dados.social)
-                ? dados.social
-                : Object.entries(dados.social).map(([rede, url]) => ({rede, url}));
-            socialContainer.innerHTML = '';
-            const iconMap = {
-                youtube: 'fab fa-youtube', facebook: 'fab fa-facebook', instagram: 'fab fa-instagram',
-                tiktok: 'fab fa-tiktok', wechat: 'fab fa-weixin', 'facebook-messenger': 'fab fa-facebook-messenger',
-                twitter: 'fab fa-twitter', linkedin: 'fab fa-linkedin', discord: 'fab fa-discord',
-                snapchat: 'fab fa-snapchat', telegram: 'fab fa-telegram', douyin: 'fa-solid fa-music',
-                kuaishou: 'fa-solid fa-video', weibo: 'fab fa-weibo', qq: 'fab fa-qq', pinterest: 'fab fa-pinterest',
-                reddit: 'fab fa-reddit', custom: 'fa-solid fa-globe'
-            };
-            lista.forEach(item => {
-                const link = document.createElement('a');
-                link.href = item.url;
-                link.target = '_blank';
-                link.className = 'redes-sociais_link';
-                const icClass = iconMap[item.rede] || 'fa-solid fa-link';
-                link.innerHTML = `<i class="${icClass} redes-sociais_icone"></i> ${item.url}`;
-                socialContainer.appendChild(link);
-            });
-            // Oculta seção se vazia
-            const secao = document.querySelector('.redes-sociais');
-            if (secao) secao.style.display = lista.length ? 'block' : 'none';
+        socialContainer.innerHTML = '';
+        function criarLinkSocial(url, label, iconClass) {
+            const link = document.createElement('a');
+            link.href = url;
+            link.target = '_blank';
+            link.className = 'redes-sociais_link';
+            link.innerHTML = `<i class="${iconClass} redes-sociais_icone"></i> ${label}`;
+            socialContainer.appendChild(link);
         }
+        dados.social.forEach(item => {
+            const rede = item.rede;
+            const url = item.url;
+            const label = item.label || (url ? url.split('/').pop() : '');
+            let iconClass;
+            switch (rede) {
+                case 'GitHub': iconClass = 'fa-brands fa-github'; break;
+                case 'YouTube': iconClass = 'fa-brands fa-youtube'; break;
+                case 'Facebook': iconClass = 'fa-brands fa-facebook'; break;
+                case 'WhatsApp': iconClass = 'fa-brands fa-whatsapp'; break;
+                case 'Instagram': iconClass = 'fa-brands fa-instagram'; break;
+                case 'TikTok': iconClass = 'fa-brands fa-tiktok'; break;
+                case 'WeChat': iconClass = 'fa-brands fa-weixin'; break;
+                case 'Facebook Messenger': iconClass = 'fa-brands fa-facebook-messenger'; break;
+                case 'Snapchat': iconClass = 'fa-brands fa-snapchat'; break;
+                case 'Telegram': iconClass = 'fa-brands fa-telegram'; break;
+                case 'Twitter/X': iconClass = 'fa-brands fa-x'; break;
+                case 'Twitch': iconClass = 'fa-brands fa-twitch'; break;
+                case 'Slack': iconClass = 'fa-brands fa-slack'; break;
+                case 'Spotify': iconClass = 'fa-brands fa-spotify'; break;
+                case 'Medium': iconClass = 'fa-brands fa-medium'; break;
+                case 'Stack Overflow': iconClass = 'fa-brands fa-stack-overflow'; break;
+                case 'Tumblr': iconClass = 'fa-brands fa-tumblr'; break;
+                case 'Weibo': iconClass = 'fa-brands fa-weibo'; break;
+                case 'QQ': iconClass = 'fa-brands fa-qq'; break;
+                case 'Pinterest': iconClass = 'fa-brands fa-pinterest'; break;
+                case 'Reddit': iconClass = 'fa-brands fa-reddit'; break;
+                case 'LinkedIn': iconClass = 'fa-brands fa-linkedin'; break;
+                case 'Discord': iconClass = 'fa-brands fa-discord'; break;
+                default: iconClass = 'fa-solid fa-link';
+            }
+            if (url) criarLinkSocial(url, label, iconClass);
+        });
+        document.querySelector('.redes-sociais').style.display = 'block';
+    } else {
+        const secaoSocial = document.querySelector('.redes-sociais');
+        if (secaoSocial) secaoSocial.style.display = 'none';
     }
     
     // PERFIL
@@ -375,20 +425,63 @@ function aplicarDadosAoCurriculo(dados) {
                 // Lista de possíveis interesses e seus ícones
                 const icones = {
                     'pets': 'fa-paw',
-                    'viagens': 'fa-suitcase',
+                    'natureza': 'fa-leaf',
+                    'viagens': 'fa-plane',
+                    'vídeo game': 'fa-gamepad',
                     'filmes': 'fa-film',
                     'séries': 'fa-film',
-                    'natureza': 'fa-leaf',
                     'culinária': 'fa-utensils',
-                    'vídeo games': 'fa-gamepad',
-                    'games': 'fa-gamepad',
-                    'livros': 'fa-book',
-                    'música': 'fa-music',
-                    'arte': 'fa-palette',
                     'esportes': 'fa-futbol',
+                    'leitura': 'fa-book',
+                    'música': 'fa-music',
                     'fotografia': 'fa-camera',
+                    'voluntariado': 'fa-hands-helping',
                     'tecnologia': 'fa-laptop',
-                    'dança': 'fa-person-dancing'
+                    'jardinagem': 'fa-seedling',
+                    'arte': 'fa-palette',
+                    'escrita': 'fa-pen-nib',
+                    'festa': 'fa-cocktail',
+                    'dança': 'fa-theater-masks',
+                    'show': 'fa-cocktail',
+                    'evento': 'fa-cocktail',
+                    'meditação': 'fa-spa',
+                    'moda': 'fa-tshirt',
+                    'história': 'fa-scroll',
+                    'idiomas': 'fa-language',
+                    'astronomia': 'fa-satellite',
+                    'xadrez': 'fa-chess',
+                    'podcast': 'fa-podcast',
+                    'ciclismo': 'fa-bicycle',
+                    'colecionismo': 'fa-box-open',
+                    'customizável': 'fa-star',
+                    'maternidade': 'fa-baby',
+                    'filhos': 'fa-baby',
+                    'família': 'fa-users',
+                    'programação': 'fa-code',
+                    'internet': 'fa-globe',
+                    'redes sociais': 'fa-hashtag',
+                    'blogar': 'fa-blog',
+                    'praia': 'fa-umbrella-beach',
+                    'shopping': 'fa-shopping-bag',
+                    'shows/eventos': 'fa-cocktail',
+                    'aprendizagem': 'fa-brain',
+                    'open source': 'fa-code-branch',
+                    'mentoria': 'fa-user-tie',
+                    'networking': 'fa-handshake-angle',
+                    'projetos': 'fa-folder-open',
+                    'saúde e beleza': 'fa-heart-pulse',
+                    'religião': 'fa-praying-hands',
+                    'piscina': 'fa-swimmer',
+                    'montanha': 'fa-mountain',
+                    'automotivos': 'fa-car',
+                    'motociclismo': 'fa-motorcycle',
+                    'casamento': 'fa-ring',
+                    'novelas': 'fa-tv',
+                    'cachoeira': 'fa-water',
+                    'trilhas': 'fa-hiking',
+                    'política': 'fa-landmark',
+                    'notícias': 'fa-newspaper',
+                    'computador': 'fa-desktop'
                 };
                 
                 // Verificar se o interesse corresponde a algum ícone conhecido
@@ -421,16 +514,20 @@ function aplicarDadosAoCurriculo(dados) {
     }
 }
 
-// Inicializa o carregamento do currículo, usando 'modelo' por padrão
-document.addEventListener('DOMContentLoaded', () => {
-    let id = obterIdDaUrl();
-    if (!id) {
-        id = 'modelo';
-        console.log('Sem ID na URL, carregando modelo padrão.');
-    } else {
+// Quando o DOM estiver pronto, carrega JSON do ID e aplica os dados
+document.addEventListener('DOMContentLoaded', async () => {
+    const id = obterIdDaUrl();
+    if (id) {
         console.log(`Carregando currículo com ID: ${id}`);
+        await carregarDadosCliente(id);
+    } else {
+        // Sem ID: usa o HTML estático (Milena) e aplica animação na profissão
+        const profissaoEl = document.querySelector('.inicio_profissao');
+        if (profissaoEl) {
+            const finalText = profissaoEl.textContent.trim();
+            animateProfession(profissaoEl, finalText);
+        }
     }
-    carregarDadosCliente(id);
     // Aplica cor customizada se definida (qualquer caso)
     if (window.initialColorHex && window.innerWidth > 968) {
         window.applyCustomColor(window.initialColorHex, window.initialColorName);

@@ -1,0 +1,10 @@
+node_modules/
+dist/
+build/
+# Configurações sensíveis locais
+.env
+local.config.json
+# Arquivo de memória local do ChatGPT
+memory.json 
+# Local Netlify folder
+.netlify

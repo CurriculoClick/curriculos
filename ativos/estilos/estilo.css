@@ -489,9 +489,10 @@ img {
     font-size: var(--tamanho-fonte-h1);
 }
 
-.inicio_profissao {
+.inicio_profissao,
+.inicio_condicao {
     font-size: var(--tamanho-fonte-normal);
-    margin-bottom: var(--margem-1);
+    /* margem removida para usar o espaçamento do grid */
     display: inline-block;
 }
 

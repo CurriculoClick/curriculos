@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Estrutura do CMS - Currículo Online</title>
+    <script src="https://kit.fontawesome.com/cb81440751.js" crossorigin="anonymous"></script>
+    <style>
+        body { font-family: sans-serif; padding: 2rem; background: #f5f5f5; }
+        form { max-width: 800px; margin: auto; background: #fff; padding: 2rem; border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);}        
+        h1 { text-align: center; margin-bottom: 1.5rem; }
+        section { margin-bottom: 1.5rem; }
+        label { display: block; margin-top: .5rem; font-weight: bold; }
+        input, textarea, select { width: 100%; padding: .5rem; margin-top: .25rem; border: 1px solid #ccc; border-radius: 4px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .button { margin-top: 1.5rem; padding: .75rem 1.5rem; background: #007BFF; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+        /* estilos para lista de redes sociais dropdown */
+        .lista-redes { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+        .lista-redes li { margin: 0; }
+        .lista-redes details { position: relative; width: 100%; }
+        .lista-redes details summary { list-style: none; padding: 0.75rem 1rem; cursor: pointer; background: #fff; border: 1px solid #ddd; border-radius: 4px; display: flex; align-items: center; position: relative; }
+        .lista-redes details summary::-webkit-details-marker { display: none; }
+        .lista-redes details summary:after { content: "\f078"; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); pointer-events: none; }
+        .lista-redes .dropdown-content { display: none; position: absolute; top: 100%; left: 0; background: #fff; border: 1px solid #ddd; border-top: none; border-radius: 0 0 4px 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); padding: 1rem; width: 100%; z-index: 10; }
+        .lista-redes details[open] .dropdown-content { display: block; }
+        .dropdown-content label { display: block; margin-bottom: 0.5rem; font-size: 1rem; }
+        .lista-redes details summary i { width: 1.5rem; margin-right: 1rem; }
+        /* estilos para CMS - redes sociais dinâmicas */
+        .rede-item { background: #fafafa; padding: 1rem; border: 1px solid #ddd; border-radius: 4px; margin: 1rem auto; width: 100%; max-width: 400px; }
+        .rede-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; }
+        .rede-header i { font-size: 1.2rem; }
+        .rede-fields { display: flex; flex-direction: column; }
+        .rede-fields input,
+        .rede-fields label {
+            width: 100%;
+            max-width: 260px;
+        }
+        .rede-fields button {
+            width: 100%;
+            max-width: 260px;
+            padding: 0.5rem;
+            margin: 0.5rem 0 0;
+            font-size: 0.9rem;
+        }
+        #add-rede-social { margin-bottom: 1rem; }
+        /* custom dropdown redes sociais */
+        .custom-dropdown { position: relative; display: flex; align-items: center; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; background: #fff; cursor: pointer; width: 100%; max-width: 260px; margin: 0 auto; }
+        .custom-dropdown .selected { flex: 1; display: flex; align-items: center; gap: 0.5rem; }
+        .custom-dropdown .selected i { font-size: 1rem; width: 1rem; }
+        .custom-dropdown .selected .arrow { margin-left: auto; }
+        .custom-dropdown .options { display: none; position: absolute; top: 100%; left: 0; width: 100%; max-height: 200px; overflow-y: auto; background: #fff; border: 1px solid #ccc; border-top: none; z-index: 100; }
+        .custom-dropdown.open .options { display: block; }
+        .custom-dropdown .option { padding: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+        .custom-dropdown .option i { font-size: 1rem; width: 1rem; }
+        .custom-dropdown .option:hover { background: #f0f0f0; }
+        /* alinhamento do botão remover para interesses */
+        .rede-item > button { display: block; margin: 0.75rem auto 0; width: 100%; max-width: 260px; }
+    </style>
+</head>
+<body>
+    <h1>Estrutura do CMS</h1>
+    <form id="form-cms">
+        <!-- Menu Foto -->
+        <section id="foto">
+            <h2>Foto</h2>
+            <label for="foto">Adicionar/Remover Foto</label>
+            <input type="file" id="foto" name="foto">
+        </section>
+
+        <!-- Menu Pessoal -->
+        <section id="pessoal">
+            <h2>Pessoal</h2>
+            <label for="nome">Nome Sobrenome</label>
+            <input type="text" id="nome" name="nome">
+            <label for="profissao">Profissão</label>
+            <input type="text" id="profissao" name="profissao">
+            <label for="condicao">Condição</label>
+            <input type="text" id="condicao" name="condicao">
+        </section>
+
+        <!-- Menu Dados Pessoais -->
+        <section id="dados-pessoais">
+            <h2>Dados Pessoais</h2>
+            <label for="idade">Idade</label>
+            <input type="text" id="idade" name="idade">
+            <label for="estadoCivil">Estado Civil</label>
+            <input type="text" id="estadoCivil" name="estadoCivil">
+            <label for="localizacao">Localização/Endereço</label>
+            <input type="text" id="localizacao" name="localizacao">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email">
+            <label for="telefone">Telefone</label>
+            <input type="tel" id="telefone" name="telefone">
+            <label for="telefone2">Segundo Telefone</label>
+            <input type="tel" id="telefone2" name="telefone2">
+        </section>
+
+        <!-- Menu Redes Sociais -->
+        <!--
+            Esta seção permite ao usuário selecionar até 4 redes sociais para exibição no currículo.
+            Para cada rede social selecionada:
+            1. O ícone (class FontAwesome) representa visualmente a rede no currículo.
+            2. O 'Friendly Name' (texto exibido ao lado do ícone) será o texto clicável no currículo,
+               servindo de rótulo amigável antes do link.
+            3. O input 'URL + Usuário' contém o link completo para o perfil (usado como href no currículo).
+            4. O input 'Usuário' conterá somente o nome de usuário, podendo ser exibido como texto secundário.
+            Ao gerar o currículo, você deverá iterar sobre esses itens e renderizar algo como:
+
+            <a href="URL + Usuário" target="_blank" class="rede-exibicao">
+                <i class="Ícone"></i><span>Friendly Name</span>
+            </a>
+
+            Se desejar, exiba também o nome de usuário em tooltip ou como texto discreto.
+        -->
+        <section id="redes-sociais">
+            <h2>Redes Sociais</h2>
+            <button type="button" class="button" id="add-rede-social">+ Adicionar Rede Social</button>
+            <div id="redes-social-lista"></div>
+        </section>
+
+        <section id="perfil">
+            <h2>Perfil</h2>
+            <label for="perfil-descricao">Descrição</label>
+            <textarea id="perfil-descricao" name="perfil-descricao" rows="4"></textarea>
+        </section>
+
+        <section id="habilidades">
+            <h2>Habilidades</h2>
+            <div id="habilidades-lista">
+                <div class="skill-item">
+                    <label for="habilidade-nome">Nome</label>
+                    <input type="text" id="habilidade-nome" name="habilidade-nome">
+                    <label for="habilidade-nivel">% Nível</label>
+                    <input type="number" id="habilidade-nivel" name="habilidade-nivel" min="0" max="100">
+                </div>
+            </div>
+        </section>
+
+        <section id="idiomas">
+            <h2>Idiomas</h2>
+            <div id="idiomas-lista">
+                <div class="idioma-item">
+                    <label for="idioma-nome">Idioma</label>
+                    <input type="text" id="idioma-nome" name="idioma-nome">
+                    <label for="idioma-nivel">Nível (0-5)</label>
+                    <input type="number" id="idioma-nivel" name="idioma-nivel" min="0" max="5">
+                </div>
+            </div>
+        </section>
+
+        <section id="experiencia">
+            <h2>Experiência</h2>
+            <div id="experiencia-lista">
+                <div class="job-item">
+                    <label for="cargo">Cargo/Título</label>
+                    <input type="text" id="cargo" name="cargo">
+                    <label for="empresa">Empresa</label>
+                    <input type="text" id="empresa" name="empresa">
+                    <label for="periodo">Período</label>
+                    <input type="text" id="periodo" name="periodo">
+                    <label for="descricao-experiencia">Descrição</label>
+                    <textarea id="descricao-experiencia" name="descricao-experiencia" rows="3"></textarea>
+                </div>
+            </div>
+        </section>
+
+        <section id="certificados">
+            <h2>Certificados | Cursos</h2>
+            <div id="certificados-lista">
+                <div class="cert-item">
+                    <label for="cert-ano">Ano</label>
+                    <input type="text" id="cert-ano" name="cert-ano">
+                    <label for="cert-titulo">Título</label>
+                    <input type="text" id="cert-titulo" name="cert-titulo">
+                    <label for="cert-horas">Horas</label>
+                    <input type="text" id="cert-horas" name="cert-horas">
+                </div>
+            </div>
+        </section>
+
+        <section id="educacao">
+            <h2>Educação | Formação</h2>
+            <div id="educacao-lista">
+                <div class="edu-item">
+                    <label for="edu-titulo">Título/Curso</label>
+                    <input type="text" id="edu-titulo" name="edu-titulo">
+                    <label for="edu-instituicao">Instituição</label>
+                    <input type="text" id="edu-instituicao" name="edu-instituicao">
+                    <label for="edu-ano">Ano/Período</label>
+                    <input type="text" id="edu-ano" name="edu-ano">
+                </div>
+            </div>
+        </section>
+
+        <!-- Menu Interesses | Atividades -->
+        <!--
+            Seção Interesses | Atividades:
+            - Permite selecionar até 8 interesses para exibir no currículo.
+            - Cada item gera um elemento com:
+                • Ícone (FontAwesome) representando o interesse.
+                • Dropdown customizado para escolher o interesse.
+                • Botões de ordenar (↑ e ↓) para rearranjar a ordem de exibição.
+                • Botão de remover para excluir o interesse.
+            - Na geração do currículo, percorra a lista na ordem definida, e renderize:
+            para cada item, mantendo a ordem selecionada.
+        -->
+        <section id="interesses">
+            <h2>Interesses | Atividades</h2>
+            <button type="button" class="button" id="add-interest">+ Adicionar Interesse</button>
+            <div id="interesses-lista"></div>
+        </section>
+
+        <button type="submit" class="button">Salvar</button>
+    </form>
+    <!-- script para gerenciamento de redes sociais dinâmicas -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const redes = [
+                { name: 'YouTube', icon: 'fa-brands fa-youtube', urlPlaceholder: 'https://youtube.com/usuario', userPlaceholder: 'usuario' },
+                { name: 'Facebook', icon: 'fa-brands fa-facebook', urlPlaceholder: 'https://facebook.com/usuario', userPlaceholder: 'usuario' },
+                { name: 'WhatsApp', icon: 'fa-brands fa-whatsapp', urlPlaceholder: 'https://wa.me/usuario', userPlaceholder: 'usuario' },
+                { name: 'Instagram', icon: 'fa-brands fa-instagram', urlPlaceholder: 'https://instagram.com/usuario', userPlaceholder: 'usuario' },
+                { name: 'TikTok', icon: 'fa-brands fa-tiktok', urlPlaceholder: 'https://tiktok.com/@usuario', userPlaceholder: '@usuario' },
+                { name: 'WeChat', icon: 'fa-brands fa-weixin', urlPlaceholder: 'wechat://usuario', userPlaceholder: 'usuario' },
+                { name: 'Messenger', icon: 'fa-brands fa-facebook-messenger', urlPlaceholder: 'https://m.me/usuario', userPlaceholder: 'usuario' },
+                { name: 'Snapchat', icon: 'fa-brands fa-snapchat', urlPlaceholder: 'https://www.snapchat.com/add/usuario', userPlaceholder: 'usuario' },
+                { name: 'Telegram', icon: 'fa-brands fa-telegram', urlPlaceholder: 'https://t.me/usuario', userPlaceholder: 'usuario' },
+                { name: 'Weibo', icon: 'fa-brands fa-weibo', urlPlaceholder: 'https://weibo.com/usuario', userPlaceholder: 'usuario' },
+                { name: 'QQ', icon: 'fa-brands fa-qq', urlPlaceholder: 'https://qm.qq.com/cgi-bin/qm/qr?uin=usuario', userPlaceholder: 'usuario' },
+                { name: 'Pinterest', icon: 'fa-brands fa-pinterest', urlPlaceholder: 'https://pinterest.com/usuario', userPlaceholder: 'usuario' },
+                { name: 'Reddit', icon: 'fa-brands fa-reddit', urlPlaceholder: 'https://reddit.com/user/usuario', userPlaceholder: 'usuario' },
+                { name: 'LinkedIn', icon: 'fa-brands fa-linkedin', urlPlaceholder: 'https://linkedin.com/in/usuario', userPlaceholder: 'usuario' },
+                { name: 'Discord', icon: 'fa-brands fa-discord', urlPlaceholder: 'https://discord.com/users/usuario', userPlaceholder: 'usuario#0000' },
+                { name: 'GitHub', icon: 'fa-brands fa-github', urlPlaceholder: 'https://github.com/usuario', userPlaceholder: 'usuario' },
+                { name: 'Personalizado', icon: 'fa-solid fa-link', urlPlaceholder: '', userPlaceholder: '' }
+            ];
+            const container = document.getElementById('redes-social-lista');
+            const addBtn = document.getElementById('add-rede-social');
+            addBtn.addEventListener('click', function() {
+                if (container.children.length >= 4) {
+                    alert('Limite de 4 redes sociais atingido. Remova uma para adicionar outra.');
+                    return;
+                }
+                const item = document.createElement('div');
+                item.className = 'rede-item';
+                // botões de ordenação para redes sociais
+                const btnUpS = document.createElement('button'); btnUpS.type = 'button'; btnUpS.textContent = '↑'; btnUpS.title = 'Mover para cima';
+                btnUpS.addEventListener('click', () => container.insertBefore(item, item.previousElementSibling));
+                const btnDownS = document.createElement('button'); btnDownS.type = 'button'; btnDownS.textContent = '↓'; btnDownS.title = 'Mover para baixo';
+                btnDownS.addEventListener('click', () => { const next = item.nextElementSibling; if (next) container.insertBefore(next, item); });
+                const iconElem = document.createElement('i'); iconElem.className = redes[0].icon;
+                const dropdown = document.createElement('div'); dropdown.className = 'custom-dropdown';
+                const sel = document.createElement('div'); sel.className = 'selected';
+                sel.innerHTML = `<i class="${redes[0].icon}"></i><span>${redes[0].name}</span><i class="fa-solid fa-chevron-down arrow"></i>`;
+                const opts = document.createElement('div'); opts.className = 'options';
+                redes.forEach((r,i) => {
+                    const opt = document.createElement('div'); opt.className = 'option'; opt.dataset.index = i;
+                    opt.innerHTML = `<i class="${r.icon}"></i><span>${r.name}</span>`;
+                    opts.appendChild(opt);
+                });
+                dropdown.append(sel, opts);
+                const header = document.createElement('div'); header.className = 'rede-header';
+                header.append(iconElem, dropdown);
+                item.append(btnUpS, btnDownS, header);
+                const fields = document.createElement('div'); fields.className = 'rede-fields';
+                const labelUrl = document.createElement('label'); labelUrl.textContent = 'URL + Usuário';
+                const urlInput = document.createElement('input'); urlInput.type = 'text'; urlInput.name = 'rede-social-url'; urlInput.placeholder = redes[0].urlPlaceholder;
+                const labelUser = document.createElement('label'); labelUser.textContent = 'Usuário';
+                const userInput = document.createElement('input'); userInput.type = 'text'; userInput.name = 'rede-social-user'; userInput.placeholder = redes[0].userPlaceholder;
+                const removeBtn = document.createElement('button'); removeBtn.type = 'button'; removeBtn.textContent = 'Remover'; removeBtn.addEventListener('click', () => {
+                    container.removeChild(item);
+                    if (container.children.length < 4) addBtn.disabled = false;
+                });
+                fields.append(labelUrl, urlInput, labelUser, userInput, removeBtn);
+                item.append(fields);
+                container.appendChild(item);
+                // eventos dropdown
+                sel.addEventListener('click', () => dropdown.classList.toggle('open'));
+                opts.querySelectorAll('.option').forEach(opt => {
+                    opt.addEventListener('click', function() {
+                        const r = redes[this.dataset.index];
+                        iconElem.className = r.icon;
+                        sel.innerHTML = `<i class="${r.icon}"></i><span>${r.name}</span><i class="fa-solid fa-chevron-down arrow"></i>`;
+                        dropdown.classList.remove('open');
+                        urlInput.placeholder = r.urlPlaceholder;
+                        userInput.placeholder = r.userPlaceholder;
+                    });
+                });
+                if (container.children.length >= 4) {
+                    addBtn.disabled = true;
+                }
+            });
+        });
+    </script>
+    <!-- script para gerenciamento de interesses dinâmicos -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // lista de interesses e ícones do interesses.html
+        const interesses = [
+            { name: 'Pets', icon: 'fa-solid fa-paw' },
+            { name: 'Natureza', icon: 'fa-solid fa-leaf' },
+            { name: 'Viagens', icon: 'fa-solid fa-plane' },
+            { name: 'Vídeo Game', icon: 'fa-solid fa-gamepad' },
+            { name: 'Filmes/Séries', icon: 'fa-solid fa-film' },
+            { name: 'Culinária', icon: 'fa-solid fa-utensils' },
+            { name: 'Esportes', icon: 'fa-solid fa-futbol' },
+            { name: 'Leitura', icon: 'fa-solid fa-book' },
+            { name: 'Música', icon: 'fa-solid fa-music' },
+            { name: 'Fotografia', icon: 'fa-solid fa-camera' },
+            { name: 'Voluntariado', icon: 'fa-solid fa-hands-helping' },
+            { name: 'Tecnologia', icon: 'fa-solid fa-laptop' },
+            { name: 'Jardinagem', icon: 'fa-solid fa-seedling' },
+            { name: 'Arte', icon: 'fa-solid fa-palette' },
+            { name: 'Escrita', icon: 'fa-solid fa-pen-nib' },
+            { name: 'Festa/Dança', icon: 'fa-solid fa-theater-masks' },
+            { name: 'Meditação', icon: 'fa-solid fa-spa' },
+            { name: 'Moda', icon: 'fa-solid fa-tshirt' },
+            { name: 'História', icon: 'fa-solid fa-scroll' },
+            { name: 'Idiomas', icon: 'fa-solid fa-language' },
+            { name: 'Astronomia', icon: 'fa-solid fa-satellite' },
+            { name: 'Xadrez', icon: 'fa-solid fa-chess' },
+            { name: 'Podcasts', icon: 'fa-solid fa-podcast' },
+            { name: 'Ciclismo', icon: 'fa-solid fa-bicycle' },
+            { name: 'Colecionismo', icon: 'fa-solid fa-box-open' },
+            { name: 'Customizável', icon: 'fa-solid fa-star' },
+            { name: 'Maternidade', icon: 'fa-solid fa-baby' },
+            { name: 'Filhos', icon: 'fa-solid fa-child' },
+            { name: 'Família', icon: 'fa-solid fa-users' },
+            { name: 'Programação', icon: 'fa-solid fa-code' },
+            { name: 'Internet', icon: 'fa-solid fa-globe' },
+            { name: 'Redes Sociais', icon: 'fa-solid fa-hashtag' },
+            { name: 'Blogar', icon: 'fa-solid fa-blog' },
+            { name: 'Praia', icon: 'fa-solid fa-umbrella-beach' },
+            { name: 'Shopping', icon: 'fa-solid fa-shopping-bag' },
+            { name: 'Shows/Eventos', icon: 'fa-solid fa-cocktail' },
+            { name: 'Aprendizagem', icon: 'fa-solid fa-brain' },
+            { name: 'Open Source', icon: 'fa-solid fa-code-branch' },
+            { name: 'Mentoria', icon: 'fa-solid fa-user-tie' },
+            { name: 'Networking', icon: 'fa-solid fa-handshake-angle' },
+            { name: 'Projetos', icon: 'fa-solid fa-folder-open' },
+            { name: 'Saúde e Beleza', icon: 'fa-solid fa-heart-pulse' },
+            { name: 'Novelas', icon: 'fa-solid fa-tv' },
+            { name: 'Cachoeira', icon: 'fa-solid fa-water' },
+            { name: 'Trilhas', icon: 'fa-solid fa-hiking' },
+            { name: 'Política', icon: 'fa-solid fa-landmark' },
+            { name: 'Notícias', icon: 'fa-solid fa-newspaper' },
+            { name: 'Computador', icon: 'fa-solid fa-desktop' },
+            { name: 'Religião', icon: 'fa-solid fa-praying-hands' },
+            { name: 'Piscina', icon: 'fa-solid fa-swimmer' },
+            { name: 'Montanha', icon: 'fa-solid fa-mountain' },
+            { name: 'Automotivos', icon: 'fa-solid fa-car' },
+            { name: 'Motociclismo', icon: 'fa-solid fa-motorcycle' },
+            { name: 'Casamento', icon: 'fa-solid fa-ring' },
+            { name: 'Personalizado', icon: 'fa-solid fa-globe' }
+        ];
+        const maxInteresses = 8;
+        const containerI = document.getElementById('interesses-lista');
+        const btnI = document.getElementById('add-interest');
+        btnI.addEventListener('click', function() {
+            if (containerI.children.length >= maxInteresses) {
+                alert('Limite de 8 interesses atingido. Remova um para adicionar outro.');
+                return;
+            }
+            const item = document.createElement('div'); item.className = 'rede-item';
+            // botões de ordenação
+            const btnUpI = document.createElement('button'); btnUpI.type = 'button'; btnUpI.textContent = '↑';
+            btnUpI.title = 'Mover para cima';
+            btnUpI.addEventListener('click', () => containerI.insertBefore(item, item.previousElementSibling));
+            const btnDownI = document.createElement('button'); btnDownI.type = 'button'; btnDownI.textContent = '↓';
+            btnDownI.title = 'Mover para baixo';
+            btnDownI.addEventListener('click', () => { const next = item.nextElementSibling; if (next) containerI.insertBefore(next, item); });
+            const iconElem = document.createElement('i'); iconElem.className = interesses[0].icon;
+            const dropdown = document.createElement('div'); dropdown.className = 'custom-dropdown';
+            const sel = document.createElement('div'); sel.className = 'selected';
+            sel.innerHTML = `<i class="${interesses[0].icon}"></i><span>${interesses[0].name}</span><i class="fa-solid fa-chevron-down arrow"></i>`;
+            const opts = document.createElement('div'); opts.className = 'options';
+            interesses.forEach((it,i) => {
+                const opt = document.createElement('div'); opt.className = 'option'; opt.dataset.index = i;
+                opt.innerHTML = `<i class="${it.icon}"></i><span>${it.name}</span>`;
+                opts.appendChild(opt);
+            });
+            dropdown.append(sel, opts);
+            const header = document.createElement('div'); header.className = 'rede-header';
+            header.append(iconElem, dropdown);
+            item.append(btnUpI, btnDownI, header);
+            const customInput = document.createElement('input');
+            customInput.type = 'text';
+            customInput.name = 'interesse-custom';
+            customInput.placeholder = 'Digite seu interesse';
+            customInput.style.display = 'none';
+            item.append(customInput);
+            const removeBtn = document.createElement('button'); removeBtn.type = 'button'; removeBtn.textContent = 'Remover';
+            removeBtn.addEventListener('click', () => {
+                containerI.removeChild(item);
+                if (containerI.children.length < maxInteresses) btnI.disabled = false;
+            });
+            item.append(removeBtn);
+            containerI.appendChild(item);
+            if (containerI.children.length >= maxInteresses) btnI.disabled = true;
+            // eventos do dropdown
+            sel.addEventListener('click', () => dropdown.classList.toggle('open'));
+            opts.querySelectorAll('.option').forEach(opt => {
+                opt.addEventListener('click', function() {
+                    const it = interesses[this.dataset.index];
+                    iconElem.className = it.icon;
+                    sel.innerHTML = `<i class="${it.icon}"></i><span>${it.name}</span><i class="fa-solid fa-chevron-down arrow"></i>`;
+                    dropdown.classList.remove('open');
+                    // exibir input custom somente se selecionado 'Personalizado'
+                    if (it.name === 'Personalizado') {
+                        customInput.style.display = 'block';
+                    } else {
+                        customInput.style.display = 'none';
+                        customInput.value = '';
+                    }
+                });
+            });
+        });
+    });
+    </script>
+</body>
+</html> 

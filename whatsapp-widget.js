@@ -198,8 +198,8 @@ const id = urlParams.get('id');
 const resumeJsonPath = id ? `dados/curriculo_${id}.json` : 'dados/modelo.json';
 // valores padrão apenas para cumprimentos
 const mensagensPadrao = { cumprimentos: { manha: 'Bom dia!', tarde: 'Boa tarde!', noite: 'Boa noite!' } };
-// configuração de WhatsApp vinda do JSON de currículo (ativo, numero, cumprimentos, mensagemPosCumprimento)
-let whatsappConfig = { ativo: true, numero: '', cumprimentos: mensagensPadrao.cumprimentos, mensagemPosCumprimento: '' };
+// configuração de WhatsApp vinda do JSON de currículo (ativo, numero, cumprimentos, mensagemPosCumprimento, mensagemPadrao)
+let whatsappConfig = { ativo: true, numero: '', cumprimentos: mensagensPadrao.cumprimentos, mensagemPosCumprimento: '', mensagemPadrao: '' };
 
 // HTML DO CHAT + BOTÃO + ÁUDIO
 const chatBox = document.createElement('div');
@@ -247,6 +247,7 @@ fetch(`${resumeJsonPath}?t=${Date.now()}`)
       whatsappConfig.numero = data.whatsapp.numero || whatsappConfig.numero;
       whatsappConfig.cumprimentos = data.whatsapp.cumprimentos || mensagensPadrao.cumprimentos;
       whatsappConfig.mensagemPosCumprimento = data.whatsapp.mensagemPosCumprimento || whatsappConfig.mensagemPosCumprimento;
+      whatsappConfig.mensagemPadrao = data.whatsapp.mensagemPadrao || whatsappConfig.mensagemPadrao;
     }
   })
   .catch(err => console.error('Erro ao carregar WhatsApp config:', err));
@@ -262,7 +263,13 @@ function updateChatHeader() {
   const telAnchor = document.querySelector('#telefone a');
   const telNum = telAnchor ? telAnchor.href.replace(/\D/g, '') : '';
   const linkEl = document.querySelector('#chatBox .chat-footer a');
-  if (linkEl && telNum) linkEl.href = `https://wa.me/${telNum}`;
+  if (linkEl && telNum) {
+    let url = `https://wa.me/${telNum}`;
+    if (whatsappConfig.mensagemPadrao) {
+      url += `?text=${encodeURIComponent(whatsappConfig.mensagemPadrao)}`;
+    }
+    linkEl.href = url;
+  }
 }
 
 // SCRIPT: ABRIR/FECHAR E ENVIAR MENSAGEM COM SOM

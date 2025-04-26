@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Redes Sociais e Ícones</title>
+    <!-- Importação do FontAwesome -->
+    <script src="https://kit.fontawesome.com/cb81440751.js" crossorigin="anonymous"></script>
+    <style>
+        body { font-family: sans-serif; padding: 2rem; }
+        .lista-redes { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+        .lista-redes li { margin: 0; }
+        .lista-redes details { position: relative; width: 100%; }
+        .lista-redes details summary {
+            list-style: none;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        .lista-redes details summary::-webkit-details-marker { display: none; }
+        .lista-redes details summary:after {
+            content: "\f078";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+        .lista-redes .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 1rem;
+            width: 100%;
+            z-index: 10;
+        }
+        .lista-redes details[open] .dropdown-content { display: block; }
+        .dropdown-content label { display: block; margin-bottom: 0.5rem; font-size: 1rem; }
+        .lista-redes details summary i { width: 1.5rem; margin-right: 1rem; }
+    </style>
+</head>
+<body>
+    <h1>Redes Sociais Disponíveis</h1>
+    <ul class="lista-redes">
+        <li>
+            <details>
+                <summary><i class="fa-brands fa-youtube"></i> YouTube</summary>
+                <div class="dropdown-content">
+                    <label>URL + Nome de usuário:<input type="text" name="youtubeUrl" placeholder="https://youtube.com/usuario"></label>
+                    <label>Nome de usuário:<input type="text" name="youtubeUser" placeholder="usuario"></label>
+                </div>
+            </details>
+        </li>
+        <li>
+            <details>
+                <summary><i class="fa-brands fa-facebook"></i> Facebook</summary>
+                <div class="dropdown-content">
+                    <label>URL + Nome de usuário:<input type="text" name="facebookUrl" placeholder="https://facebook.com/usuario"></label>
+                    <label>Nome de usuário:<input type="text" name="facebookUser" placeholder="usuario"></label>
+                </div>
+            </details>
+        </li>
+        <li>
+            <details>
+                <summary><i class="fa-brands fa-whatsapp"></i> WhatsApp</summary>
+                <div class="dropdown-content">
+                    <label>URL + Nome de usuário:<input type="text" name="whatsappUrl" placeholder="https://wa.me/usuario"></label>
+                    <label>Nome de usuário:<input type="text" name="whatsappUser" placeholder="usuario"></label>
+                </div>
+            </details>
+        </li>
+        <li>
+            <details>
+                <summary><i class="fa-brands fa-instagram"></i> Instagram</summary>
+                <div class="dropdown-content">
+                    <label>URL + Nome de usuário:<input type="text" name="instagramUrl" placeholder="https://instagram.com/usuario"></label>
+                    <label>Nome de usuário:<input type="text" name="instagramUser" placeholder="usuario"></label>
+                </div>
+            </details>
+        </li>
+        <li>
+            <details>
+                <summary><i class="fa-brands fa-tiktok"></i> TikTok</summary>
+                <div class="dropdown-content">
+                    <label>URL + Nome de usuário:<input type="text" name="tiktokUrl" placeholder="https://tiktok.com/@usuario"></label>
+                    <label>Nome de usuário:<input type="text" name="tiktokUser" placeholder="@usuario"></label>
+                </div>
+            </details>
+        </li>
+        <li>
+            <details>
+                <summary><i class="fa-brands fa-weixin"></i> WeChat</summary>
+                <div class="dropdown-content">
+                    <label>URL + Nome de usuário:<input type="text" name="wechatUrl" placeholder="wechat://usuario"></label>
+                    <label>Nome de usuário:<input type="text" name="wechatUser" placeholder="usuario"></label>
+                </div>
+            </details>
+        </li>
+        <li>
+            <details>
+                <summary><i class="fa-brands fa-facebook-messenger"></i> Facebook Messenger</summary>
+                <div class="dropdown-content">
+                    <label>URL + Nome de usuário:<input type="text" name="messengerUrl" placeholder="https://m.me/usuario"></label>
+                    <label>Nome de usuário:<input type="text" name="messengerUser" placeholder="usuario"></label>
+                </div>
+            </details>
+        </li>
+        <li>
+            <details>
+                <summary><i class="fa-brands fa-snapchat"></i> Snapchat</summary>
+                <div class="dropdown-content">
+                    <label>URL + Nome de usuário:<input type="text" name="snapchatUrl" placeholder="https://www.snapchat.com/add/usuario"></label>
+                    <label>Nome de usuário:<input type="text" name="snapchatUser" placeholder="usuario"></label>
+                </div>
+            </details>
+        </li>
+        <li>
+            <details>
+                <summary><i class="fa-brands fa-telegram"></i> Telegram</summary>
+                <div class="dropdown-content">
+                    <label>URL + Nome de usuário:<input type="text" name="telegramUrl" placeholder="https://t.me/usuario"></label>
+                    <label>Nome de usuário:<input type="text" name="telegramUser" placeholder="usuario"></label>
+                </div>
+            </details>
+        </li>
+        <li>
+            <details>
+                <summary><i class="fa-brands fa-weibo"></i> Weibo</summary>
+                <div class="dropdown-content">
+                    <label>URL + Nome de usuário:<input type="text" name="weiboUrl" placeholder="https://weibo.com/usuario"></label>
+                    <label>Nome de usuário:<input type="text" name="weiboUser" placeholder="usuario"></label>
+                </div>
+            </details>
+        </li>
+        <li>
+            <details>
+                <summary><i class="fa-brands fa-qq"></i> QQ</summary>
+                <div class="dropdown-content">
+                    <label>URL + Nome de usuário:<input type="text" name="qqUrl" placeholder="https://qm.qq.com/cgi-bin/qm/qr?uin=usuario"></label>
+                    <label>Nome de usuário:<input type="text" name="qqUser" placeholder="usuario"></label>
+                </div>
+            </details>
+        </li>
+        <li>
+            <details>
+                <summary><i class="fa-brands fa-pinterest"></i> Pinterest</summary>
+                <div class="dropdown-content">
+                    <label>URL + Nome de usuário:<input type="text" name="pinterestUrl" placeholder="https://pinterest.com/usuario"></label>
+                    <label>Nome de usuário:<input type="text" name="pinterestUser" placeholder="usuario"></label>
+                </div>
+            </details>
+        </li>
+        <li>
+            <details>
+                <summary><i class="fa-brands fa-reddit"></i> Reddit</summary>
+                <div class="dropdown-content">
+                    <label>URL + Nome de usuário:<input type="text" name="redditUrl" placeholder="https://reddit.com/user/usuario"></label>
+                    <label>Nome de usuário:<input type="text" name="redditUser" placeholder="usuario"></label>
+                </div>
+            </details>
+        </li>
+        <li>
+            <details>
+                <summary><i class="fa-brands fa-linkedin"></i> LinkedIn</summary>
+                <div class="dropdown-content">
+                    <label>URL + Nome de usuário:<input type="text" name="linkedinUrl" placeholder="https://linkedin.com/in/usuario"></label>
+                    <label>Nome de usuário:<input type="text" name="linkedinUser" placeholder="usuario"></label>
+                </div>
+            </details>
+        </li>
+        <li>
+            <details>
+                <summary><i class="fa-brands fa-discord"></i> Discord</summary>
+                <div class="dropdown-content">
+                    <label>URL + Nome de usuário:<input type="text" name="discordUrl" placeholder="https://discord.com/users/usuario"></label>
+                    <label>Nome de usuário:<input type="text" name="discordUser" placeholder="usuario#0000"></label>
+                </div>
+            </details>
+        </li>
+        <!-- GitHub -->
+        <li>
+            <details>
+                <summary><i class="fa-brands fa-github"></i> GitHub</summary>
+                <div class="dropdown-content">
+                    <label>URL + Nome de usuário:<input type="text" name="githubUrl" placeholder="https://github.com/usuario"></label>
+                    <label>Nome de usuário:<input type="text" name="githubUser" placeholder="usuario"></label>
+                </div>
+            </details>
+        </li>
+        <!-- Twitter/X -->
+        <li>
+            <details>
+                <summary><i class="fa-brands fa-x"></i> Twitter/X</summary>
+                <div class="dropdown-content">
+                    <label>URL + Nome de usuário:<input type="text" name="twitterUrl" placeholder="https://twitter.com/usuario"></label>
+                    <label>Nome de usuário:<input type="text" name="twitterUser" placeholder="usuario"></label>
+                </div>
+            </details>
+        </li>
+        <!-- Twitch -->
+        <li>
+            <details>
+                <summary><i class="fa-brands fa-twitch"></i> Twitch</summary>
+                <div class="dropdown-content">
+                    <label>URL + Nome de usuário:<input type="text" name="twitchUrl" placeholder="https://twitch.tv/usuario"></label>
+                    <label>Nome de usuário:<input type="text" name="twitchUser" placeholder="usuario"></label>
+                </div>
+            </details>
+        </li>
+        <!-- Slack -->
+        <li>
+            <details>
+                <summary><i class="fa-brands fa-slack"></i> Slack</summary>
+                <div class="dropdown-content">
+                    <label>URL + Nome de usuário:<input type="text" name="slackUrl" placeholder="https://slack.com/usuario"></label>
+                    <label>Nome de usuário:<input type="text" name="slackUser" placeholder="usuario"></label>
+                </div>
+            </details>
+        </li>
+        <!-- Spotify -->
+        <li>
+            <details>
+                <summary><i class="fa-brands fa-spotify"></i> Spotify</summary>
+                <div class="dropdown-content">
+                    <label>URL + Nome de usuário:<input type="text" name="spotifyUrl" placeholder="https://open.spotify.com/user/usuario"></label>
+                    <label>Nome de usuário:<input type="text" name="spotifyUser" placeholder="usuario"></label>
+                </div>
+            </details>
+        </li>
+        <!-- Medium -->
+        <li>
+            <details>
+                <summary><i class="fa-brands fa-medium"></i> Medium</summary>
+                <div class="dropdown-content">
+                    <label>URL + Nome de usuário:<input type="text" name="mediumUrl" placeholder="https://medium.com/@usuario"></label>
+                    <label>Nome de usuário:<input type="text" name="mediumUser" placeholder="@usuario"></label>
+                </div>
+            </details>
+        </li>
+        <!-- Stack Overflow -->
+        <li>
+            <details>
+                <summary><i class="fa-brands fa-stack-overflow"></i> Stack Overflow</summary>
+                <div class="dropdown-content">
+                    <label>URL + Nome de usuário:<input type="text" name="soUrl" placeholder="https://stackoverflow.com/users/usuario"></label>
+                    <label>Nome de usuário:<input type="text" name="soUser" placeholder="usuario"></label>
+                </div>
+            </details>
+        </li>
+        <!-- Tumblr -->
+        <li>
+            <details>
+                <summary><i class="fa-brands fa-tumblr"></i> Tumblr</summary>
+                <div class="dropdown-content">
+                    <label>URL + Nome de usuário:<input type="text" name="tumblrUrl" placeholder="https://usuario.tumblr.com"></label>
+                    <label>Nome de usuário:<input type="text" name="tumblrUser" placeholder="usuario"></label>
+                </div>
+            </details>
+        </li>
+        <li>
+            <details>
+                <summary><i class="fa-solid fa-link"></i> Personalizada</summary>
+                <div class="dropdown-content">
+                    <label>URL + Nome de usuário:<input type="text" name="customUrl" placeholder="https://site.com/usuario"></label>
+                    <label>Nome de usuário:<input type="text" name="customUser" placeholder="usuario"></label>
+                </div>
+            </details>
+        </li>
+    </ul>
+</body>
+</html> 

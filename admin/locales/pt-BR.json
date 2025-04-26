@@ -1,0 +1,91 @@
+{
+  "label": "Português (BR)",
+  "auth": {
+    "login": "Entrar",
+    "loggingIn": "Entrando...",
+    "loginWith": "Entrar com {{provider}}",
+    "loginWithNetlifyIdentity": "Entrar com Netlify Identity",
+    "loginWithGitHub": "Entrar com GitHub",
+    "or": "ou",
+    "errors": {
+      "email": "Por favor, insira seu e-mail.",
+      "password": "Por favor, insira sua senha.",
+      "identitySettings": "Não foi possível carregar as configurações de identidade"
+    }
+  },
+  "app": {
+    "header": {
+      "content": "Conteúdo",
+      "media": "Mídia",
+      "quickAdd": "Criar novo"
+    }
+  },
+  "collection": {
+    "label": "Coleções",
+    "templates": "Modelos"
+  },
+  "editor": {
+    "editorControl": {
+      "fieldset": {
+        "info": "Informações",
+        "required": "Campo obrigatório"
+      },
+      "image": {
+        "choose": "Escolher imagem",
+        "chooseDifferent": "Escolher outra imagem",
+        "remove": "Remover imagem"
+      }
+    },
+    "editorControlPane": {
+      "widget": {
+        "required": "Obrigatório.",
+        "regexPattern": "O valor não corresponde ao padrão: {{pattern}}.",
+        "processing": "Processando...",
+        "range": "Valor deve estar entre {{minValue}} e {{maxValue}}",
+        "min": "Valor mínimo é {{minValue}}",
+        "max": "Valor máximo é {{maxValue}}"
+      }
+    },
+    "editor": {
+      "onLeavePage": "Tem certeza de que deseja sair sem salvar?"
+    }
+  },
+  "mediaLibrary": {
+    "mediaLibraryModal": {
+      "loading": "Carregando...",
+      "noResults": "Nenhum resultado.",
+      "sayCheese": "Diga 'Xiiiiiise'!"
+    }
+  },
+  "ui": {
+    "errorBoundary": {
+      "text": "Ocorreu um erro ao renderizar o CMS",
+      "details": "Detalhes: {{details}}"
+    },
+    "settingsDropdown": {
+      "logOut": "Sair"
+    },
+    "toast": {
+      "onFailToLoadEntries": "Falha ao carregar entradas: {{details}}",
+      "onFailToLoadDeployPreview": "Falha ao carregar preview: {{details}}",
+      "onFailToPersist": "Falha ao salvar: {{details}}",
+      "onFailToDelete": "Falha ao excluir: {{details}}",
+      "onFailToUpdateStatus": "Falha ao atualizar status: {{details}}",
+      "onFailToAuth": "Falha na autenticação: {{details}}",
+      "onSuccess": "Salvo com sucesso"
+    }
+  },
+  "workflow": {
+    "workflow": {
+      "loading": "Carregando status do workflow",
+      "workflowHeading": "Fluxo de Trabalho",
+      "newPost": "Nova entrada",
+      "description": "Gerencie rascunhos em andamento e envie para revisão",
+      "steps": {
+        "draft": "Rascunho",
+        "review": "Revisão",
+        "ready": "Pronto"
+      }
+    }
+  }
+} 
