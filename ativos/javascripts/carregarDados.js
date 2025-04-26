@@ -516,8 +516,10 @@ function aplicarDadosAoCurriculo(dados) {
 
 // Quando o DOM estiver pronto, carrega JSON do ID e aplica os dados
 document.addEventListener('DOMContentLoaded', async () => {
-    const id = obterIdDaUrl();
+    let id = obterIdDaUrl();
     if (id) {
+        // Normaliza id removendo prefixo "curriculo_" ou "curriculo-" e convertendo _ em -
+        id = id.replace(/^curriculo[_-]/i, '').replace(/_/g, '-');
         console.log(`Carregando currículo com ID: ${id}`);
         await carregarDadosCliente(id);
     } else {
