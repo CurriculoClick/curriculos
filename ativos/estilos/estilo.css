@@ -507,6 +507,9 @@ img {
     font-size: var(--tamanho-fonte-normal);
     /* margem removida para usar o espaçamento do grid */
     display: inline-block;
+    /* Evito reflow da página durante a animação */
+    white-space: nowrap;
+    min-width: max-content;
 }
 
 .inicio_endereco {
