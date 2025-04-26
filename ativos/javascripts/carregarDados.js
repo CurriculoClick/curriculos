@@ -14,7 +14,7 @@ function obterIdDaUrl() {
 async function carregarDadosCliente(id) {
     try {
         // Carrega JSON pelo path padrão
-        const path = `dados/${id}.json`;
+        const path = `/dados/${id}.json`;
         console.log(`Carregando currículo: ${path}`);
         const resposta = await fetch(path);
         if (!resposta.ok) {
