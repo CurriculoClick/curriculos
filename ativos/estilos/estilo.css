@@ -867,30 +867,19 @@ img {
         margin: 0;
         box-shadow: none;
     }
-    .inicio_profissao,
-    .inicio_condicao {
+    .inicio_profissao {
         white-space: normal !important;
         min-width: auto !important;
     }
+}
+
+body.escalar-curriculo .inicio_profissao {
+    white-space: normal !important;
+    min-width: auto !important;
 }
 
 /* Esconde header e conteúdo principal durante carregamento inicial do JS */
 .js-loading .l-cabecalho,
 .js-loading .l-principal {
     visibility: hidden;
-}
-
-/* Reverter white-space e min-width para a profissão em PDF e impressão */
-@media print {
-    .inicio_profissao,
-    .inicio_condicao {
-        white-space: normal !important;
-        min-width: auto !important;
-    }
-}
-
-.escalar-curriculo .inicio_profissao,
-.escalar-curriculo .inicio_condicao {
-    white-space: normal !important;
-    min-width: auto !important;
 }
