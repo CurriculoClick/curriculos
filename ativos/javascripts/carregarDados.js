@@ -70,23 +70,18 @@ function aplicarDadosAoCurriculo(dados) {
         if (dados.inicio.foto_perfil) {
             const fotoEl = document.getElementById('inicio-imagem');
             if (fotoEl) {
-                // Anexa timestamp para evitar cache de CDN/browser
-                const fotoUrl = `${dados.inicio.foto_perfil}?v=${Date.now()}`;
+                // Path absoluto + cache-busting
+                const basePath = dados.inicio.foto_perfil.startsWith('/') ? dados.inicio.foto_perfil : `/${dados.inicio.foto_perfil}`;
+                const fotoUrl = `${basePath}?v=${Date.now()}`;
                 fotoEl.src = fotoUrl;
                 fotoEl.onerror = function() {
-                    // Ao falhar, tenta buscar em dados/uploads/<id>/<id>.<ext>
+                    // Fallback também com cache-busting
                     const idCurr = obterIdDaUrl();
-                    const src = dados.inicio.foto_perfil;
-                    const ext = src.includes('.') ? src.slice(src.lastIndexOf('.')) : '';
-                    const fallback = idCurr ? `dados/uploads/${idCurr}/${idCurr}${ext}` : '';
-                    if (fallback) {
-                        this.onerror = function() {
-                            this.src = 'ativos/imagens/placeholder.png';
-                        };
-                        this.src = fallback;
-                    } else {
-                        this.src = 'ativos/imagens/placeholder.png';
-                    }
+                    const ext = basePath.includes('.') ? basePath.slice(basePath.lastIndexOf('.')) : '';
+                    const fallbackPath = idCurr ? `/dados/uploads/${idCurr}/${idCurr}${ext}` : '';
+                    const fallbackUrl = fallbackPath ? `${fallbackPath}?v=${Date.now()}` : '/ativos/imagens/placeholder.png';
+                    fotoEl.onerror = null;
+                    fotoEl.src = fallbackUrl;
                 };
             }
         }

@@ -16,9 +16,6 @@
     "idade": "27 anos",
     "botao_baixar": "Baixar Currículo",
     "telefone": "(21) 9 8123-4567",
-<<<<<<< HEAD
-    "foto_perfil": "dados/uploads/jessica-oliveira.png"
-=======
     "localizacao": "Rio de Janeiro - Brasil",
     "nome": "Jessica Oliveira",
     "estado_civil": "Solteira",
@@ -27,7 +24,6 @@
   },
   "perfil": {
     "descricao": "Designer Gráfica com 5 anos de experiência em branding e criação de identidade visual. Apaixonada por comunicação visual que conecta marcas e pessoas."
->>>>>>> bbd4ff91752d5d8679a49b19807ee3fb7187316c
   },
   "social": {
     "facebook": "https://facebook.com/jessica.oliveira",
