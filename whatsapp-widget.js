@@ -258,7 +258,11 @@ function updateChatHeader() {
   const foto = document.getElementById('inicio-imagem')?.src || '';
   const logoEl = document.querySelector('#chatBox .chat-header img#chatLogo');
   const titleEl = document.querySelector('#chatBox .chat-header strong');
-  if (logoEl && foto) logoEl.src = foto;
+  if (logoEl) {
+    // Usa foto ou placeholder se não existir
+    logoEl.src = foto || 'ativos/imagens/placeholder.png';
+    logoEl.onerror = () => { logoEl.src = 'ativos/imagens/placeholder.png'; };
+  }
   if (titleEl && nome) titleEl.textContent = nome;
   const telAnchor = document.querySelector('#telefone a');
   const telNum = telAnchor ? telAnchor.href.replace(/\D/g, '') : '';
