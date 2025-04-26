@@ -17,12 +17,6 @@
   ],
   "inicio": {
     "foto_perfil": "dados/uploads/milena-pacheco/modelo.png",
-    "idade": "32 anos",
-    "botao_baixar": "Baixar",
-    "telefone": "(99) 9 9999 9999",
-<<<<<<< HEAD
-    "foto_perfil": "dados/uploads/modelo/modelo.png"
-=======
     "localizacao": "Cidade Nova - Brasil",
     "nome": "Milena Pacheco",
     "estado_civil": "Noiva",
@@ -31,7 +25,6 @@
   },
   "perfil": {
     "descricao": "4 anos atuando na administração de pequenas e médias empresas em funções diversas. A habilidade com softwares de gestão e o comprometimento intenso com o crescimento da organização."
->>>>>>> bbd4ff91752d5d8679a49b19807ee3fb7187316c
   },
   "social": {
     "facebook": "https://facebook.com/",
