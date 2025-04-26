@@ -157,10 +157,9 @@ body.escalar-curriculo {
     --tamanho-fonte-normal: 0.813rem;
     --tamanho-fonte-pequeno: 0.75rem;
     --tamanho-fonte-menor: 0.688rem;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
 }
+
+/* PDF A4 */
 
 .escalar-curriculo .mudar-tema,
 .escalar-curriculo .gerar-pdf,
@@ -175,7 +174,8 @@ body.escalar-curriculo {
 .escalar-curriculo .bd-container {
     max-width: none !important;
     width: 210mm !important;
-    margin: 0 auto !important;
+    height: 297mm !important;
+    margin: 0 !important;
     padding: 0 !important;
     overflow: hidden !important;
 }
@@ -184,14 +184,15 @@ body.escalar-curriculo {
 .escalar-curriculo body {
     margin: 0 !important;
     padding: 0 !important;
-    /* mantém largura original para não deslocar layout */
+    width: 210mm !important;
+    height: 297mm !important;
     overflow: hidden !important;
 }
 
 .escalar-curriculo .curriculo {
-    margin: 0 !important;
+    margin: -1px !important;
     padding: 0 !important;
-    width: 210mm !important;
+    width: calc(210mm + 2px) !important;
     height: calc(297mm + 2px) !important;
     box-shadow: none !important;
     overflow: hidden !important;
@@ -506,9 +507,6 @@ img {
     font-size: var(--tamanho-fonte-normal);
     /* margem removida para usar o espaçamento do grid */
     display: inline-block;
-    /* Evito reflow da página durante a animação */
-    white-space: nowrap;
-    min-width: max-content;
 }
 
 .inicio_endereco {
