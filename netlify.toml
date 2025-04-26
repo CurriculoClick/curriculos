@@ -27,8 +27,8 @@
   status = 200
 
 # 5. Redirecionar /dados/* para o SPA
-[[redirects]]
-  from = "/dados/*"
-  to = "/dados/:splat"
-  status = 200
-  force = true 
+# [[redirects]]
+#   from = "/dados/*"
+#   to = "/dados/:splat"
+#   status = 200
+#   force = true 

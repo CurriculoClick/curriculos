@@ -393,5 +393,5 @@ collections:
               - { label: "Manhã", name: "manha", widget: "string", required: false }
               - { label: "Tarde", name: "tarde", widget: "string", required: false }
               - { label: "Noite", name: "noite", widget: "string", required: false }
-          - { label: "Mensagem pós cumprimento", name: "mensagemPosCumprimento", widget: "string", required: false }
+          - { label: "Mensagem pós cumprimento", name: "mensagemPosCumprimento", widget: "string", required: false } 
           - { label: "Mensagem pré-definida", name: "mensagemPadrao", widget: "string", required: false }

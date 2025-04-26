@@ -10,12 +10,34 @@ function obterIdDaUrl() {
     return urlParams.get('id');
 }
 
+// Função de fallback síncrono para carregamento local de JSON via XHR (file://)
+function carregarDadosLocal(id) {
+    try {
+        const path = `dados/${id}.json`;
+        const xhr = new XMLHttpRequest();
+        xhr.overrideMimeType('application/json');
+        xhr.open('GET', path, false); // síncrono
+        xhr.send(null);
+        if (xhr.status === 200 || xhr.status === 0) {
+            const dados = JSON.parse(xhr.responseText);
+            aplicarDadosAoCurriculo(dados);
+            return true;
+        } else {
+            console.error('Erro XHR local, status:', xhr.status);
+            return false;
+        }
+    } catch (e) {
+        console.error('Erro no JSON local:', e);
+        return false;
+    }
+}
+
 // Função para carregar os dados do currículo a partir do JSON
 async function carregarDadosCliente(id) {
     try {
-        // Carrega JSON pelo path padrão
-        const path = `/dados/${id}.json`;
-        console.log(`Carregando currículo: ${path}`);
+        // Carrega JSON pelo path relativo
+        const path = `dados/${id}.json`;
+        console.log(`Carregando currículo (fetch): ${path}`);
         const resposta = await fetch(path);
         if (!resposta.ok) {
             throw new Error(`Não foi possível carregar o currículo (ID: ${id})`);
@@ -24,7 +46,7 @@ async function carregarDadosCliente(id) {
         aplicarDadosAoCurriculo(dados);
         return true;
     } catch (erro) {
-        console.error("Erro ao carregar dados do currículo:", erro);
+        console.error("Erro ao carregar dados do currículo via fetch:", erro);
         alert("Não foi possível carregar os dados do currículo. O modelo padrão será exibido.");
         return false;
     }
@@ -75,13 +97,9 @@ function aplicarDadosAoCurriculo(dados) {
                 const fotoUrl = `${basePath}?v=${Date.now()}`;
                 fotoEl.src = fotoUrl;
                 fotoEl.onerror = function() {
-                    // Fallback também com cache-busting
-                    const idCurr = obterIdDaUrl();
-                    const ext = basePath.includes('.') ? basePath.slice(basePath.lastIndexOf('.')) : '';
-                    const fallbackPath = idCurr ? `dados/uploads/${idCurr}/${idCurr}${ext}` : '';
-                    const fallbackUrl = fallbackPath ? `${fallbackPath}?v=${Date.now()}` : 'ativos/imagens/placeholder.png';
+                    // Fallback direto para placeholder
                     fotoEl.onerror = null;
-                    fotoEl.src = fallbackUrl;
+                    fotoEl.src = 'ativos/imagens/placeholder.png';
                 };
             }
         }
@@ -513,23 +531,37 @@ function aplicarDadosAoCurriculo(dados) {
 
 // Quando o DOM estiver pronto, carrega JSON do ID e aplica os dados
 document.addEventListener('DOMContentLoaded', async () => {
-    let id = obterIdDaUrl();
-    if (id) {
-        // Normaliza id removendo prefixo "curriculo_" ou "curriculo-" e convertendo _ em -
-        id = id.replace(/^curriculo[_-]/i, '').replace(/_/g, '-');
-        console.log(`Carregando currículo com ID: ${id}`);
-        await carregarDadosCliente(id);
-    } else {
-        // Sem ID: usa o HTML estático (Milena) e aplica animação na profissão
-        const profissaoEl = document.querySelector('.inicio_profissao');
-        if (profissaoEl) {
-            const finalText = profissaoEl.textContent.trim();
-            animateProfession(profissaoEl, finalText);
+    // Se estiver rodando via file://, apenas remove o loading e mantém HTML estático
+    if (window.location.protocol === 'file:') {
+        console.log('file:// detectado, mantendo conteúdo estático');
+        document.body.classList.remove('js-loading');
+        return;
+    }
+    let idParam = obterIdDaUrl();
+    // Normaliza o ID ou usa 'modelo' se não existir
+    const id = idParam ? idParam.replace(/^curriculo[_-]/i, '').replace(/_/g, '-') : 'modelo';
+    try {
+        if (window.location.protocol === 'file:') {
+            // Carregamento local via XHR
+            console.log('Carregando local via XHR:', id);
+            await carregarDadosLocal(id);
+        } else {
+            // Carregamento via fetch HTTP
+            console.log('Carregando via fetch HTTP:', id);
+            await carregarDadosCliente(id);
         }
+    } catch (e) {
+        console.warn('Falha no carregamento local, mantendo HTML estático', e);
+    }
+    // Se não há ID (modelo), anima profissão após carregar dados
+    const profissaoEl = document.querySelector('.inicio_profissao');
+    if (profissaoEl) {
+        const finalText = profissaoEl.textContent.trim();
+        animateProfession(profissaoEl, finalText);
     }
     // Remove a classe de loading para exibir o conteúdo atualizado
     document.body.classList.remove('js-loading');
-    // Aplica cor customizada se definida (qualquer caso)
+    // Aplica cor customizada se definida
     if (window.initialColorHex && window.innerWidth > 968) {
         window.applyCustomColor(window.initialColorHex, window.initialColorName);
     }

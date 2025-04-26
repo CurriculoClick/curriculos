@@ -410,6 +410,19 @@ img {
         z-index: var(--z-fixo);
         transition: all 0.5s ease;
     }
+    .navegacao {
+        justify-content: flex-start;
+        position: relative;
+    }
+    .navegacao_logo {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .navegacao_toggle {
+        order: -1;
+        margin-right: var(--margem-3);
+    }
 }
 
 .navegacao_logo,
@@ -419,8 +432,6 @@ img {
 }
 
 .navegacao_toggle {
-    position: absolute;
-    left: 0;
     font-size: 1.2rem;
     cursor: pointer;
 }
@@ -755,7 +766,9 @@ img {
 
 .mostrar-voltar {
     visibility: visible;
-    bottom: 5rem;
+    /* Antes: bottom: 5rem; */
+    /* Agora: bottom: calc(5rem + 20px); */
+    bottom: calc(5rem + 20px);
 }
 
 /* Telas para celulares pequenos */
@@ -851,4 +864,10 @@ img {
         margin: 0;
         box-shadow: none;
     }
+}
+
+/* Esconde header e conteúdo principal durante carregamento inicial do JS */
+.js-loading .l-cabecalho,
+.js-loading .l-principal {
+    visibility: hidden;
 }
