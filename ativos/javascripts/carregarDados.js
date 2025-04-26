@@ -70,7 +70,9 @@ function aplicarDadosAoCurriculo(dados) {
         if (dados.inicio.foto_perfil) {
             const fotoEl = document.getElementById('inicio-imagem');
             if (fotoEl) {
-                fotoEl.src = dados.inicio.foto_perfil;
+                // Anexa timestamp para evitar cache de CDN/browser
+                const fotoUrl = `${dados.inicio.foto_perfil}?v=${Date.now()}`;
+                fotoEl.src = fotoUrl;
                 fotoEl.onerror = function() {
                     // Ao falhar, tenta buscar em dados/uploads/<id>/<id>.<ext>
                     const idCurr = obterIdDaUrl();
