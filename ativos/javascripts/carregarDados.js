@@ -569,6 +569,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // Função para animar profissão com Typed.js, simulando erro aleatório e correção
 function animateProfession(profissaoEl, finalText) {
+    // Preservo o tamanho original para evitar reflow no layout
+    const rect = profissaoEl.getBoundingClientRect();
+    profissaoEl.style.display = 'inline-block';
+    profissaoEl.style.width = `${rect.width}px`;
+    profissaoEl.style.height = `${rect.height}px`;
+    profissaoEl.style.overflow = 'hidden';
+    // força aplicação de estilos antes de alterar o texto
+    profissaoEl.getBoundingClientRect();
     let typoArray = finalText.split('');
     // Executa 2 ou 3 swaps aleatórios de letras
     const swaps = Math.min(typoArray.length - 1, Math.random() < 0.5 ? 2 : 3);
