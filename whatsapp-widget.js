@@ -195,7 +195,7 @@ const pastaWidget = scriptWidget.src.replace(/\/whatsapp-widget\.js$/, '');
 // Defino caminhos para dados do currículo e do widget
 const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get('id');
-const resumeJsonPath = id ? `dados/curriculo_${id}.json` : 'dados/modelo.json';
+const resumeJsonPath = id ? `dados/${id}.json` : 'dados/modelo.json';
 // valores padrão apenas para cumprimentos
 const mensagensPadrao = { cumprimentos: { manha: 'Bom dia!', tarde: 'Boa tarde!', noite: 'Boa noite!' } };
 // configuração de WhatsApp vinda do JSON de currículo (ativo, numero, cumprimentos, mensagemPosCumprimento, mensagemPadrao)
