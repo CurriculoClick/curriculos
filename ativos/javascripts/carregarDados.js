@@ -70,16 +70,16 @@ function aplicarDadosAoCurriculo(dados) {
         if (dados.inicio.foto_perfil) {
             const fotoEl = document.getElementById('inicio-imagem');
             if (fotoEl) {
-                // Path absoluto + cache-busting
-                const basePath = dados.inicio.foto_perfil.startsWith('/') ? dados.inicio.foto_perfil : `/${dados.inicio.foto_perfil}`;
+                // Usa sempre caminho relativo sem barra inicial
+                const basePath = dados.inicio.foto_perfil.replace(/^\/+/, '');
                 const fotoUrl = `${basePath}?v=${Date.now()}`;
                 fotoEl.src = fotoUrl;
                 fotoEl.onerror = function() {
                     // Fallback também com cache-busting
                     const idCurr = obterIdDaUrl();
                     const ext = basePath.includes('.') ? basePath.slice(basePath.lastIndexOf('.')) : '';
-                    const fallbackPath = idCurr ? `/dados/uploads/${idCurr}/${idCurr}${ext}` : '';
-                    const fallbackUrl = fallbackPath ? `${fallbackPath}?v=${Date.now()}` : '/ativos/imagens/placeholder.png';
+                    const fallbackPath = idCurr ? `dados/uploads/${idCurr}/${idCurr}${ext}` : '';
+                    const fallbackUrl = fallbackPath ? `${fallbackPath}?v=${Date.now()}` : 'ativos/imagens/placeholder.png';
                     fotoEl.onerror = null;
                     fotoEl.src = fallbackUrl;
                 };
@@ -527,6 +527,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             animateProfession(profissaoEl, finalText);
         }
     }
+    // Remove a classe de loading para exibir o conteúdo atualizado
+    document.body.classList.remove('js-loading');
     // Aplica cor customizada se definida (qualquer caso)
     if (window.initialColorHex && window.innerWidth > 968) {
         window.applyCustomColor(window.initialColorHex, window.initialColorName);
