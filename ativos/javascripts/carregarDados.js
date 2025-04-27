@@ -4,6 +4,9 @@
  * dinamicamente a partir de um arquivo JSON.
  */
 
+// Flag para ativar logs de debug em desenvolvimento
+const DEBUG = false;
+
 // Função para verificar se existe um ID na URL
 function obterIdDaUrl() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -37,7 +40,7 @@ async function carregarDadosCliente(id) {
     try {
         // Carrega JSON pelo path relativo
         const path = `dados/${id}.json`;
-        console.log(`Carregando currículo (fetch): ${path}`);
+        if (DEBUG) console.log(`Carregando currículo (fetch): ${path}`);
         const resposta = await fetch(path);
         if (!resposta.ok) {
             throw new Error(`Não foi possível carregar o currículo (ID: ${id})`);
@@ -533,7 +536,7 @@ function aplicarDadosAoCurriculo(dados) {
 document.addEventListener('DOMContentLoaded', async () => {
     // Se estiver rodando via file://, apenas remove o loading e mantém HTML estático
     if (window.location.protocol === 'file:') {
-        console.log('file:// detectado, mantendo conteúdo estático');
+        if (DEBUG) console.log('file:// detectado, mantendo conteúdo estático');
         document.body.classList.remove('js-loading');
         return;
     }
@@ -543,11 +546,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         if (window.location.protocol === 'file:') {
             // Carregamento local via XHR
-            console.log('Carregando local via XHR:', id);
+            if (DEBUG) console.log('Carregando local via XHR:', id);
             await carregarDadosLocal(id);
         } else {
             // Carregamento via fetch HTTP
-            console.log('Carregando via fetch HTTP:', id);
+            if (DEBUG) console.log('Carregando via fetch HTTP:', id);
             await carregarDadosCliente(id);
         }
     } catch (e) {

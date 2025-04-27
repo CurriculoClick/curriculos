@@ -28,14 +28,126 @@
         min-height: 70vh;
       }
       .error-animation {
-        font-size: 6rem;
+        position: relative;
+        font-size: 15vw;
         font-weight: bold;
         color: #ff6b6b;
-        animation: bounce 1.5s infinite;
+        letter-spacing: 0.1em;
+        animation: float404 2.5s ease-in-out infinite;
+        user-select: none;
+        z-index: 1;
+        line-height: 1;
       }
-      @keyframes bounce {
+      .error-animation .glitch {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        color: #ff6b6b;
+        opacity: 0.8;
+        z-index: -1;
+        animation: glitch 1s infinite linear alternate-reverse;
+        pointer-events: none;
+      }
+      .error-animation .glitch2 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        color: #fff;
+        opacity: 0.6;
+        z-index: -2;
+        animation: glitch2 1.2s infinite linear alternate-reverse;
+        pointer-events: none;
+      }
+      @keyframes float404 {
         0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-20px); }
+        50% { transform: translateY(-18px); }
+      }
+      @keyframes glitch {
+        0% { transform: translate(0, 0); opacity: 0.8; }
+        20% { transform: translate(-2px, 2px); opacity: 0.6; }
+        40% { transform: translate(-4px, -1px); opacity: 0.7; }
+        60% { transform: translate(3px, 1px); opacity: 0.8; }
+        80% { transform: translate(2px, -2px); opacity: 0.5; }
+        100% { transform: translate(0, 0); opacity: 0.8; }
+      }
+      @keyframes glitch2 {
+        0% { transform: translate(0, 0); opacity: 0.6; }
+        15% { transform: translate(2px, -1px); opacity: 0.5; }
+        30% { transform: translate(-1px, 2px); opacity: 0.7; }
+        45% { transform: translate(1px, 2px); opacity: 0.6; }
+        60% { transform: translate(-3px, -1px); opacity: 0.8; }
+        75% { transform: translate(2px, 1px); opacity: 0.5; }
+        100% { transform: translate(0, 0); opacity: 0.6; }
+      }
+      @media (max-width: 600px) {
+        .error-animation {
+          font-size: 5.5rem;
+        }
+        .error-emoji {
+          font-size: 2.5rem;
+        }
+      }
+      @media (max-width: 600px) {
+        .error-animation {
+          font-size: 5.5rem;
+        }
+      }
+      .error-animation .glitch {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        color: #ff6b6b;
+        opacity: 0.8;
+        z-index: -1;
+        animation: glitch 1s infinite linear alternate-reverse;
+        pointer-events: none;
+      }
+      .error-animation .glitch2 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        color: #fff;
+        opacity: 0.6;
+        z-index: -2;
+        animation: glitch2 1.2s infinite linear alternate-reverse;
+        pointer-events: none;
+      }
+      @keyframes float404 {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-18px); }
+      }
+      @keyframes glitch {
+        0% { transform: translate(0, 0); opacity: 0.8; }
+        20% { transform: translate(-2px, 2px); opacity: 0.6; }
+        40% { transform: translate(-4px, -1px); opacity: 0.7; }
+        60% { transform: translate(3px, 1px); opacity: 0.8; }
+        80% { transform: translate(2px, -2px); opacity: 0.5; }
+        100% { transform: translate(0, 0); opacity: 0.8; }
+      }
+      @keyframes glitch2 {
+        0% { transform: translate(0, 0); opacity: 0.6; }
+        15% { transform: translate(2px, -1px); opacity: 0.5; }
+        30% { transform: translate(-1px, 2px); opacity: 0.7; }
+        45% { transform: translate(1px, 2px); opacity: 0.6; }
+        60% { transform: translate(-3px, -1px); opacity: 0.8; }
+        75% { transform: translate(2px, 1px); opacity: 0.5; }
+        100% { transform: translate(0, 0); opacity: 0.6; }
+      }
+      @media (max-width: 600px) {
+        .error-animation {
+          font-size: 3rem;
+        }
+      }
+      .erro404 p, .erro404 h2, .erro404 a {
+        animation: floatText 3s ease-in-out infinite;
+      }
+      @keyframes floatText {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(8px); }
       }
       #countdown {
         font-weight: bold;
@@ -55,7 +167,11 @@
 
     <main class="l-principal bd-container">
         <section class="section erro404 bd-grid">
-            <div class="error-animation">404</div>
+            <div class="error-animation">
+              404
+              <span class="glitch" aria-hidden="true">404</span>
+              <span class="glitch2" aria-hidden="true">404</span>
+            </div>
             <h2 class="section-subtitulo">Currículo não encontrado</h2>
             <p>Não foi possível encontrar o currículo solicitado.</p>
             <p>Você será redirecionado para o modelo de currículo em <span id="countdown">10</span> segundos.</p>

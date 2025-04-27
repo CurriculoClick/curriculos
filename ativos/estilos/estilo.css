@@ -82,11 +82,19 @@ html {
     color: var(--cor-titulo);
 }
 
-/* Ocultar botão de cores em telas móveis */
-@media screen and (max-width: 968px) {
-    #botao-cores {
-        display: none;
-    }
+/* Estilo para botão ocultar/exibir foto */
+#botao-ocultar-foto {
+    position: absolute;
+    right: 13.3rem;
+    top: 2.2rem;
+    display: flex;
+    color: var(--cor-texto);
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: var(--z-fixo);
+}
+#botao-ocultar-foto:hover {
+    color: var(--cor-titulo);
 }
 
 /* Adiciono estilos para painel de escolha de cores */
@@ -159,11 +167,11 @@ body.escalar-curriculo {
     --tamanho-fonte-menor: 0.688rem;
 }
 
-/* PDF A4 */
-
+/* Escalar Currículo - esconder controles */
 .escalar-curriculo .mudar-tema,
 .escalar-curriculo .gerar-pdf,
-.escalar-curriculo #botao-cores {
+.escalar-curriculo #botao-cores,
+.escalar-curriculo #botao-ocultar-foto {
     display: none;
 }
 
@@ -870,4 +878,13 @@ img {
 .js-loading .l-cabecalho,
 .js-loading .l-principal {
     visibility: hidden;
+}
+
+/* Ajuste de posição do ícone ocultar foto em mobile */
+@media screen and (max-width: 768px) {
+    #botao-ocultar-foto {
+        right: 25.4rem;  /* ajuste conforme necessário */
+        top: 2.2rem;  /* ajuste conforme necessário */
+        font-size: 1rem;  /* diminuir tamanho, se quiser */
+    }
 }

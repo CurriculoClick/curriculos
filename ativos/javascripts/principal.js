@@ -2,20 +2,7 @@
 
 const img = document.getElementById('inicio-imagem');
 
-/*fetch('ativos/imagens/perfil.txt', {
-    mode: 'no-cors',
-    headers: {
-        'Access-Control-Allow-Origin':'*'
-    }
-})
-.then((response) => response.text())
-.then((result) => {
-    console.log('Sucesso:', result);
-    //img.src = result;
-})
-.catch((error) => {
-    console.error('Erro:', error);
-});*/
+// bloco de código comentado de fetch removido, pois o arquivo perfil.txt não existe
 
 /* Mostrar Menu */
 
@@ -145,7 +132,7 @@ window.applyCustomColor = (hex, name) => {
     if (brightness < 128) {
         leftSide.style.color = '#fff';
     } else {
-        leftSide.style.color = initialLeftSideTextColor;
+        leftSide.style.color = '#000';
     }
 };
 
@@ -233,8 +220,6 @@ const botaoCores = document.getElementById('botao-cores');
 const panelCores = document.getElementById('cores-picker-panel');
 const swatches = document.querySelectorAll('#cores-picker-panel .color-swatch');
 const leftSide = document.querySelector('.curriculo_esquerda');
-// Capturo cor inicial da fonte para manter contraste fixo após seleção de cor
-const initialLeftSideTextColor = getComputedStyle(leftSide).color;
 
 botaoCores.addEventListener('click', (e) => {
     // Não faz nada em telas pequenas
@@ -269,7 +254,7 @@ swatches.forEach(swatch => {
             if (brightness < 128) {
                 leftSide.style.color = '#fff';
             } else {
-                leftSide.style.color = initialLeftSideTextColor;
+                leftSide.style.color = '#000';
             }
         }
         panelCores.style.display = 'none';
@@ -299,4 +284,34 @@ window.addEventListener('resize', () => {
         customColorActive = false;
         selectedColorName = null;
     }
+});
+
+document.addEventListener('DOMContentLoaded', async () => {
+   // ... existing DomContentLoaded code ...
+
+   // Botão para ocultar/exibir foto de perfil
+   const botaoOcultarFoto = document.getElementById('botao-ocultar-foto');
+   const fotoPerfilEl = document.getElementById('inicio-imagem');
+   let fotoOculta = false;
+   if (botaoOcultarFoto && fotoPerfilEl) {
+     botaoOcultarFoto.addEventListener('click', () => {
+       fotoOculta = !fotoOculta;
+       if (fotoOculta) {
+         // Torna a foto invisível, mas mantém um placeholder para evitar sobreposição
+         fotoPerfilEl.style.opacity = '0';
+         fotoPerfilEl.style.height = '26px';
+       } else {
+         fotoPerfilEl.style.opacity = '1';
+         fotoPerfilEl.style.height = '';
+       }
+       botaoOcultarFoto.classList.toggle('fa-eye-slash', !fotoOculta);
+       botaoOcultarFoto.classList.toggle('fa-eye', fotoOculta);
+       botaoOcultarFoto.title = fotoOculta ? 'Exibir foto' : 'Ocultar foto';
+     });
+   }
+
+   // Aplica cor customizada se definida
+   if (window.initialColorHex && window.innerWidth > 968) {
+     window.applyCustomColor(window.initialColorHex, window.initialColorName);
+   }
 });

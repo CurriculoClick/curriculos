@@ -91,10 +91,16 @@ estilo.innerHTML = `
 
   .chat-body {
     background-color: #e5ddd5;
-    background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png');
+    background-image: url('https://raw.githubusercontent.com/thiagodelgado/appdoid/e1eab141da1522542912afb9587d8b72b313c78d/stylesheets/150d0dae2-eb45-4fb9-824e-235e4f4b9372-161.svg');
     padding: 15px;
     height: 180px;
     overflow-y: auto;
+  }
+
+  /* Dark mode wallpaper para chat-body */
+  body.modo-escuro .chat-body {
+    background-color: #2f2f2f !important;
+    background-image: url('https://raw.githubusercontent.com/thiagodelgado/appdoid/3edf06f1950babb86b24e53f73998cef3dd346d9/stylesheets/150d0dae2-eb45-4fb9-824e-235e4f4b9372-160.svg') !important;
   }
 
   .message {

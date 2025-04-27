@@ -1,5 +1,6 @@
 [build]
-  publish = "."
+  command = "powershell -Command \"Remove-Item -Recurse -Force public; New-Item -ItemType Directory -Path public; robocopy . public /E /XD private; node ativos/javascripts/generate-pages.js\""
+  publish = "public"
 
 # 1. Servir config.yml diretamente (com prioridade)
 [[redirects]]
