@@ -1,6 +1,6 @@
 [build]
-  command = "bash -c 'rm -rf public && mkdir public && cp -r . public && rm -rf public/private && node ativos/javascripts/generate-pages.js && exit 0'"
-  publish = "public"
+  command = "true"
+  publish = "."
 
 # 1. Servir config.yml diretamente (com prioridade)
 [[redirects]]
