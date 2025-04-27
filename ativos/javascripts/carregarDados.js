@@ -4,7 +4,7 @@
  * dinamicamente a partir de um arquivo JSON.
  */
 
-// Flag para ativar logs de debug em desenvolvimento
+// Indicador para ativar logs de depuração em desenvolvimento
 const DEBUG = false;
 
 // Função para verificar se existe um ID na URL
@@ -13,7 +13,7 @@ function obterIdDaUrl() {
     return urlParams.get('id');
 }
 
-// Função de fallback síncrono para carregamento local de JSON via XHR (file://)
+// Função alternativa síncrona para carregamento local de JSON via XHR (file://)
 function carregarDadosLocal(id) {
     try {
         const path = `dados/${id}.json`;
@@ -64,7 +64,7 @@ function aplicarDadosAoCurriculo(dados) {
         const nomeFormatado = nomeParts.map((parte, idx) => idx % 2 === 1 ? `<b>${parte}</b>` : parte).join(' ');
         
         // Atualizar título da página com o nome do candidato
-        document.title = `Currículos Top | ${dados.inicio.nome}`;
+        document.title = `Currículo Click | ${dados.inicio.nome}`;
         
         const tituloEl = document.querySelector('.inicio_titulo');
         if (tituloEl) {
@@ -556,14 +556,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     } catch (e) {
         console.warn('Falha no carregamento local, mantendo HTML estático', e);
     }
-    // Se não há ID (modelo), anima profissão após carregar dados
-    const profissaoEl = document.querySelector('.inicio_profissao');
-    if (profissaoEl) {
-        const finalText = profissaoEl.textContent.trim();
-        animateProfession(profissaoEl, finalText);
-    }
     // Remove a classe de loading para exibir o conteúdo atualizado
     document.body.classList.remove('js-loading');
+
     // Aplica cor customizada se definida
     if (window.initialColorHex && window.innerWidth > 968) {
         window.applyCustomColor(window.initialColorHex, window.initialColorName);
@@ -572,6 +567,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // Função para animar profissão com Typed.js, simulando erro aleatório e correção
 function animateProfession(profissaoEl, finalText) {
+    // Armazenar texto final da profissão para uso no PDF
+    window.finalProfissao = finalText;
     let typoArray = finalText.split('');
     // Executa 2 ou 3 swaps aleatórios de letras
     const swaps = Math.min(typoArray.length - 1, Math.random() < 0.5 ? 2 : 3);
@@ -589,7 +586,7 @@ function animateProfession(profissaoEl, finalText) {
             startDelay: 300,
             backDelay: 800,
             loop: false,
-            smartBackspace: false,
+            smartBackspace: true,
             showCursor: false,
             onComplete: () => { profissaoEl.textContent = finalText; }
         });

@@ -38,7 +38,7 @@
     --z-fixo: 100;
 }
 
-/* Base */
+/* Estilos base */
 
 *,
 ::before,
@@ -882,9 +882,29 @@ img {
 
 /* Ajuste de posição do ícone ocultar foto em mobile */
 @media screen and (max-width: 768px) {
+    /* Ocultar seletor de cores personalizado na versão mobile */
+    #botao-cores {
+        display: none;
+    }
+    /* Ajuste de posição do ícone ocultar foto em mobile */
     #botao-ocultar-foto {
         right: 25.4rem;  /* ajuste conforme necessário */
         top: 2.2rem;  /* ajuste conforme necessário */
-        font-size: 1rem;  /* diminuir tamanho, se quiser */
+        font-size: 1rem;  /* manter tamanho reduzido */
     }
+}
+
+/* Adiciona regra para impedir seleção de texto em toda a página */
+* {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+}
+
+/* Desabilitar interações na foto de perfil */
+#inicio-imagem {
+    pointer-events: none !important;
+    -webkit-user-drag: none !important;
+    user-drag: none !important;
 }

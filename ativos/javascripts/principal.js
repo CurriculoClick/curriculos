@@ -177,6 +177,11 @@ function obterNomeArquivo() {
 
 // Gerar PDF com html2pdf.js
 function gerarCurriculo() {
+    // Garantir profissão correta no PDF, mesmo se a animação não terminou
+    const profissaoEl = document.querySelector('.inicio_profissao');
+    if (window.finalProfissao && profissaoEl) {
+        profissaoEl.textContent = window.finalProfissao;
+    }
     const nomeArquivo = obterNomeArquivo();
     const modoLabel = document.body.classList.contains(modoEscuro) ? 'escuro' : 'claro';
     const colorLabel = selectedColorName ? `-${selectedColorName}` : '';
@@ -286,6 +291,24 @@ window.addEventListener('resize', () => {
     }
 });
 
+// Desabilita clique direito em toda a página
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+
+// Bloqueia teclas de atalho específicas
+document.addEventListener('keydown', function(e) {
+    // F12
+    if (e.keyCode === 123) e.preventDefault();
+    // Ctrl+Shift+I/J
+    if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) e.preventDefault();
+    // Ctrl+U (view-source)
+    if (e.ctrlKey && e.keyCode === 85) e.preventDefault();
+    // Ctrl+Shift+C (inspecionar elemento)
+    if (e.ctrlKey && e.shiftKey && e.keyCode === 67) e.preventDefault();
+});
+
+// Início do listener DOMContentLoaded
 document.addEventListener('DOMContentLoaded', async () => {
    // ... existing DomContentLoaded code ...
 
