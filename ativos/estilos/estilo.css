@@ -143,7 +143,7 @@ body.modo-escuro {
 /* Botão Gerar PDF */
 
 .gerar-pdf {
-    display: none;
+    display: inline-block !important;
     position: absolute;
     left: 0;
     top: 2.2rem;
@@ -430,6 +430,9 @@ img {
     .navegacao_toggle {
         order: -1;
         margin-right: var(--margem-3);
+    }
+    .gerar-pdf {
+        display: none !important;
     }
 }
 
@@ -906,5 +909,4 @@ img {
 #inicio-imagem {
     pointer-events: none !important;
     -webkit-user-drag: none !important;
-    user-drag: none !important;
 }

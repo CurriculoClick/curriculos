@@ -136,13 +136,11 @@ window.applyCustomColor = (hex, name) => {
     }
 };
 
-botaoDownload.addEventListener('click', () => {
-    const nomeArquivo = obterNomeArquivo();
-    const modoLabel = document.body.classList.contains(modoEscuro) ? 'escuro' : 'claro';
-    const colorLabel = selectedColorName ? `-${selectedColorName}` : '';
-    const fileName = `${nomeArquivo}${colorLabel}-${modoLabel}.pdf`;
-    botaoDownload.href = `ativos/pdf/${fileName}`;
-    botaoDownload.setAttribute('download', fileName);
+botaoDownload.addEventListener('click', (e) => {
+    e.preventDefault();
+    // Aplica escala para A4 e gera o PDF
+    adicionarEscalaCurriculo();
+    gerarCurriculo();
 });
 
 /* Reduzir o tamanho e formatar para folha A4 */
@@ -186,11 +184,19 @@ function gerarCurriculo() {
     const modoLabel = document.body.classList.contains(modoEscuro) ? 'escuro' : 'claro';
     const colorLabel = selectedColorName ? `-${selectedColorName}` : '';
     const fileName = `${nomeArquivo}${colorLabel}-${modoLabel}.pdf`;
+    // Forçar dimensões de desktop (A4) mesmo em mobile
+    const larguraDesktop = 968;
+    const alturaDesktop = areaCurriculo.scrollHeight;
     const opt = {
         margin: [0, 0, 0, 0],
         filename: fileName,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 4, useCORS: true },
+        html2canvas: {
+            scale: 4,
+            useCORS: true,
+            windowWidth: larguraDesktop,
+            windowHeight: alturaDesktop
+        },
         jsPDF: { format: 'a4', orientation: 'portrait' }
     };
     html2pdf()
@@ -198,15 +204,19 @@ function gerarCurriculo() {
         .from(areaCurriculo)
         .toPdf()
         .get('pdf')
-        .then((pdf) => {
+        .then(pdf => {
             // Remover páginas extras em branco
             let totalPages = pdf.internal.getNumberOfPages();
             while (totalPages > 1) {
                 pdf.deletePage(totalPages);
                 totalPages--;
             }
-            // Salvar PDF após remoção de páginas vazias
+            // Salvar PDF A4 gerado
             pdf.save(fileName);
+        })
+        .finally(() => {
+            // Remove a escala após a captura terminar
+            removerEscalaCurriculo();
         });
 }
 
