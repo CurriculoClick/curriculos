@@ -165,41 +165,66 @@ function aplicarDadosAoCurriculo(dados) {
         }
         dados.social.forEach(item => {
             const rede = item.rede;
-            const url = item.url;
-            const label = item.label || (url ? url.split('/').pop() : '');
-            let iconClass;
-            switch (rede) {
-                case 'GitHub': iconClass = 'fa-brands fa-github'; break;
-                case 'YouTube': iconClass = 'fa-brands fa-youtube'; break;
-                case 'Facebook': iconClass = 'fa-brands fa-facebook'; break;
-                case 'WhatsApp': iconClass = 'fa-brands fa-whatsapp'; break;
-                case 'Instagram': iconClass = 'fa-brands fa-instagram'; break;
-                case 'TikTok': iconClass = 'fa-brands fa-tiktok'; break;
-                case 'WeChat': iconClass = 'fa-brands fa-weixin'; break;
-                case 'Facebook Messenger': iconClass = 'fa-brands fa-facebook-messenger'; break;
-                case 'Snapchat': iconClass = 'fa-brands fa-snapchat'; break;
-                case 'Telegram': iconClass = 'fa-brands fa-telegram'; break;
-                case 'Twitter/X': iconClass = 'fa-brands fa-x'; break;
-                case 'Twitch': iconClass = 'fa-brands fa-twitch'; break;
-                case 'Slack': iconClass = 'fa-brands fa-slack'; break;
-                case 'Spotify': iconClass = 'fa-brands fa-spotify'; break;
-                case 'Medium': iconClass = 'fa-brands fa-medium'; break;
-                case 'Stack Overflow': iconClass = 'fa-brands fa-stack-overflow'; break;
-                case 'Tumblr': iconClass = 'fa-brands fa-tumblr'; break;
-                case 'Weibo': iconClass = 'fa-brands fa-weibo'; break;
-                case 'QQ': iconClass = 'fa-brands fa-qq'; break;
-                case 'Pinterest': iconClass = 'fa-brands fa-pinterest'; break;
-                case 'Reddit': iconClass = 'fa-brands fa-reddit'; break;
-                case 'LinkedIn': iconClass = 'fa-brands fa-linkedin'; break;
-                case 'Discord': iconClass = 'fa-brands fa-discord'; break;
-                default: iconClass = 'fa-solid fa-link';
+            const raw = item.url;
+            const link = item.link;
+            const customLabel = item.label;
+            const customIconClass = item.iconClass;
+
+            // Define texto a exibir e URL real
+            const displayName = customLabel || (raw.startsWith('@') ? raw : '@' + raw);
+            let actualUrl;
+            if (link) {
+                actualUrl = link;
+            } else if (/^https?:\/\//i.test(raw)) {
+                actualUrl = raw;
+            } else {
+                let baseUrl = '';
+                switch (rede) {
+                    case 'GitHub': baseUrl = 'https://github.com/'; break;
+                    case 'YouTube': baseUrl = 'https://www.youtube.com/'; break;
+                    case 'Facebook': baseUrl = 'https://www.facebook.com/'; break;
+                    case 'WhatsApp': baseUrl = 'https://wa.me/'; break;
+                    case 'Instagram': baseUrl = 'https://www.instagram.com/'; break;
+                    case 'TikTok': baseUrl = 'https://www.tiktok.com/@'; break;
+                    case 'LinkedIn': baseUrl = 'https://www.linkedin.com/in/'; break;
+                    default: break;
+                }
+                actualUrl = baseUrl + raw.replace(/^@/, '');
             }
-            if (url) criarLinkSocial(url, label, iconClass);
+
+            // Define classe de ícone
+            const iconClass = customIconClass || (() => {
+                switch (rede) {
+                    case 'GitHub': return 'fa-brands fa-github';
+                    case 'YouTube': return 'fa-brands fa-youtube';
+                    case 'Facebook': return 'fa-brands fa-facebook';
+                    case 'WhatsApp': return 'fa-brands fa-whatsapp';
+                    case 'Instagram': return 'fa-brands fa-instagram';
+                    case 'TikTok': return 'fa-brands fa-tiktok';
+                    case 'WeChat': return 'fa-brands fa-weixin';
+                    case 'Facebook Messenger': return 'fa-brands fa-facebook-messenger';
+                    case 'Snapchat': return 'fa-brands fa-snapchat';
+                    case 'Telegram': return 'fa-brands fa-telegram';
+                    case 'Twitter/X': return 'fa-brands fa-x';
+                    case 'Twitch': return 'fa-brands fa-twitch';
+                    case 'Slack': return 'fa-brands fa-slack';
+                    case 'Spotify': return 'fa-brands fa-spotify';
+                    case 'Medium': return 'fa-brands fa-medium';
+                    case 'Stack Overflow': return 'fa-brands fa-stack-overflow';
+                    case 'Tumblr': return 'fa-brands fa-tumblr';
+                    case 'Weibo': return 'fa-brands fa-weibo';
+                    case 'QQ': return 'fa-brands fa-qq';
+                    case 'Pinterest': return 'fa-brands fa-pinterest';
+                    case 'Reddit': return 'fa-brands fa-reddit';
+                    case 'LinkedIn': return 'fa-brands fa-linkedin';
+                    case 'Discord': return 'fa-brands fa-discord';
+                    default: return 'fa-solid fa-link';
+                }
+            })();
+
+            if (actualUrl) criarLinkSocial(actualUrl, displayName, iconClass);
         });
         document.querySelector('.redes-sociais').style.display = 'block';
-    } else {
-        const secaoSocial = document.querySelector('.redes-sociais');
-        if (secaoSocial) secaoSocial.style.display = 'none';
     }
     
     // PERFIL

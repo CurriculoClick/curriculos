@@ -322,24 +322,62 @@ document.addEventListener('keydown', function(e) {
 document.addEventListener('DOMContentLoaded', async () => {
    // ... existing DomContentLoaded code ...
 
-   // Botão para ocultar/exibir foto de perfil
+   // Botões para ocultar e exibir foto de perfil
    const botaoOcultarFoto = document.getElementById('botao-ocultar-foto');
+   const botaoMostrarFoto = document.getElementById('botao-mostrar-foto');
    const fotoPerfilEl = document.getElementById('inicio-imagem');
-   let fotoOculta = false;
-   if (botaoOcultarFoto && fotoPerfilEl) {
+   if (botaoOcultarFoto && botaoMostrarFoto && fotoPerfilEl) {
+     // inicialmente, o botão de mostrar fica oculto
+     botaoMostrarFoto.style.display = 'none';
+     // ao clicar em Ocultar Foto: primeiro fade out do botão, depois foto, depois fade in do botão Mostrar
      botaoOcultarFoto.addEventListener('click', () => {
-       fotoOculta = !fotoOculta;
-       if (fotoOculta) {
-         // Torna a foto invisível, mas mantém um placeholder para evitar sobreposição
-         fotoPerfilEl.style.opacity = '0';
-         fotoPerfilEl.style.height = '26px';
-       } else {
-         fotoPerfilEl.style.opacity = '1';
-         fotoPerfilEl.style.height = '';
-       }
-       botaoOcultarFoto.classList.toggle('fa-eye-slash', !fotoOculta);
-       botaoOcultarFoto.classList.toggle('fa-eye', fotoOculta);
-       botaoOcultarFoto.title = fotoOculta ? 'Exibir foto' : 'Ocultar foto';
+       // fade out botão Ocultar
+       botaoOcultarFoto.style.opacity = '0';
+       const onButtonHideEnd = e => {
+         if (e.propertyName === 'opacity') {
+           botaoOcultarFoto.style.display = 'none';
+           botaoOcultarFoto.removeEventListener('transitionend', onButtonHideEnd);
+           // iniciar ocultação da foto
+           fotoPerfilEl.style.opacity = '0';
+           fotoPerfilEl.style.height = '26px';
+           // após foto escondida, mostrar botão Mostrar com fade in
+           const onPhotoHideEnd = ev => {
+             if (ev.propertyName === 'height') {
+               botaoMostrarFoto.style.display = 'flex';
+               botaoMostrarFoto.style.opacity = '0';
+               requestAnimationFrame(() => { botaoMostrarFoto.style.opacity = '1'; });
+               fotoPerfilEl.removeEventListener('transitionend', onPhotoHideEnd);
+             }
+           };
+           fotoPerfilEl.addEventListener('transitionend', onPhotoHideEnd);
+         }
+       };
+       botaoOcultarFoto.addEventListener('transitionend', onButtonHideEnd);
+     });
+     // ao clicar em Mostrar Foto: primeiro fade out do botão Mostrar, depois exibe foto, depois fade in do botão Ocultar
+     botaoMostrarFoto.addEventListener('click', () => {
+       // fade out botão Mostrar
+       botaoMostrarFoto.style.opacity = '0';
+       const onButtonShowHideEnd = e => {
+         if (e.propertyName === 'opacity') {
+           botaoMostrarFoto.style.display = 'none';
+           botaoMostrarFoto.removeEventListener('transitionend', onButtonShowHideEnd);
+           // iniciar exibição da foto
+           fotoPerfilEl.style.opacity = '1';
+           fotoPerfilEl.style.height = '';
+           // após foto exibida, mostrar botão Ocultar com fade in
+           const onPhotoShowEnd = ev => {
+             if (ev.propertyName === 'height') {
+               botaoOcultarFoto.style.display = 'flex';
+               botaoOcultarFoto.style.opacity = '0';
+               requestAnimationFrame(() => { botaoOcultarFoto.style.opacity = '1'; });
+               fotoPerfilEl.removeEventListener('transitionend', onPhotoShowEnd);
+             }
+           };
+           fotoPerfilEl.addEventListener('transitionend', onPhotoShowEnd);
+         }
+       };
+       botaoMostrarFoto.addEventListener('transitionend', onButtonShowHideEnd);
      });
    }
 

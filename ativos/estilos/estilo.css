@@ -36,6 +36,20 @@
     /* Índice Z */
     --z-dica: 10;
     --z-fixo: 100;
+
+    /* Distância inferior padrão para Ocultar Foto (pode ser sobrescrito) */
+    --ocultar-foto-bottom: 0.5rem;
+    /* Posição horizontal padrão para Ocultar Foto */
+    --ocultar-foto-left: 50%;
+    /* Distância inferior padrão para Mostrar Foto */
+    --mostrar-foto-bottom: 0.5rem;
+    /* Posição horizontal padrão para Mostrar Foto */
+    --mostrar-foto-left: 50%;
+
+    /* Distância à direita para o botão Ocultar Foto */
+    --ocultar-foto-right: 13.3rem;
+    /* Distância à direita para o botão Mostrar Foto */
+    --mostrar-foto-right: 13.3rem;
 }
 
 /* Estilos base */
@@ -55,11 +69,18 @@ html {
 .mudar-tema {
     position: absolute;
     right: 0;
-    top: 2.2rem;
+    top: 1.4rem;
     display: flex;
     color: var(--cor-texto);
     font-size: 1.2rem;
     cursor: pointer;
+    background-color: #fff;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
+    z-index: var(--z-fixo);
 }
 
 .mudar-tema:hover {
@@ -70,12 +91,18 @@ html {
 #botao-cores {
     position: absolute;
     right: 2.5rem;
-    top: 2.2rem;
+    top: 1.4rem;
     display: flex;
     color: var(--cor-texto);
     font-size: 1.2rem;
     cursor: pointer;
     z-index: var(--z-fixo);
+    background-color: #fff;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
 }
 
 #botao-cores:hover {
@@ -84,14 +111,20 @@ html {
 
 /* Estilo para botão ocultar/exibir foto */
 #botao-ocultar-foto {
-    position: absolute;
-    right: 13.3rem;
-    top: 2.2rem;
-    display: flex;
-    color: var(--cor-texto);
-    font-size: 1.2rem;
-    cursor: pointer;
-    z-index: var(--z-fixo);
+    position: absolute;          /* posiciona de forma absoluta */
+    right: 7.5rem;             /* distância da borda direita */
+    top: 7.8rem;                /* distância do topo */
+    display: flex;              /* usa Flexbox para centralizar */
+    align-items: center;        /* centraliza ícone verticalmente */
+    justify-content: center;    /* centraliza ícone horizontalmente */
+    color: var(--cor-texto);    /* cor do ícone */
+    font-size: 1.2rem;          /* tamanho do ícone */
+    cursor: pointer;            /* cursor no hover */
+    background-color: #fff;     /* círculo branco de fundo */
+    border-radius: 50%;         /* bordas arredondadas */
+    width: 2rem;                /* largura do círculo */
+    height: 2rem;               /* altura do círculo */
+    z-index: var(--z-fixo);     /* garante sobreposição */
 }
 #botao-ocultar-foto:hover {
     color: var(--cor-titulo);
@@ -130,6 +163,15 @@ html {
     color: inherit !important;
 }
 
+/* Em custom-color-active, forçar ícone dos botões a ficar preto */
+.curriculo_esquerda.custom-color-active .mudar-tema,
+.curriculo_esquerda.custom-color-active .gerar-pdf,
+.curriculo_esquerda.custom-color-active #botao-cores,
+.curriculo_esquerda.custom-color-active #botao-ocultar-foto,
+.curriculo_esquerda.custom-color-active #botao-mostrar-foto {
+    color: #000 !important; /* força cor preta nos ícones dos botões */
+}
+
 /* Modo escuro */
 
 body.modo-escuro {
@@ -143,13 +185,20 @@ body.modo-escuro {
 /* Botão Gerar PDF */
 
 .gerar-pdf {
-    display: inline-block !important;
+    display: flex !important;
     position: absolute;
     left: 0;
-    top: 2.2rem;
+    top: 1.4rem;
     color: var(--cor-texto);
     font-size: 1.2rem;
     cursor: pointer;
+    background-color: #fff;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
+    z-index: var(--z-fixo);
 }
 
 .gerar-pdf:hover {
@@ -171,7 +220,15 @@ body.escalar-curriculo {
 .escalar-curriculo .mudar-tema,
 .escalar-curriculo .gerar-pdf,
 .escalar-curriculo #botao-cores,
-.escalar-curriculo #botao-ocultar-foto {
+.escalar-curriculo #botao-ocultar-foto,
+.escalar-curriculo .ocultar-foto,
+.escalar-curriculo #botao-mostrar-foto,
+.escalar-curriculo .mostrar-foto {
+    display: none !important;
+}
+
+/* Esconde o botão de exibir foto também em modo PDF */
+.escalar-curriculo #botao-mostrar-foto {
     display: none;
 }
 
@@ -895,6 +952,22 @@ img {
         top: 2.2rem;  /* ajuste conforme necessário */
         font-size: 1rem;  /* manter tamanho reduzido */
     }
+    /* Círculo e posicionamento para os botões ocultar e mostrar foto */
+    .ocultar-foto,
+    .mostrar-foto {
+        background-color: #fff;
+        border-radius: 50%;
+        width: 2rem;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        bottom: 0.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1;
+    }
 }
 
 /* Adiciona regra para impedir seleção de texto em toda a página */
@@ -909,4 +982,67 @@ img {
 #inicio-imagem {
     pointer-events: none !important;
     -webkit-user-drag: none !important;
+    transition: opacity 0.7s ease-in-out, height 0.8s ease-in-out; /* foto com transição levemente mais lenta */
+}
+
+#botao-mostrar-foto {
+    position: absolute;          /* posiciona de forma absoluta */
+    right: 5.1rem;             /* distância da borda direita */
+    top: 1.4rem;                /* distância do topo */
+    display: flex;              /* usa Flexbox para centralizar */
+    align-items: center;        /* centraliza ícone verticalmente */
+    justify-content: center;    /* centraliza ícone horizontalmente */
+    color: var(--cor-texto);    /* cor do ícone */
+    font-size: 1.2rem;          /* tamanho do ícone */
+    cursor: pointer;            /* cursor no hover */
+    background-color: #fff;     /* círculo branco de fundo */
+    border-radius: 50%;         /* bordas arredondadas */
+    width: 2rem;                /* largura do círculo */
+    height: 2rem;               /* altura do círculo */
+    z-index: var(--z-fixo);     /* garante sobreposição */
+}
+#botao-mostrar-foto:hover {
+    color: var(--cor-titulo);
+}
+
+/* Botão Ocultar Foto */
+.ocultar-foto {
+    background-color: #fff;          /* cria círculo branco atrás do ícone */
+    border-radius: 50%;             /* forma o círculo arredondado */
+    width: 2rem;                    /* largura fixa do círculo */
+    height: 2rem;                   /* altura fixa do círculo */
+    display: flex;                  /* ativa Flexbox para centralizar ícone */
+    align-items: center;            /* centraliza ícone verticalmente */
+    justify-content: center;        /* centraliza ícone horizontalmente */
+    position: absolute;
+    right: 9rem;
+    top: 1.4rem;
+    display: flex;
+    z-index: var(--z-fixo);         /* garante que fique acima de outros elementos */
+    transition: opacity 0.3s ease-in-out; /* botão some mais rápido */
+}
+
+/* Botão Mostrar Foto */
+.mostrar-foto {
+    background-color: #fff;          /* cria círculo branco atrás do ícone */
+    border-radius: 50%;             /* forma o círculo arredondado */
+    width: 2rem;                    /* largura fixa do círculo */
+    height: 2rem;                   /* altura fixa do círculo */
+    display: flex;                  /* ativa Flexbox para centralizar ícone */
+    align-items: center;            /* centraliza ícone verticalmente */
+    justify-content: center;        /* centraliza ícone horizontalmente */
+    position: absolute;             /* posicionamento absoluto em relação ao container pai */
+    bottom: var(--mostrar-foto-bottom); /* utiliza variável para ajustar distância inferior */
+    right: var(--mostrar-foto-right);   /* utiliza variável para ajustar distância da direita */
+    z-index: var(--z-fixo);         /* garante que fique acima de outros elementos */
+    transition: opacity 0.3s ease-in-out; /* botão ressurge mais rápido */
+}
+
+/* Forçar ícones pretos em modo escuro para botões circulares */
+body.modo-escuro .mudar-tema,
+body.modo-escuro .gerar-pdf,
+body.modo-escuro #botao-cores,
+body.modo-escuro #botao-ocultar-foto,
+body.modo-escuro #botao-mostrar-foto {
+    color: #000 !important; /* força preto para o ícone */
 }
