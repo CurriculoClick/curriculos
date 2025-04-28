@@ -1,6 +1,6 @@
 # Curriculo Click
 
-**Versão atual: 1.0.0**
+**Versão atual: 1.1.0**
 
 ## Descrição
 Sistema de currículo web estático e dinâmico com suporte a Netlify CMS.
