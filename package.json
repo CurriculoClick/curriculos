@@ -3,7 +3,7 @@
   "version": "1.1.0",
   "description": "Sistema de currículo web estático e dinâmico com suporte a Netlify CMS",
   "scripts": {
-    "build": "rm -rf public && mkdir public && cpx \"**/*\" public -C !public/** !node_modules/** !package.json !package-lock.json !.git/** !.gitignore !netlify.toml !README.md !CHANGELOG.md !REGRAS-DEPLOY.md",
+    "build": "rm -rf public && mkdir public && cpx \"**/*\" public",
     "dev": "echo 'Desenvolvimento local: abra o index.html no navegador'"
   },
   "engines": {
