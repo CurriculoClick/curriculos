@@ -1,6 +1,16 @@
 // Widget de WhatsApp
 const estilo = document.createElement('style');
 estilo.innerHTML = `
+  :root {
+    --chat-balloon-color: #d8fdd2;
+    --chat-text-color: #1d1b1b;
+  }
+
+  body.modo-escuro {
+    --chat-balloon-color: #144d37;
+    --chat-text-color: #ffffff;
+  }
+
   .whatsapp-button {
     -webkit-tap-highlight-color: transparent;
     outline: none;
@@ -91,7 +101,10 @@ estilo.innerHTML = `
 
   .chat-body {
     background-color: #e5ddd5;
-    background-image: url('https://raw.githubusercontent.com/thiagodelgado/appdoid/e1eab141da1522542912afb9587d8b72b313c78d/stylesheets/150d0dae2-eb45-4fb9-824e-235e4f4b9372-161.svg');
+    background-image: var(--chat-background-image);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
     padding: 15px;
     height: 180px;
     overflow-y: auto;
@@ -100,13 +113,16 @@ estilo.innerHTML = `
   /* Papel de parede modo escuro para o corpo do chat */
   body.modo-escuro .chat-body {
     background-color: #2f2f2f !important;
-    background-image: url('https://raw.githubusercontent.com/thiagodelgado/appdoid/3edf06f1950babb86b24e53f73998cef3dd346d9/stylesheets/150d0dae2-eb45-4fb9-824e-235e4f4b9372-160.svg') !important;
+    background-image: var(--chat-background-image);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
   }
 
   .message {
     font-size: 15px;
-    background: #d8fdd2;
-    color: #1d1b1b;
+    background: var(--chat-balloon-color);
+    color: var(--chat-text-color);
     padding: 10px;
     border-radius: 10px;
     margin-bottom: 10px;
@@ -125,7 +141,7 @@ estilo.innerHTML = `
     height: 0;
     border-top: 8px solid transparent;
     border-bottom: 8px solid transparent;
-    border-right: 8px solid #d8fdd2;
+    border-right: 8px solid var(--chat-balloon-color);
   }
 
   .message-time {
@@ -289,58 +305,77 @@ let chatVisivel = false;
 let mensagemEnviada = false;
 let mensagemTimeoutId;
 
+// Função para atualizar o background do chat baseado no modo escuro/claro
+function atualizarBackgroundChat() {
+  if(document.body.classList.contains('modo-escuro')) {
+    document.documentElement.style.setProperty('--chat-background-image', "url('https://raw.githubusercontent.com/thiagodelgado/appdoid/refs/heads/gh-pages/stylesheets/16-17-18.svg')");
+  } else {
+    document.documentElement.style.setProperty('--chat-background-image', "url('https://raw.githubusercontent.com/thiagodelgado/appdoid/refs/heads/gh-pages/stylesheets/15-16-17.svg')");
+  }
+}
+
+// Observar mudanças no modo escuro/claro
+const observer = new MutationObserver((mutations) => {
+  mutations.forEach((mutation) => {
+    if (mutation.attributeName === 'class' && chatVisivel) {
+      atualizarBackgroundChat();
+    }
+  });
+});
+
+// Começar a observar mudanças no body
+observer.observe(document.body, {
+  attributes: true
+});
+
 window.alternarChat = function () {
   const box = document.getElementById('chatBox');
   const body = document.getElementById('chatBody');
   const sound = document.getElementById('notifSound');
 
   if (!chatVisivel) {
-    // Atualiza header do chat a partir dos elementos da página
     updateChatHeader();
-
     clearTimeout(mensagemTimeoutId);
-    // abrir chat: limpar mensagens antigas e resetar estado
     body.innerHTML = `<div class="typing" id="typing"><span></span><span></span><span></span></div>`;
     const typingIndicator = document.getElementById('typing');
     typingIndicator.style.display = 'flex';
     mensagemEnviada = false;
     box.style.display = 'flex';
     chatVisivel = true;
-    clearTimeout(mensagemTimeoutId);
-    // aguardar indicador e carregar JSON fresco
-    mensagemTimeoutId = setTimeout(() => {
-      // Busca JSON do currículo para saudações e mensagem pós-cumprimento
-      fetch(`${resumeJsonPath}?t=${Date.now()}`)
-        .then(res => res.json())
-        .catch(err => {
-          console.error('Erro ao carregar dados do chat:', err);
-          return { whatsapp: { cumprimentos: whatsappConfig.cumprimentos, mensagemPosCumprimento: whatsappConfig.mensagemPosCumprimento } };
-        })
-        .then(data => {
-          const horaAtual = new Date().getHours();
-          const periodo = horaAtual < 12 ? 'manha' : (horaAtual < 18 ? 'tarde' : 'noite');
-          const cumprimentos = data.whatsapp?.cumprimentos || mensagensPadrao.cumprimentos;
-          const saudacao = cumprimentos[periodo] || mensagensPadrao.cumprimentos[periodo];
-          const posMsg = data.whatsapp?.mensagemPosCumprimento || whatsappConfig.mensagemPosCumprimento;
-          const message = document.createElement('div');
-          message.classList.add('message');
-          message.innerHTML = `
-            ${saudacao}<br />
-            ${posMsg}
-            <div class="message-time">
-              ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-              <svg viewBox="0 0 24 24"><path d="M1.8 12l2.1-2.1L9 15l11.1-11.1L22.2 6 9 19.2z"/><path d="M12 19.2L7.2 14.4l1.4-1.4L12 16.4l7.8-7.8 1.4 1.4z"/></svg>
-            </div>
-          `;
-          document.getElementById('typing').style.display = 'none';
-          body.appendChild(message);
-          sound.play().catch(err => console.warn('Falha ao reproduzir som:', err));
-          mensagemEnviada = true;
-        });
-    }, 2000);
+    
+    // Atualizar background do chat
+    atualizarBackgroundChat();
+    
+    // Remover setTimeout, mostrar mensagem imediatamente
+    fetch(`${resumeJsonPath}?t=${Date.now()}`)
+      .then(res => res.json())
+      .catch(err => {
+        console.error('Erro ao carregar dados do chat:', err);
+        return { whatsapp: { cumprimentos: whatsappConfig.cumprimentos, mensagemPosCumprimento: whatsappConfig.mensagemPosCumprimento } };
+      })
+      .then(data => {
+        const horaAtual = new Date().getHours();
+        const periodo = horaAtual < 12 ? 'manha' : (horaAtual < 18 ? 'tarde' : 'noite');
+        const cumprimentos = data.whatsapp?.cumprimentos || mensagensPadrao.cumprimentos;
+        const saudacao = cumprimentos[periodo] || mensagensPadrao.cumprimentos[periodo];
+        const posMsg = data.whatsapp?.mensagemPosCumprimento || whatsappConfig.mensagemPosCumprimento;
+        const message = document.createElement('div');
+        message.classList.add('message');
+        message.innerHTML = `
+          ${saudacao}<br />
+          ${posMsg}
+          <div class="message-time">
+            ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            <svg viewBox="0 0 24 24"><path d="M1.8 12l2.1-2.1L9 15l11.1-11.1L22.2 6 9 19.2z"/><path d="M12 19.2L7.2 14.4l1.4-1.4L12 16.4l7.8-7.8 1.4 1.4z"/></svg>
+          </div>
+        `;
+        document.getElementById('typing').style.display = 'none';
+        body.appendChild(message);
+        sound.play().catch(err => console.warn('Falha ao reproduzir som:', err));
+        mensagemEnviada = true;
+      });
   } else {
     clearTimeout(mensagemTimeoutId);
-    // fechar chat
     box.style.display = 'none';
     chatVisivel = false;
   }

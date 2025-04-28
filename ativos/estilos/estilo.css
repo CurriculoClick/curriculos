@@ -41,15 +41,34 @@
     --ocultar-foto-bottom: 0.5rem;
     /* Posição horizontal padrão para Ocultar Foto */
     --ocultar-foto-left: 50%;
-    /* Distância inferior padrão para Mostrar Foto */
-    --mostrar-foto-bottom: 0.5rem;
-    /* Posição horizontal padrão para Mostrar Foto */
-    --mostrar-foto-left: 50%;
-
     /* Distância à direita para o botão Ocultar Foto */
     --ocultar-foto-right: 13.3rem;
-    /* Distância à direita para o botão Mostrar Foto */
-    --mostrar-foto-right: 13.3rem;
+
+    /* Posições dos botões na versão desktop */
+    --mudar-tema-top-desktop: 1.4rem;
+    --mudar-tema-right-desktop: 0;
+    
+    --botao-cores-top-desktop: 1.4rem;
+    --botao-cores-right-desktop: 2.5rem;
+    
+    --ocultar-foto-top-desktop: 7.8rem;
+    --ocultar-foto-right-desktop: 7.5rem;
+    
+    --mostrar-foto-top-desktop: 7.8rem;
+    --mostrar-foto-right-desktop: 7.5rem;
+    
+    /* Posições dos botões na versão mobile */
+    --mudar-tema-top-mobile: 2.2rem;
+    --mudar-tema-right-mobile: 4rem;
+    
+    --botao-cores-top-mobile: 2.2rem;
+    --botao-cores-right-mobile: 1rem;
+    
+    --ocultar-foto-top-mobile: 2.2rem;
+    --ocultar-foto-right-mobile: 24.2rem;
+    
+    --mostrar-foto-top-mobile: 2.2rem;
+    --mostrar-foto-right-mobile: 24.2rem;
 }
 
 /* Estilos base */
@@ -68,8 +87,8 @@ html {
 
 .mudar-tema {
     position: absolute;
-    right: 0;
-    top: 1.4rem;
+    right: var(--mudar-tema-right-desktop);
+    top: var(--mudar-tema-top-desktop);
     display: flex;
     color: var(--cor-texto);
     font-size: 1.2rem;
@@ -90,19 +109,19 @@ html {
 /* Adiciono estilos para o botão de paleta de cores */
 #botao-cores {
     position: absolute;
-    right: 2.5rem;
-    top: 1.4rem;
+    right: var(--botao-cores-right-desktop);
+    top: var(--botao-cores-top-desktop);
     display: flex;
     color: var(--cor-texto);
     font-size: 1.2rem;
     cursor: pointer;
-    z-index: var(--z-fixo);
     background-color: #fff;
     border-radius: 50%;
     width: 2rem;
     height: 2rem;
     align-items: center;
     justify-content: center;
+    z-index: var(--z-fixo);
 }
 
 #botao-cores:hover {
@@ -111,21 +130,23 @@ html {
 
 /* Estilo para botão ocultar/exibir foto */
 #botao-ocultar-foto {
-    position: absolute;          /* posiciona de forma absoluta */
-    right: 7.5rem;             /* distância da borda direita */
-    top: 7.8rem;                /* distância do topo */
-    display: flex;              /* usa Flexbox para centralizar */
-    align-items: center;        /* centraliza ícone verticalmente */
-    justify-content: center;    /* centraliza ícone horizontalmente */
-    color: var(--cor-texto);    /* cor do ícone */
-    font-size: 1.2rem;          /* tamanho do ícone */
-    cursor: pointer;            /* cursor no hover */
-    background-color: #fff;     /* círculo branco de fundo */
-    border-radius: 50%;         /* bordas arredondadas */
-    width: 2rem;                /* largura do círculo */
-    height: 2rem;               /* altura do círculo */
-    z-index: var(--z-fixo);     /* garante sobreposição */
+    position: absolute;
+    right: var(--ocultar-foto-right-desktop);
+    top: var(--ocultar-foto-top-desktop);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cor-texto);
+    font-size: 1.2rem;
+    cursor: pointer;
+    background-color: #f5f5f5;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    z-index: var(--z-fixo);
+    transition: opacity 0.3s ease-in-out;
 }
+
 #botao-ocultar-foto:hover {
     color: var(--cor-titulo);
 }
@@ -156,6 +177,11 @@ html {
 
 #cores-picker-panel .color-swatch:hover {
     transform: scale(1.2);
+}
+
+/* Quando o painel está visível */
+#cores-picker-panel.show {
+    display: block;
 }
 
 /* Quando cor customizada ativa, previne modo escuro afetar fontes do lado esquerdo */
@@ -288,8 +314,12 @@ body.escalar-curriculo {
 }
 
 .escalar-curriculo .inicio_imagem {
-    width: 100px;
-    height: 100px;
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    justify-self: center;
+    margin-bottom: var(--margem-1);
 }
 
 .escalar-curriculo .inicio_container {
@@ -559,6 +589,7 @@ img {
 }
 
 .inicio_imagem {
+    position: relative;
     width: 120px;
     height: 120px;
     border-radius: 50%;
@@ -915,6 +946,15 @@ img {
         column-gap: 3.5rem;
         padding-left: 2rem;
     }
+
+    body.modo-escuro #cores-picker-panel {
+        background-color: #333;
+        border: 1px solid #666;
+    }
+
+    body.modo-escuro #cores-picker-panel .color-swatch {
+        border: 2px solid #666;
+    }
 }
 
 /* Ajuste de impressão para remover margens de página */
@@ -942,31 +982,79 @@ img {
 
 /* Ajuste de posição do ícone ocultar foto em mobile */
 @media screen and (max-width: 768px) {
-    /* Ocultar seletor de cores personalizado na versão mobile */
+    /* Remove o display: none do seletor de cores */
     #botao-cores {
-        display: none;
-    }
-    /* Ajuste de posição do ícone ocultar foto em mobile */
-    #botao-ocultar-foto {
-        right: 25.4rem;  /* ajuste conforme necessário */
-        top: 2.2rem;  /* ajuste conforme necessário */
-        font-size: 1rem;  /* manter tamanho reduzido */
-    }
-    /* Círculo e posicionamento para os botões ocultar e mostrar foto */
-    .ocultar-foto,
-    .mostrar-foto {
-        background-color: #fff;
-        border-radius: 50%;
-        width: 2rem;
-        height: 2rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         position: absolute;
-        bottom: 0.5rem;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 1;
+        display: flex;
+        right: var(--botao-cores-right-mobile);
+        top: var(--botao-cores-top-mobile);
+        background-color: #f5f5f5;
+    }
+    
+    /* Ajusta posição e estilo do botão mudar tema */
+    .mudar-tema {
+        position: absolute;
+        right: var(--mudar-tema-right-mobile);
+        top: var(--mudar-tema-top-mobile);
+        background-color: #f5f5f5;
+    }
+    
+    /* Ajusta posição e estilo do botão ocultar foto */
+    #botao-ocultar-foto {
+        position: absolute;
+        right: var(--ocultar-foto-right-mobile);
+        top: var(--ocultar-foto-top-mobile);
+        background-color: #f5f5f5;
+        font-size: 1rem;
+    }
+    
+    /* Ajusta posição e estilo do botão mostrar foto */
+    #botao-mostrar-foto {
+        position: absolute;
+        right: var(--mostrar-foto-right-mobile);
+        top: var(--mostrar-foto-top-mobile);
+        background-color: #f5f5f5;
+        font-size: 1rem;
+    }
+    
+    /* Ajusta posição do painel de cores para mobile */
+    #cores-picker-panel {
+        position: fixed;
+        top: 5.5rem;
+        right: 0.5rem;
+        width: 70px;
+        background-color: var(--cor-container);
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        z-index: calc(var(--z-fixo) + 1);
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.4rem;
+        display: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    #cores-picker-panel.show {
+        display: grid;
+        opacity: 1;
+    }
+
+    #cores-picker-panel .color-swatch {
+        width: 25px;
+        height: 25px;
+        margin: 0;
+        display: block;
+        border-width: 2px;
+    }
+
+    body.modo-escuro #cores-picker-panel {
+        background-color: var(--cor-container);
+        border: 1px solid var(--cor-texto);
+    }
+
+    body.modo-escuro #cores-picker-panel .color-swatch {
+        border: 2px solid var(--cor-texto);
     }
 }
 
@@ -985,22 +1073,25 @@ img {
     transition: opacity 0.7s ease-in-out, height 0.8s ease-in-out; /* foto com transição levemente mais lenta */
 }
 
+/* Botão Mostrar Foto */
 #botao-mostrar-foto {
-    position: absolute;          /* posiciona de forma absoluta */
-    right: 5.1rem;             /* distância da borda direita */
-    top: 1.4rem;                /* distância do topo */
-    display: flex;              /* usa Flexbox para centralizar */
-    align-items: center;        /* centraliza ícone verticalmente */
-    justify-content: center;    /* centraliza ícone horizontalmente */
-    color: var(--cor-texto);    /* cor do ícone */
-    font-size: 1.2rem;          /* tamanho do ícone */
-    cursor: pointer;            /* cursor no hover */
-    background-color: #fff;     /* círculo branco de fundo */
-    border-radius: 50%;         /* bordas arredondadas */
-    width: 2rem;                /* largura do círculo */
-    height: 2rem;               /* altura do círculo */
-    z-index: var(--z-fixo);     /* garante sobreposição */
+    position: absolute;
+    right: var(--mostrar-foto-right-desktop);
+    top: var(--mostrar-foto-top-desktop);
+    display: none; /* Inicialmente oculto */
+    align-items: center;
+    justify-content: center;
+    color: var(--cor-texto);
+    font-size: 1.2rem;
+    cursor: pointer;
+    background-color: #f5f5f5;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    z-index: var(--z-fixo);
+    transition: opacity 0.3s ease-in-out;
 }
+
 #botao-mostrar-foto:hover {
     color: var(--cor-titulo);
 }
@@ -1015,27 +1106,11 @@ img {
     align-items: center;            /* centraliza ícone verticalmente */
     justify-content: center;        /* centraliza ícone horizontalmente */
     position: absolute;
-    right: 9rem;
-    top: 1.4rem;
+    right: var(--ocultar-foto-right-desktop);
+    top: var(--ocultar-foto-top-desktop);
     display: flex;
     z-index: var(--z-fixo);         /* garante que fique acima de outros elementos */
     transition: opacity 0.3s ease-in-out; /* botão some mais rápido */
-}
-
-/* Botão Mostrar Foto */
-.mostrar-foto {
-    background-color: #fff;          /* cria círculo branco atrás do ícone */
-    border-radius: 50%;             /* forma o círculo arredondado */
-    width: 2rem;                    /* largura fixa do círculo */
-    height: 2rem;                   /* altura fixa do círculo */
-    display: flex;                  /* ativa Flexbox para centralizar ícone */
-    align-items: center;            /* centraliza ícone verticalmente */
-    justify-content: center;        /* centraliza ícone horizontalmente */
-    position: absolute;             /* posicionamento absoluto em relação ao container pai */
-    bottom: var(--mostrar-foto-bottom); /* utiliza variável para ajustar distância inferior */
-    right: var(--mostrar-foto-right);   /* utiliza variável para ajustar distância da direita */
-    z-index: var(--z-fixo);         /* garante que fique acima de outros elementos */
-    transition: opacity 0.3s ease-in-out; /* botão ressurge mais rápido */
 }
 
 /* Forçar ícones pretos em modo escuro para botões circulares */
@@ -1045,4 +1120,66 @@ body.modo-escuro #botao-cores,
 body.modo-escuro #botao-ocultar-foto,
 body.modo-escuro #botao-mostrar-foto {
     color: #000 !important; /* força preto para o ícone */
+}
+
+/* Estilos para cor personalizada em mobile */
+@media screen and (max-width: 968px) {
+    html.custom-color-active,
+    body.custom-color-active {
+        min-height: 100vh;
+        width: 100vw;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    /* Força altura total em todos os containers */
+    body.custom-color-active .bd-container,
+    body.custom-color-active .l-principal {
+        min-height: 100vh;
+        width: 100vw;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Remove margens e padding que possam criar espaços brancos */
+    body.custom-color-active .curriculo {
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        min-height: 100vh;
+        box-shadow: none;
+    }
+
+    /* Garante que o menu e cabeçalho também recebam a cor */
+    body.custom-color-active .l-cabecalho {
+        background-color: transparent;
+        box-shadow: none;
+    }
+
+    body.custom-color-active .navegacao_menu {
+        background-color: transparent;
+        box-shadow: none;
+    }
+
+    /* Remove qualquer background ou sombra que possa interferir */
+    body.custom-color-active * {
+        background-color: transparent;
+        box-shadow: none;
+    }
+}
+
+/* Controle de cores personalizadas */
+@media screen and (max-width: 968px) {
+    body.mobile-custom-color {
+        background-color: var(--custom-color, #FCFCFC);
+    }
+    
+    body.mobile-custom-color .curriculo,
+    body.mobile-custom-color .curriculo_direita,
+    body.mobile-custom-color .curriculo_esquerda,
+    body.mobile-custom-color .l-principal,
+    body.mobile-custom-color .l-cabecalho {
+        background-color: var(--custom-color, #FCFCFC);
+    }
 }

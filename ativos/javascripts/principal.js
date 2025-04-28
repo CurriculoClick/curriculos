@@ -94,6 +94,9 @@ if (modoAtual === "ativado") {
 
 botaoTema.addEventListener("click", () => {
     modoAtual = localStorage.getItem("modo-escuro");
+    if (window.innerWidth <= 968 && customColorActive) {
+        removeCustomColor();
+    }
     if (modoAtual === "desativado") {
         ativarModoEscuro();
     } else {
@@ -113,28 +116,41 @@ function sanitizeName(name) {
   return name.normalize('NFD').replace(/[^\w\- ]+/g, '').replace(/\s+/g, '');
 }
 
-// Adiciono função para aplicação programática de cor customizada via JSON
+// Função para aplicar cor customizada
 window.applyCustomColor = (hex, name) => {
-    // Ignora em telas pequenas
-    if (window.innerWidth <= 968) return;
-    // Aplica cor de fundo
-    leftSide.style.backgroundColor = hex;
-    leftSide.classList.add('custom-color-active');
-    customColorActive = true;
-    // Atualiza nome para o PDF
-    selectedColorName = sanitizeName(name);
-    // Ajusta contraste
-    const hexClean = hex.replace('#','');
-    const r = parseInt(hexClean.substr(0,2), 16);
-    const g = parseInt(hexClean.substr(2,2), 16);
-    const b = parseInt(hexClean.substr(4,2), 16);
-    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-    if (brightness < 128) {
-        leftSide.style.color = '#fff';
-    } else {
-        leftSide.style.color = '#000';
-    }
+  // guarda nome para PDF
+  selectedColorName = sanitizeName(name);
+  customColorActive = true;
+  // calcula cor de texto por contraste
+  const [r, g, b] = hex.replace('#','').match(/.{2}/g).map(v=>parseInt(v,16));
+  const brightness = (r*299 + g*587 + b*114)/1000;
+  const textColor = brightness < 128 ? '#fff' : '#000';
+  // define variáveis CSS
+  const root = document.documentElement;
+  root.style.setProperty('--custom-color', hex);
+  root.style.setProperty('--custom-text-color', textColor);
+  // ativa custom theme
+  root.classList.add('custom-color-active');
+  // também marca no body para print override
+  document.body.classList.add('custom-color-active');
 };
+
+// Função para remover cor customizada
+function removeCustomColor() {
+  customColorActive = false;
+  selectedColorName = null;
+  const root = document.documentElement;
+  // remove custom theme
+  root.classList.remove('custom-color-active');
+  root.style.removeProperty('--custom-color');
+  root.style.removeProperty('--custom-text-color');
+  // o CSS volta ao padrão para desktop e mobile
+  // remove no body também
+  document.body.classList.remove('custom-color-active');
+}
+
+// Remove listener resize se existir
+window.removeEventListener('resize', () => {});
 
 botaoDownload.addEventListener('click', (e) => {
     e.preventDefault();
@@ -180,12 +196,47 @@ function gerarCurriculo() {
     if (window.finalProfissao && profissaoEl) {
         profissaoEl.textContent = window.finalProfissao;
     }
+
     const nomeArquivo = obterNomeArquivo();
     const modoLabel = document.body.classList.contains(modoEscuro) ? 'escuro' : 'claro';
     const colorLabel = selectedColorName ? `-${selectedColorName}` : '';
     const fileName = `${nomeArquivo}${colorLabel}-${modoLabel}.pdf`;
-    // Forçar dimensões de desktop (A4) mesmo em mobile
-    const larguraDesktop = 968;
+
+    // Se mobile e com cor custom, prepare apenas o left side custom para o PDF
+    let savedInline = null;
+    if (window.innerWidth <= 968 && customColorActive) {
+        const root = document.documentElement;
+        const curriculoEl = document.querySelector('.curriculo');
+        const leftEl = document.querySelector('.curriculo_esquerda');
+        const rightEl = document.querySelector('.curriculo_direita');
+        // Salva estado e estilos inline existentes
+        savedInline = {
+            hadClass: root.classList.contains('custom-color-active'),
+            currBg: curriculoEl.style.backgroundColor,
+            currColor: curriculoEl.style.color,
+            leftBg: leftEl.style.backgroundColor,
+            leftColor: leftEl.style.color,
+            rightBg: rightEl.style.backgroundColor,
+            rightColor: rightEl.style.color
+        };
+        // Remove classe global de custom para evitar cobertura mobile
+        root.classList.remove('custom-color-active');
+        // Coleta cores do tema e custom
+        const themeBg = getComputedStyle(root).getPropertyValue('--cor-container').trim();
+        const themeText = getComputedStyle(root).getPropertyValue('--cor-texto').trim();
+        const customBg = getComputedStyle(root).getPropertyValue('--custom-color').trim();
+        const customText = getComputedStyle(root).getPropertyValue('--custom-text-color').trim();
+        // Aplica inline styles: container e right side no tema, left side custom
+        curriculoEl.style.backgroundColor = themeBg;
+        curriculoEl.style.color = themeText;
+        rightEl.style.backgroundColor = themeBg;
+        rightEl.style.color = themeText;
+        leftEl.style.backgroundColor = customBg;
+        leftEl.style.color = customText;
+    }
+
+    // Forçar dimensões de desktop (A4) mesmo em mobile: largura acima do breakpoint para aplicar CSS desktop
+    const larguraPDF = 1200;
     const alturaDesktop = areaCurriculo.scrollHeight;
     const opt = {
         margin: [0, 0, 0, 0],
@@ -194,11 +245,12 @@ function gerarCurriculo() {
         html2canvas: {
             scale: 4,
             useCORS: true,
-            windowWidth: larguraDesktop,
+            windowWidth: larguraPDF,
             windowHeight: alturaDesktop
         },
         jsPDF: { format: 'a4', orientation: 'portrait' }
     };
+
     html2pdf()
         .set(opt)
         .from(areaCurriculo)
@@ -215,6 +267,22 @@ function gerarCurriculo() {
             pdf.save(fileName);
         })
         .finally(() => {
+            // Restaura estilos inline se for mobile custom
+            if (savedInline && window.innerWidth <= 968 && customColorActive) {
+                const root = document.documentElement;
+                const curriculoEl = document.querySelector('.curriculo');
+                const leftEl = document.querySelector('.curriculo_esquerda');
+                const rightEl = document.querySelector('.curriculo_direita');
+                // Restaura classe global
+                if (savedInline.hadClass) root.classList.add('custom-color-active');
+                // Restaura inline styles originais
+                curriculoEl.style.backgroundColor = savedInline.currBg;
+                curriculoEl.style.color = savedInline.currColor;
+                leftEl.style.backgroundColor = savedInline.leftBg;
+                leftEl.style.color = savedInline.leftColor;
+                rightEl.style.backgroundColor = savedInline.rightBg;
+                rightEl.style.color = savedInline.rightColor;
+            }
             // Remove a escala após a captura terminar
             removerEscalaCurriculo();
         });
@@ -236,51 +304,34 @@ const panelCores = document.getElementById('cores-picker-panel');
 const swatches = document.querySelectorAll('#cores-picker-panel .color-swatch');
 const leftSide = document.querySelector('.curriculo_esquerda');
 
+let isPanelOpen = false;
+
 botaoCores.addEventListener('click', (e) => {
-    // Não faz nada em telas pequenas
-    if (window.innerWidth <= 968) return;
     e.stopPropagation();
-    panelCores.style.display = panelCores.style.display === 'block' ? 'none' : 'block';
+    panelCores.classList.toggle('show');
+    isPanelOpen = panelCores.classList.contains('show');
 });
 
 swatches.forEach(swatch => {
     swatch.addEventListener('click', (e) => {
-        // Não faz nada em telas pequenas
-        if (window.innerWidth <= 968) return;
         const color = e.target.getAttribute('data-color');
+        const name = e.target.title;
         if (color === 'default') {
-            leftSide.style.backgroundColor = '';
-            leftSide.style.color = '';
-            leftSide.classList.remove('custom-color-active');
-            customColorActive = false;
-            selectedColorName = null;
+            removeCustomColor();
         } else {
-            leftSide.style.backgroundColor = color;
-            leftSide.classList.add('custom-color-active');
-            customColorActive = true;
-            // Atualizo nome da cor para usar no PDF
-            selectedColorName = sanitizeName(e.target.title);
-            // Verificar contraste e ajustar cor da fonte se necessário
-            const hex = color.replace('#','');
-            const r = parseInt(hex.substr(0,2), 16);
-            const g = parseInt(hex.substr(2,2), 16);
-            const b = parseInt(hex.substr(4,2), 16);
-            const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-            if (brightness < 128) {
-                leftSide.style.color = '#fff';
-            } else {
-                leftSide.style.color = '#000';
-            }
+            window.applyCustomColor(color, name);
         }
-        panelCores.style.display = 'none';
+        // Fecha o painel
+        panelCores.classList.remove('show');
+        isPanelOpen = false;
     });
 });
 
+// Fecha o painel ao clicar fora
 document.addEventListener('click', (e) => {
-    // Não faz nada em telas pequenas
-    if (window.innerWidth <= 968) return;
     if (!panelCores.contains(e.target) && e.target !== botaoCores) {
-        panelCores.style.display = 'none';
+        panelCores.classList.remove('show');
+        isPanelOpen = false;
     }
 });
 
@@ -289,17 +340,6 @@ if (window.initialColorHex && window.innerWidth > 968) {
     const swatch = document.querySelector(`#cores-picker-panel .color-swatch[data-color="${window.initialColorHex}"]`);
     if (swatch) swatch.click();
 }
-
-// Remover cor personalizada em telas pequenas ao redimensionar
-window.addEventListener('resize', () => {
-    if (window.innerWidth <= 968 && customColorActive) {
-        leftSide.style.backgroundColor = '';
-        leftSide.style.color = '';
-        leftSide.classList.remove('custom-color-active');
-        customColorActive = false;
-        selectedColorName = null;
-    }
-});
 
 // Desabilita clique direito em toda a página
 document.addEventListener('contextmenu', function(e) {
@@ -327,58 +367,58 @@ document.addEventListener('DOMContentLoaded', async () => {
    const botaoMostrarFoto = document.getElementById('botao-mostrar-foto');
    const fotoPerfilEl = document.getElementById('inicio-imagem');
    if (botaoOcultarFoto && botaoMostrarFoto && fotoPerfilEl) {
-     // inicialmente, o botão de mostrar fica oculto
-     botaoMostrarFoto.style.display = 'none';
-     // ao clicar em Ocultar Foto: primeiro fade out do botão, depois foto, depois fade in do botão Mostrar
-     botaoOcultarFoto.addEventListener('click', () => {
-       // fade out botão Ocultar
-       botaoOcultarFoto.style.opacity = '0';
-       const onButtonHideEnd = e => {
-         if (e.propertyName === 'opacity') {
-           botaoOcultarFoto.style.display = 'none';
-           botaoOcultarFoto.removeEventListener('transitionend', onButtonHideEnd);
-           // iniciar ocultação da foto
-           fotoPerfilEl.style.opacity = '0';
-           fotoPerfilEl.style.height = '26px';
-           // após foto escondida, mostrar botão Mostrar com fade in
-           const onPhotoHideEnd = ev => {
-             if (ev.propertyName === 'height') {
-               botaoMostrarFoto.style.display = 'flex';
-               botaoMostrarFoto.style.opacity = '0';
-               requestAnimationFrame(() => { botaoMostrarFoto.style.opacity = '1'; });
-               fotoPerfilEl.removeEventListener('transitionend', onPhotoHideEnd);
-             }
+       // inicialmente, o botão de mostrar fica oculto
+       botaoMostrarFoto.style.display = 'none';
+       // ao clicar em Ocultar Foto: primeiro fade out do botão, depois foto, depois fade in do botão Mostrar
+       botaoOcultarFoto.addEventListener('click', () => {
+           // fade out botão Ocultar
+           botaoOcultarFoto.style.opacity = '0';
+           const onButtonHideEnd = e => {
+               if (e.propertyName === 'opacity') {
+                   botaoOcultarFoto.style.display = 'none';
+                   botaoOcultarFoto.removeEventListener('transitionend', onButtonHideEnd);
+                   // iniciar ocultação da foto
+                   fotoPerfilEl.style.opacity = '0';
+                   fotoPerfilEl.style.height = '26px';
+                   // após foto escondida, mostrar botão Mostrar com fade in
+                   const onPhotoHideEnd = ev => {
+                       if (ev.propertyName === 'height') {
+                           botaoMostrarFoto.style.display = 'flex';
+                           botaoMostrarFoto.style.opacity = '0';
+                           requestAnimationFrame(() => { botaoMostrarFoto.style.opacity = '1'; });
+                           fotoPerfilEl.removeEventListener('transitionend', onPhotoHideEnd);
+                       }
+                   };
+                   fotoPerfilEl.addEventListener('transitionend', onPhotoHideEnd);
+               }
            };
-           fotoPerfilEl.addEventListener('transitionend', onPhotoHideEnd);
-         }
-       };
-       botaoOcultarFoto.addEventListener('transitionend', onButtonHideEnd);
-     });
-     // ao clicar em Mostrar Foto: primeiro fade out do botão Mostrar, depois exibe foto, depois fade in do botão Ocultar
-     botaoMostrarFoto.addEventListener('click', () => {
-       // fade out botão Mostrar
-       botaoMostrarFoto.style.opacity = '0';
-       const onButtonShowHideEnd = e => {
-         if (e.propertyName === 'opacity') {
-           botaoMostrarFoto.style.display = 'none';
-           botaoMostrarFoto.removeEventListener('transitionend', onButtonShowHideEnd);
-           // iniciar exibição da foto
-           fotoPerfilEl.style.opacity = '1';
-           fotoPerfilEl.style.height = '';
-           // após foto exibida, mostrar botão Ocultar com fade in
-           const onPhotoShowEnd = ev => {
-             if (ev.propertyName === 'height') {
-               botaoOcultarFoto.style.display = 'flex';
-               botaoOcultarFoto.style.opacity = '0';
-               requestAnimationFrame(() => { botaoOcultarFoto.style.opacity = '1'; });
-               fotoPerfilEl.removeEventListener('transitionend', onPhotoShowEnd);
-             }
+           botaoOcultarFoto.addEventListener('transitionend', onButtonHideEnd);
+       });
+       // ao clicar em Mostrar Foto: primeiro fade out do botão Mostrar, depois exibe foto, depois fade in do botão Ocultar
+       botaoMostrarFoto.addEventListener('click', () => {
+           // fade out botão Mostrar
+           botaoMostrarFoto.style.opacity = '0';
+           const onButtonShowHideEnd = e => {
+               if (e.propertyName === 'opacity') {
+                   botaoMostrarFoto.style.display = 'none';
+                   botaoMostrarFoto.removeEventListener('transitionend', onButtonShowHideEnd);
+                   // iniciar exibição da foto
+                   fotoPerfilEl.style.opacity = '1';
+                   fotoPerfilEl.style.height = '';
+                   // após foto exibida, mostrar botão Ocultar com fade in
+                   const onPhotoShowEnd = ev => {
+                       if (ev.propertyName === 'height') {
+                           botaoOcultarFoto.style.display = 'flex';
+                           botaoOcultarFoto.style.opacity = '0';
+                           requestAnimationFrame(() => { botaoOcultarFoto.style.opacity = '1'; });
+                           fotoPerfilEl.removeEventListener('transitionend', onPhotoShowEnd);
+                       }
+                   };
+                   fotoPerfilEl.addEventListener('transitionend', onPhotoShowEnd);
+               }
            };
-           fotoPerfilEl.addEventListener('transitionend', onPhotoShowEnd);
-         }
-       };
-       botaoMostrarFoto.addEventListener('transitionend', onButtonShowHideEnd);
-     });
+           botaoMostrarFoto.addEventListener('transitionend', onButtonShowHideEnd);
+       });
    }
 
    // Aplica cor customizada se definida
