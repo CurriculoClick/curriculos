@@ -54,15 +54,15 @@
     --ocultar-foto-top-desktop: 7.8rem;
     --ocultar-foto-right-desktop: 7.5rem;
     
-    --mostrar-foto-top-desktop: 7.8rem;
-    --mostrar-foto-right-desktop: 7.5rem;
+    --mostrar-foto-top-desktop: 1.4rem;
+    --mostrar-foto-right-desktop: 12.6rem;
     
     /* Posições dos botões na versão mobile */
     --mudar-tema-top-mobile: 2.2rem;
-    --mudar-tema-right-mobile: 4rem;
+    --mudar-tema-right-mobile: 1rem;
     
     --botao-cores-top-mobile: 2.2rem;
-    --botao-cores-right-mobile: 1rem;
+    --botao-cores-right-mobile: 4rem;
     
     --ocultar-foto-top-mobile: 2.2rem;
     --ocultar-foto-right-mobile: 24.2rem;
@@ -70,6 +70,7 @@
     --mostrar-foto-top-mobile: 2.2rem;
     --mostrar-foto-right-mobile: 24.2rem;
 }
+
 
 /* Estilos base */
 
@@ -955,6 +956,15 @@ img {
     body.modo-escuro #cores-picker-panel .color-swatch {
         border: 2px solid #666;
     }
+
+    /* Aplicar cor customizada apenas ao lado esquerdo no desktop */
+    body.custom-color-active .curriculo_esquerda {
+        background-color: var(--custom-color) !important;
+    }
+    /* Aplica cor de texto apenas ao lado esquerdo */
+    body.custom-color-active .curriculo_esquerda * {
+        color: var(--custom-text-color) !important;
+    }
 }
 
 /* Ajuste de impressão para remover margens de página */
@@ -1020,15 +1030,15 @@ img {
     /* Ajusta posição do painel de cores para mobile */
     #cores-picker-panel {
         position: fixed;
-        top: 5.5rem;
-        right: 0.5rem;
-        width: 70px;
+        top: 5.3rem;
+        right: 5.5rem;
+        width: 140px;
         background-color: var(--cor-container);
         padding: 0.5rem;
         border-radius: 0.25rem;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         z-index: calc(var(--z-fixo) + 1);
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         gap: 0.4rem;
         display: none;
         opacity: 0;
@@ -1045,7 +1055,7 @@ img {
         height: 25px;
         margin: 0;
         display: block;
-        border-width: 2px;
+        border-width: 0.1px;
     }
 
     body.modo-escuro #cores-picker-panel {
@@ -1124,48 +1134,27 @@ body.modo-escuro #botao-mostrar-foto {
 
 /* Estilos para cor personalizada em mobile */
 @media screen and (max-width: 968px) {
+    /* Define background customizado no html e body */
     html.custom-color-active,
     body.custom-color-active {
-        min-height: 100vh;
-        width: 100vw;
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden;
+        background-color: var(--custom-color) !important;
     }
 
-    /* Força altura total em todos os containers */
-    body.custom-color-active .bd-container,
-    body.custom-color-active .l-principal {
-        min-height: 100vh;
-        width: 100vw;
-        margin: 0;
-        padding: 0;
+    /* Aplica background customizado em todos os containers principais */
+    body.custom-color-active .l-cabecalho,
+    body.custom-color-active .l-principal,
+    body.custom-color-active .curriculo,
+    body.custom-color-active .curriculo_esquerda,
+    body.custom-color-active .curriculo_direita {
+        background-color: var(--custom-color) !important;
     }
 
-    /* Remove margens e padding que possam criar espaços brancos */
-    body.custom-color-active .curriculo {
-        margin: 0;
-        padding: 0;
-        width: 100vw;
-        min-height: 100vh;
-        box-shadow: none;
-    }
-
-    /* Garante que o menu e cabeçalho também recebam a cor */
-    body.custom-color-active .l-cabecalho {
-        background-color: transparent;
-        box-shadow: none;
-    }
-
-    body.custom-color-active .navegacao_menu {
-        background-color: transparent;
-        box-shadow: none;
-    }
-
-    /* Remove qualquer background ou sombra que possa interferir */
-    body.custom-color-active * {
-        background-color: transparent;
-        box-shadow: none;
+    /* Força cor do texto customizada em todos os elementos */
+    body.custom-color-active *,
+    body.custom-color-active .curriculo *,
+    body.custom-color-active .l-cabecalho *,
+    body.custom-color-active .l-principal * {
+        color: var(--custom-text-color) !important;
     }
 }
 
