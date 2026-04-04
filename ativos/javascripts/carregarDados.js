@@ -376,14 +376,14 @@ function aplicarDadosAoCurriculo(dados) {
         if (certificadosContainer) {
             certificadosContainer.innerHTML = '';
             if (Array.isArray(certData) && certData.length > 0) {
-                certData.forEach(cert => {
+                certData.slice(0, 3).forEach(cert => {
                     const div = document.createElement('div');
                     div.className = 'certificados_conteudo';
                     div.innerHTML = `
                         <div class="certificados_item"><span class="certificados_circulo"></span></div>
                         <div class="certificados_dados bd-grid">
                             <h3 class="certificados_ano">${cert.ano || ''}</h3>
-                            <span class="certificados_titulo">${cert.titulo || cert.nome}</span>
+                            <span class="certificados_titulo">${cert.titulo || cert.nome || ''}</span>
                         </div>
                     `;
                     certificadosContainer.appendChild(div);
@@ -411,7 +411,7 @@ function aplicarDadosAoCurriculo(dados) {
         if (educacaoContainer) {
             educacaoContainer.innerHTML = '';
             if (Array.isArray(eduData) && eduData.length > 0) {
-                eduData.forEach((edu, index) => {
+                eduData.slice(0, 3).forEach((edu, index) => {
                     const div = document.createElement('div');
                     div.className = 'educacao_conteudo';
                     const temLinha = index < eduData.length - 1;
@@ -421,9 +421,9 @@ function aplicarDadosAoCurriculo(dados) {
                             ${temLinha ? '<span class="educacao_linha"></span>' : ''}
                         </div>
                         <div class="educacao_dados bd-grid">
-                            <h3 class="educacao_titulo">${edu.titulo || edu.curso}</h3>
-                            <span class="educacao_estudos">${edu.instituicao}</span>
-                            <span class="educacao_ano">${edu.periodo || edu.ano}</span>
+                            <h3 class="educacao_titulo">${edu.curso || edu.titulo || ''}</h3>
+                            <span class="educacao_estudos">${edu.instituicao || ''}</span>
+                            <span class="educacao_ano">${edu.periodo || edu.ano || ''}</span>
                         </div>
                     `;
                     educacaoContainer.appendChild(div);

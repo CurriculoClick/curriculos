@@ -1,6 +1,6 @@
 /**
- * CurriculoClick Dashboard Engine v3.1
- * Foco: Nome/Sobrenome, Endereço, Limites (5 Habs, 3 Idis, 3 Exps), Responsividade.
+ * CurriculoClick Dashboard Engine v3.2
+ * Foco: Nome/Sobrenome, Endereço, Trajetória Estruturada (3 Exps, 3 Edus, 3 Certs).
  */
 
 const GITHUB_API = 'https://api.github.com';
@@ -13,6 +13,8 @@ let currentSlug = '';
 const LIMIT_HABILIDADES = 5;
 const LIMIT_IDIOMAS = 3;
 const LIMIT_EXPERIENCIA = 3;
+const LIMIT_EDUCACAO = 3;
+const LIMIT_CERTIFICADOS = 3;
 
 // Icons Definitions
 const INTEREST_ICONS = {
@@ -36,7 +38,6 @@ const SOCIAL_ICONS = {
 
 document.addEventListener('DOMContentLoaded', async () => {
     if (!githubToken) { window.location.href = 'configuracao.html'; return; }
-    
     setupCoreEvents();
     renderIconSelectors();
     await listarCurriculos();
@@ -47,7 +48,6 @@ function setupCoreEvents() {
     const photoUploader = document.getElementById('photoUploader');
     const photoInput = document.getElementById('photoInput');
     const photoPreview = document.getElementById('photoPreview');
-    
     photoUploader.addEventListener('click', () => photoInput.click());
     photoInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
@@ -57,7 +57,6 @@ function setupCoreEvents() {
             reader.readAsDataURL(file);
         }
     });
-
     document.getElementById('publishBtn').addEventListener('click', publicarCurriculo);
 }
 
@@ -122,7 +121,6 @@ function preencherFormulario(data, slug) {
     document.getElementById('endereco').value = data.inicio?.endereco || data.inicio?.localizacao || '';
     document.getElementById('email').value = data.inicio?.email || '';
     document.getElementById('telefone').value = data.inicio?.telefone || '';
-    
     if (data.inicio?.foto_perfil) {
         document.getElementById('photoPreview').src = `../${data.inicio.foto_perfil}?t=${Date.now()}`;
         document.getElementById('photoPreview').style.display = 'block';
@@ -130,30 +128,24 @@ function preencherFormulario(data, slug) {
 
     // Textareas
     document.getElementById('descricao').value = data.perfil?.descricao || '';
-    document.getElementById('educacao').value = typeof data.educacao === 'string' ? data.educacao : (Array.isArray(data.educacao) ? data.educacao.map(e => `${e.curso} - ${e.instituicao}`).join('\n') : '');
-    document.getElementById('certificados').value = typeof data.certificados === 'string' ? data.certificados : (Array.isArray(data.certificados) ? data.certificados.map(c => c.nome).join('\n') : '');
 
     // Listas
     if (data.social) data.social.forEach(s => adicionarSocial(s));
     if (data.habilidades) data.habilidades.forEach(h => adicionarHabilidade(h));
     if (data.idiomas) data.idiomas.forEach(i => adicionarIdioma(i));
-    if (data.experiencia_profissional && Array.isArray(data.experiencia_profissional)) {
-        data.experiencia_profissional.forEach(e => adicionarExperiencia(e));
-    }
+    if (data.experiencia_profissional && Array.isArray(data.experiencia_profissional)) data.experiencia_profissional.forEach(e => adicionarExperiencia(e));
+    if (data.educacao && Array.isArray(data.educacao)) data.educacao.forEach(e => adicionarEducacao(e));
+    if (data.certificados && Array.isArray(data.certificados)) data.certificados.forEach(c => adicionarCertificado(c));
     
-    // Interesses
+    // Intereses
     if (data.interesses) {
         data.interesses.forEach(int => {
             const icon = document.querySelector(`.icon-item[title="${int}"]`);
             if (icon) icon.classList.add('selected');
         });
     }
-
     // WhatsApp
-    if (data.whatsapp) {
-        document.getElementById('wa_numero').value = data.whatsapp.numero || '';
-    }
-
+    if (data.whatsapp) { document.getElementById('wa_numero').value = data.whatsapp.numero || ''; }
     atualizarPreview(slug);
 }
 
@@ -173,12 +165,12 @@ function adicionarSocial(data = null) {
 
 function adicionarHabilidade(data = null) {
     const list = document.getElementById('habilidadesList');
-    if (list.children.length >= LIMIT_HABILIDADES && !data) return alert(`Limite de ${LIMIT_HABILIDADES} habilidades atingido.`);
+    if (list.children.length >= LIMIT_HABILIDADES && !data) return alert(`Limit: ${LIMIT_HABILIDADES}`);
     const div = document.createElement('div');
     div.className = 'dynamic-item form-row';
     div.innerHTML = `
         <button type="button" class="btn-remove" onclick="this.parentElement.remove()">×</button>
-        <div class="field-item"><input type="text" class="input-pro h-nome" placeholder="Habilidade" value="${data?.nome || ''}"></div>
+        <div class="field-item"><input type="text" class="input-pro h-nome" placeholder="Hab" value="${data?.nome || ''}"></div>
         <div class="field-item"><input type="number" class="input-pro h-nivel" placeholder="%" value="${data?.nivel || 80}"></div>
     `;
     list.appendChild(div);
@@ -186,30 +178,57 @@ function adicionarHabilidade(data = null) {
 
 function adicionarIdioma(data = null) {
     const list = document.getElementById('idiomasList');
-    if (list.children.length >= LIMIT_IDIOMAS && !data) return alert(`Limite de ${LIMIT_IDIOMAS} idiomas atingido.`);
+    if (list.children.length >= LIMIT_IDIOMAS && !data) return alert(`Limit: ${LIMIT_IDIOMAS}`);
     const div = document.createElement('div');
     div.className = 'dynamic-item form-row';
     div.innerHTML = `
         <button type="button" class="btn-remove" onclick="this.parentElement.remove()">×</button>
-        <div class="field-item"><input type="text" class="input-pro i-nome" placeholder="Idioma" value="${data?.nome || ''}"></div>
-        <div class="field-item"><input type="text" class="input-pro i-nivel" placeholder="Fluência" value="${data?.nivel || ''}"></div>
+        <div class="field-item"><input type="text" class="input-pro i-nome" placeholder="Idio" value="${data?.nome || ''}"></div>
+        <div class="field-item"><input type="text" class="input-pro i-nivel" placeholder="Flu" value="${data?.nivel || ''}"></div>
     `;
     list.appendChild(div);
 }
 
 function adicionarExperiencia(data = null) {
     const list = document.getElementById('experienciasList');
-    if (list.children.length >= LIMIT_EXPERIENCIA && !data) return alert(`Limite de ${LIMIT_EXPERIENCIA} experiências atingido.`);
+    if (list.children.length >= LIMIT_EXPERIENCIA && !data) return alert(`Limit: ${LIMIT_EXPERIENCIA}`);
     const div = document.createElement('div');
     div.className = 'dynamic-item';
     div.innerHTML = `
         <button type="button" class="btn-remove" onclick="this.parentElement.remove()">×</button>
         <div class="form-row">
-            <div class="field-item"><label>Cargo/Função</label><input type="text" class="input-pro e-cargo" placeholder="Ex: Vice-Presidente" value="${data?.cargo || data?.titulo || ''}"></div>
-            <div class="field-item"><label>Empresa</label><input type="text" class="input-pro e-empresa" placeholder="Ex: Pizza Hut" value="${data?.empresa || ''}"></div>
+            <div class="field-item"><label>Cargo</label><input type="text" class="input-pro e-cargo" value="${data?.cargo || data?.titulo || ''}"></div>
+            <div class="field-item"><label>Empresa</label><input type="text" class="input-pro e-empresa" value="${data?.empresa || ''}"></div>
         </div>
-        <div class="field-item"><label>Período</label><input type="text" class="input-pro e-periodo" placeholder="Ex: Janeiro 2022 - Atual" value="${data?.periodo || data?.data || ''}"></div>
-        <div class="field-item"><label>Atividades/Resumo</label><textarea class="textarea-pro e-desc" rows="2" placeholder="Resumo do serviço...">${data?.descricao || ''}</textarea></div>
+        <div class="field-item"><label>Período</label><input type="text" class="input-pro e-periodo" value="${data?.periodo || data?.data || ''}"></div>
+        <div class="field-item"><label>Descrição</label><textarea class="textarea-pro e-desc" rows="2">${data?.descricao || ''}</textarea></div>
+    `;
+    list.appendChild(div);
+}
+
+function adicionarEducacao(data = null) {
+    const list = document.getElementById('educacaoList');
+    if (list.children.length >= LIMIT_EDUCACAO && !data) return alert(`Limit: ${LIMIT_EDUCACAO}`);
+    const div = document.createElement('div');
+    div.className = 'dynamic-item';
+    div.innerHTML = `
+        <button type="button" class="btn-remove" onclick="this.parentElement.remove()">×</button>
+        <div class="field-item"><label>Curso</label><input type="text" class="input-pro edu-curso" value="${data?.curso || data?.titulo || ''}"></div>
+        <div class="field-item"><label>Instituição</label><input type="text" class="input-pro edu-inst" value="${data?.instituicao || ''}"></div>
+        <div class="field-item"><label>Período</label><input type="text" class="input-pro edu-per" value="${data?.periodo || data?.ano || ''}"></div>
+    `;
+    list.appendChild(div);
+}
+
+function adicionarCertificado(data = null) {
+    const list = document.getElementById('certificadosList');
+    if (list.children.length >= LIMIT_CERTIFICADOS && !data) return alert(`Limit: ${LIMIT_CERTIFICADOS}`);
+    const div = document.createElement('div');
+    div.className = 'dynamic-item';
+    div.innerHTML = `
+        <button type="button" class="btn-remove" onclick="this.parentElement.remove()">×</button>
+        <div class="field-item"><label>Ano</label><input type="text" class="input-pro cert-ano" value="${data?.ano || ''}"></div>
+        <div class="field-item"><label>Título e Instituição</label><input type="text" class="input-pro cert-titulo" value="${data?.titulo || data?.nome || ''}"></div>
     `;
     list.appendChild(div);
 }
@@ -220,10 +239,8 @@ async function publicarCurriculo() {
     const nome = document.getElementById('nome').value;
     const sobrenome = document.getElementById('sobrenome').value;
     if (!nome) return alert("O Nome é obrigatório.");
-
     const slug = currentSlug || `${nome}-${sobrenome}`.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '-');
     showLoader(true);
-
     try {
         const payload = collectData();
         const photoInput = document.getElementById('photoInput');
@@ -234,57 +251,28 @@ async function publicarCurriculo() {
         } else if (currentData && currentData.inicio.foto_perfil) {
             payload.inicio.foto_perfil = currentData.inicio.foto_perfil;
         }
-
         await uploadToGitHub(`dados/${slug}.json`, JSON.stringify(payload, null, 2), true);
-        alert("Publicado com sucesso!");
+        alert("Publicado!");
         listarCurriculos();
         window.location.href = `../?id=${slug}`;
-    } catch (e) { alert("Falha na publicação"); }
+    } catch (e) { alert("Falha"); }
     finally { showLoader(false); }
 }
 
 function collectData() {
     const fullNome = `${document.getElementById('nome').value} ${document.getElementById('sobrenome').value}`.trim();
-    const social = Array.from(document.querySelectorAll('#socialList .dynamic-item')).map(it => ({
-        rede: it.querySelector('.s-rede').value, url: it.querySelector('.s-url').value
-    }));
-    const habs = Array.from(document.querySelectorAll('#habilidadesList .dynamic-item')).map(it => ({
-        nome: it.querySelector('.h-nome').value, nivel: it.querySelector('.h-nivel').value
-    }));
-    const idis = Array.from(document.querySelectorAll('#idiomasList .dynamic-item')).map(it => ({
-        nome: it.querySelector('.i-nome').value, nivel: it.querySelector('.i-nivel').value
-    }));
-    const exps = Array.from(document.querySelectorAll('#experienciasList .dynamic-item')).map(it => ({
-        cargo: it.querySelector('.e-cargo').value,
-        empresa: it.querySelector('.e-empresa').value,
-        periodo: it.querySelector('.e-periodo').value,
-        descricao: it.querySelector('.e-desc').value
-    }));
+    const social = Array.from(document.querySelectorAll('#socialList .dynamic-item')).map(it => ({ rede: it.querySelector('.s-rede').value, url: it.querySelector('.s-url').value }));
+    const habs = Array.from(document.querySelectorAll('#habilidadesList .dynamic-item')).map(it => ({ nome: it.querySelector('.h-nome').value, nivel: it.querySelector('.h-nivel').value }));
+    const idis = Array.from(document.querySelectorAll('#idiomasList .dynamic-item')).map(it => ({ nome: it.querySelector('.i-nome').value, nivel: it.querySelector('.i-nivel').value }));
+    const exps = Array.from(document.querySelectorAll('#experienciasList .dynamic-item')).map(it => ({ cargo: it.querySelector('.e-cargo').value, empresa: it.querySelector('.e-empresa').value, periodo: it.querySelector('.e-periodo').value, descricao: it.querySelector('.e-desc').value }));
+    const edus = Array.from(document.querySelectorAll('#educacaoList .dynamic-item')).map(it => ({ curso: it.querySelector('.edu-curso').value, instituicao: it.querySelector('.edu-inst').value, periodo: it.querySelector('.edu-per').value }));
+    const certs = Array.from(document.querySelectorAll('#certificadosList .dynamic-item')).map(it => ({ ano: it.querySelector('.cert-ano').value, titulo: it.querySelector('.cert-titulo').value }));
     const ints = Array.from(document.querySelectorAll('.icon-item.selected')).map(el => el.title);
-
     return {
-        inicio: {
-            nome: fullNome,
-            profissao: document.getElementById('profissao').value,
-            endereco: document.getElementById('endereco').value,
-            localizacao: document.getElementById('endereco').value,
-            email: document.getElementById('email').value,
-            telefone: document.getElementById('telefone').value,
-            botao_baixar: "BAIXAR CURRÍCULO"
-        },
-        social: social,
-        perfil: { descricao: document.getElementById('descricao').value },
-        habilidades: habs,
-        idiomas: idis,
-        experiencia_profissional: exps,
-        educacao: document.getElementById('educacao').value,
-        certificados: document.getElementById('certificados').value,
-        interesses: ints,
-        whatsapp: {
-            ativo: true,
-            numero: document.getElementById('wa_numero').value,
-            mensagemPadrao: "Olá, vi seu currículo e gostaria de conversar."
-        }
+        inicio: { nome: fullNome, profissao: document.getElementById('profissao').value, endereco: document.getElementById('endereco').value, localizacao: document.getElementById('endereco').value, email: document.getElementById('email').value, telefone: document.getElementById('telefone').value, botao_baixar: "BAIXAR CURRÍCULO" },
+        social: social, perfil: { descricao: document.getElementById('descricao').value }, habilidades: habs, idiomas: idis,
+        experiencia_profissional: exps, educacao: edus, certificados: certs, interesses: ints,
+        whatsapp: { ativo: true, numero: document.getElementById('wa_numero').value, mensagemPadrao: "Olá, vi seu currículo." }
     };
 }
 
@@ -298,22 +286,17 @@ async function uploadToGitHub(path, content, isText = false) {
     const res = await fetch(`${GITHUB_API}/repos/${githubRepo}/contents/${path}`, {
         method: 'PUT',
         headers: { 'Authorization': `token ${githubToken}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: `Dashboard v3.1: ${path}`, content: base64, sha: sha })
+        body: JSON.stringify({ message: `Dash v3.2: ${path}`, content: base64, sha: sha })
     });
-    if (!res.ok) throw new Error("Erro GitHub");
+    if (!res.ok) throw new Error("GitHub Error");
 }
 
-function toBase64(file) {
-    return new Promise((r, j) => {
-        const rd = new FileReader(); rd.readAsDataURL(file);
-        rd.onload = () => r(rd.result.split(',')[1]); rd.onerror = e => j(e);
-    });
-}
+function toBase64(file) { return new Promise((r, j) => { const rd = new FileReader(); rd.readAsDataURL(file); rd.onload = () => r(rd.result.split(',')[1]); rd.onerror = e => j(e); }); }
 
 function limparFormulario(full = true) {
     if (full) document.getElementById('cvForm').reset();
     document.getElementById('photoPreview').style.display = 'none';
-    const dynamicLists = ['socialList', 'habilidadesList', 'idiomasList', 'experienciasList'];
+    const dynamicLists = ['socialList', 'habilidadesList', 'idiomasList', 'experienciasList', 'educacaoList', 'certificadosList'];
     dynamicLists.forEach(id => { const el = document.getElementById(id); if (el) el.innerHTML = ''; });
     document.querySelectorAll('.icon-item').forEach(i => i.classList.remove('selected'));
     currentSlug = ''; currentData = null;

@@ -146,12 +146,25 @@
                                 </div>
                             </div>
 
-                            <!-- Card: Educação, Certificados -->
+                            <!-- Card: Educação (Max 3) -->
                             <div class="card">
-                                <div class="card-header"><h3><i class="fa-solid fa-graduation-cap"></i> Trajetória</h3></div>
-                                <div class="card-body">
-                                    <div class="field-item"><label>Educação / Formação</label><textarea id="educacao" class="textarea-pro" rows="3" placeholder="Faculdade, Curso, Ano..."></textarea></div>
-                                    <div class="field-item"><label>Certificados e Cursos</label><textarea id="certificados" class="textarea-pro" rows="3" placeholder="Certificações, workshops..."></textarea></div>
+                                <div class="card-header d-flex-sb">
+                                    <h3><i class="fa-solid fa-graduation-cap"></i> Educação / Formação (Máx 3)</h3>
+                                    <button type="button" class="btn-add" onclick="adicionarEducacao()"><i class="fa-solid fa-plus"></i></button>
+                                </div>
+                                <div class="card-body" id="educacaoList">
+                                    <!-- JS populated -->
+                                </div>
+                            </div>
+
+                            <!-- Card: Certificados (Max 3) -->
+                            <div class="card">
+                                <div class="card-header d-flex-sb">
+                                    <h3><i class="fa-solid fa-certificate"></i> Certificados e Cursos (Máx 3)</h3>
+                                    <button type="button" class="btn-add" onclick="adicionarCertificado()"><i class="fa-solid fa-plus"></i></button>
+                                </div>
+                                <div class="card-body" id="certificadosList">
+                                    <!-- JS populated -->
                                 </div>
                             </div>
 
