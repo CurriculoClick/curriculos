@@ -21,6 +21,13 @@
                 <a href="configuracao.html" class="nav-item"><i class="fa-solid fa-cog"></i> Configurações</a>
                 <a href="../" class="nav-item"><i class="fa-solid fa-eye"></i> Ver Site</a>
             </nav>
+
+            <div class="sidebar-section" style="margin-top: 2rem;">
+                <h3 style="font-size: 0.75rem; text-transform: uppercase; color: #666; margin-bottom: 0.5rem; letter-spacing: 0.05rem;">Meus Clientes</h3>
+                <div id="clientesList" class="sidebar-nav" style="gap: 0.2rem; max-height: 300px; overflow-y: auto;">
+                    <div style="font-size: 0.8rem; color: #555; padding: 0.5rem;">Carregando...</div>
+                </div>
+            </div>
         </aside>
 
         <!-- Main Content -->
@@ -80,6 +87,17 @@
                             </div>
                         </div>
 
+                        <!-- Sección: Interesses (Ícones) -->
+                        <div class="form-card">
+                            <div class="section-header">
+                                <h2><i class="fa-solid fa-star"></i> Interesses e Ícones</h2>
+                                <p style="font-size: 0.75rem; color: var(--text-muted);">Selecione os ícones que aparecerão no currículo.</p>
+                            </div>
+                            <div class="icon-selector" id="interestIcons">
+                                <!-- JS Populated -->
+                            </div>
+                        </div>
+
                         <!-- Sección: Habilidades (Barras de Progresso) -->
                         <div class="form-card">
                             <div class="section-header d-flex">
@@ -117,6 +135,16 @@
                         <div class="form-card highlight">
                             <div class="section-header">
                                 <h2><i class="fa-brands fa-whatsapp"></i> Configuração do WhatsApp Widget</h2>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 1rem;">
+                                <div class="form-group">
+                                    <label>Idade</label>
+                                    <input type="text" id="idade" class="form-control" placeholder="Ex: 32 anos">
+                                </div>
+                                <div class="form-group">
+                                    <label>Localização</label>
+                                    <input type="text" id="localizacao" class="form-control" placeholder="Ex: Cidade Nova - Brasil">
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="form-group">

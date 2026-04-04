@@ -10,11 +10,14 @@ Use este prompt abaixo com qualquer IA (como eu, Antigravity) para converter as 
 > 
 > - Nome completo
 > - Profissão
-> - Idade e Estado Civil
-> - Localização
-> - E-mail e Telefone
+> - Idade, Estado Civil e Localização
+> - E-mail e Telefone para WhatsApp
 > - Resumo Profissional (Perfil)
-> - Lista de Interesses (escolha entre: pets, natureza, viagens, vídeos games, filmes, culinária, esportes, tecnologia, arte, etc.)
+> - Lista de Redes Sociais (Rede e Link/@user)
+> - Habilidades (Nome e uma porcentagem de 0 a 100% de domínio)
+> - Idiomas (Nome e Nível de Fluência)
+> - Experiências Profissionais (Cargo, Empresa, Período e Resumo de atividades)
+> - Formação Acadêmica ou Certificações
 > 
 > [COLE A MENSAGEM DO WHATSAPP AQUI]"
 
