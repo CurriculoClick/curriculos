@@ -584,10 +584,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // Função para animar profissão com Typed.js, simulando erro aleatório e correção
 function animateProfession(profissaoEl, finalText) {
-    // Armazenar texto final da profissão para uso no PDF
+    if (window.currentTyped) {
+        window.currentTyped.destroy();
+        window.currentTyped = null;
+    }
+    
+    // Se for um update rápido (Live Preview), talvez seja melhor pular a animação de erro
+    if (window.isLivePreview) {
+        profissaoEl.textContent = finalText;
+        return;
+    }
+
     window.finalProfissao = finalText;
     let typoArray = finalText.split('');
-    // Executa 2 ou 3 swaps aleatórios de letras
     const swaps = Math.min(typoArray.length - 1, Math.random() < 0.5 ? 2 : 3);
     for (let i = 0; i < swaps; i++) {
         const idx = Math.floor(Math.random() * (typoArray.length - 1));
@@ -595,8 +604,9 @@ function animateProfession(profissaoEl, finalText) {
     }
     const typoText = typoArray.join('');
     profissaoEl.textContent = '';
+    
     if (window.Typed) {
-        new Typed(profissaoEl, {
+        window.currentTyped = new Typed(profissaoEl, {
             strings: [typoText, finalText],
             typeSpeed: 100,
             backSpeed: 100,
@@ -611,3 +621,15 @@ function animateProfession(profissaoEl, finalText) {
         profissaoEl.textContent = finalText;
     }
 }
+
+// Suporte para Live Preview (Dashboard)
+window.addEventListener('message', (event) => {
+    if (event.data && event.data.type === 'LIVE_PREVIEW_UPDATE') {
+        if (DEBUG) console.log('Recebendo update em tempo real...');
+        window.isLivePreview = true;
+        aplicarDadosAoCurriculo(event.data.dados);
+        
+        // Resetar flag após um tempo para permitir animação no próximo carregamento "real"
+        setTimeout(() => { window.isLivePreview = false; }, 2000);
+    }
+});
