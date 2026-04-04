@@ -126,10 +126,11 @@ function aplicarDadosAoCurriculo(dados) {
             }
         }
         
-        // Localização
-        if (dados.inicio.localizacao) {
+        // Endereço / Localização
+        const endereco = dados.inicio.endereco || dados.inicio.localizacao;
+        if (endereco) {
             const localizacaoEl = document.getElementById('localizacao');
-            if (localizacaoEl) localizacaoEl.innerHTML = `<i class="fa-solid fa-location-dot inicio_icone"></i> ${dados.inicio.localizacao}`;
+            if (localizacaoEl) localizacaoEl.innerHTML = `<i class="fa-solid fa-location-dot inicio_icone"></i> ${endereco}`;
         }
         
         // Email
@@ -323,133 +324,121 @@ function aplicarDadosAoCurriculo(dados) {
     }
     
     // EXPERIÊNCIA PROFISSIONAL
-    if (dados.experiencia_profissional && dados.experiencia_profissional.length > 0) {
+    const expData = dados.experiencia_profissional;
+    if (expData) {
         const experienciaContainer = document.querySelector('.experiencia_container');
         if (experienciaContainer) {
             experienciaContainer.innerHTML = '';
             
-            dados.experiencia_profissional.forEach((exp, index) => {
+            if (Array.isArray(expData) && expData.length > 0) {
+                expData.forEach((exp, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'experiencia_conteudo';
+                    const temLinha = index < expData.length - 1;
+                    div.innerHTML = `
+                        <div class="experiencia_tempo">
+                            <span class="experiencia_circulo"></span>
+                            ${temLinha ? '<span class="experiencia_linha"></span>' : ''}
+                        </div>
+                        <div class="experiencia_dados bd-grid">
+                            <h3 class="experiencia_titulo">${exp.cargo || exp.titulo}</h3>
+                            <span class="experiencia_empresa">${exp.empresa}</span>
+                            <span class="experiencia_ano">${exp.periodo || exp.data}</span>
+                            <p class="experiencia_descricao">${exp.descricao}</p>
+                        </div>
+                    `;
+                    experienciaContainer.appendChild(div);
+                });
+            } else if (typeof expData === 'string' && expData.trim() !== '') {
                 const div = document.createElement('div');
                 div.className = 'experiencia_conteudo';
-                
-                // Determinar se é o último item para não renderizar a linha
-                const temLinha = index < dados.experiencia_profissional.length - 1;
-                
                 div.innerHTML = `
-                    <div class="experiencia_tempo">
-                        <span class="experiencia_circulo"></span>
-                        ${temLinha ? '<span class="experiencia_linha"></span>' : ''}
-                    </div>
+                    <div class="experiencia_tempo"><span class="experiencia_circulo"></span></div>
                     <div class="experiencia_dados bd-grid">
-                        <h3 class="experiencia_titulo">${exp.cargo}</h3>
-                        <span class="experiencia_empresa">${exp.empresa}</span>
-                        <span class="experiencia_ano">${exp.periodo}</span>
-                        <p class="experiencia_descricao">
-                            ${exp.descricao}
-                        </p>
+                        <p class="experiencia_descricao" style="white-space: pre-wrap;">${expData}</p>
                     </div>
                 `;
                 experienciaContainer.appendChild(div);
-            });
+            }
         }
         
-        // Mostrar seção
         const secaoExperiencia = document.getElementById('experiencia');
-        if (secaoExperiencia) {
-            secaoExperiencia.style.display = 'block';
-        }
-    } else {
-        // Ocultar seção se não houver experiências
-        const secaoExperiencia = document.getElementById('experiencia');
-        if (secaoExperiencia) {
-            secaoExperiencia.style.display = 'none';
-        }
+        if (secaoExperiencia) secaoExperiencia.style.display = (typeof expData === 'string' ? expData.trim() !== '' : expData.length > 0) ? 'block' : 'none';
     }
     
     // CERTIFICADOS
-    if (dados.certificacoes && dados.certificacoes.length > 0) {
+    const certData = dados.certificados || dados.certificacoes;
+    if (certData) {
         const certificadosContainer = document.querySelector('.certificados_container');
         if (certificadosContainer) {
             certificadosContainer.innerHTML = '';
-            
-            dados.certificacoes.forEach(cert => {
+            if (Array.isArray(certData) && certData.length > 0) {
+                certData.forEach(cert => {
+                    const div = document.createElement('div');
+                    div.className = 'certificados_conteudo';
+                    div.innerHTML = `
+                        <div class="certificados_item"><span class="certificados_circulo"></span></div>
+                        <div class="certificados_dados bd-grid">
+                            <h3 class="certificados_ano">${cert.ano || ''}</h3>
+                            <span class="certificados_titulo">${cert.titulo || cert.nome}</span>
+                        </div>
+                    `;
+                    certificadosContainer.appendChild(div);
+                });
+            } else if (typeof certData === 'string' && certData.trim() !== '') {
                 const div = document.createElement('div');
                 div.className = 'certificados_conteudo';
-                
-                let conteudoDetalhes = '';
-                if (cert.detalhes) {
-                    conteudoDetalhes = `
-                        <span class="certificados_honras">${cert.detalhes}</span>
-                    `;
-                }
-                
                 div.innerHTML = `
-                    <div class="certificados_item">
-                        <span class="certificados_circulo"></span>
-                    </div>
+                    <div class="certificados_item"><span class="certificados_circulo"></span></div>
                     <div class="certificados_dados bd-grid">
-                        <h3 class="certificados_ano">${cert.ano}</h3>
-                        <span class="certificados_titulo">${cert.titulo}
-                            ${conteudoDetalhes}
-                        </span>
+                        <p class="experiencia_descricao" style="white-space: pre-wrap;">${certData}</p>
                     </div>
                 `;
                 certificadosContainer.appendChild(div);
-            });
+            }
         }
-        
-        // Mostrar seção
         const secaoCertificados = document.getElementById('certificados');
-        if (secaoCertificados) {
-            secaoCertificados.style.display = 'block';
-        }
-    } else {
-        // Ocultar seção se não houver certificados
-        const secaoCertificados = document.getElementById('certificados');
-        if (secaoCertificados) {
-            secaoCertificados.style.display = 'none';
-        }
+        if (secaoCertificados) secaoCertificados.style.display = (typeof certData === 'string' ? certData.trim() !== '' : certData.length > 0) ? 'block' : 'none';
     }
     
     // EDUCAÇÃO
-    if (dados.educacao && dados.educacao.length > 0) {
+    const eduData = dados.educacao;
+    if (eduData) {
         const educacaoContainer = document.querySelector('.educacao_container');
         if (educacaoContainer) {
             educacaoContainer.innerHTML = '';
-            
-            dados.educacao.forEach((edu, index) => {
+            if (Array.isArray(eduData) && eduData.length > 0) {
+                eduData.forEach((edu, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'educacao_conteudo';
+                    const temLinha = index < eduData.length - 1;
+                    div.innerHTML = `
+                        <div class="educacao_tempo">
+                            <span class="educacao_circulo"></span>
+                            ${temLinha ? '<span class="educacao_linha"></span>' : ''}
+                        </div>
+                        <div class="educacao_dados bd-grid">
+                            <h3 class="educacao_titulo">${edu.titulo || edu.curso}</h3>
+                            <span class="educacao_estudos">${edu.instituicao}</span>
+                            <span class="educacao_ano">${edu.periodo || edu.ano}</span>
+                        </div>
+                    `;
+                    educacaoContainer.appendChild(div);
+                });
+            } else if (typeof eduData === 'string' && eduData.trim() !== '') {
                 const div = document.createElement('div');
                 div.className = 'educacao_conteudo';
-                
-                // Determinar se é o último item para não renderizar a linha
-                const temLinha = index < dados.educacao.length - 1;
-                
                 div.innerHTML = `
-                    <div class="educacao_tempo">
-                        <span class="educacao_circulo"></span>
-                        ${temLinha ? '<span class="educacao_linha"></span>' : ''}
-                    </div>
+                    <div class="educacao_tempo"><span class="educacao_circulo"></span></div>
                     <div class="educacao_dados bd-grid">
-                        <h3 class="educacao_titulo">${edu.titulo}</h3>
-                        <span class="educacao_estudos">${edu.instituicao}</span>
-                        <span class="educacao_ano">${edu.periodo}</span>
+                        <p class="experiencia_descricao" style="white-space: pre-wrap;">${eduData}</p>
                     </div>
                 `;
                 educacaoContainer.appendChild(div);
-            });
+            }
         }
-        
-        // Mostrar seção
         const secaoEducacao = document.getElementById('educacao');
-        if (secaoEducacao) {
-            secaoEducacao.style.display = 'block';
-        }
-    } else {
-        // Ocultar seção se não houver educação
-        const secaoEducacao = document.getElementById('educacao');
-        if (secaoEducacao) {
-            secaoEducacao.style.display = 'none';
-        }
+        if (secaoEducacao) secaoEducacao.style.display = (typeof eduData === 'string' ? eduData.trim() !== '' : eduData.length > 0) ? 'block' : 'none';
     }
     
     // INTERESSES

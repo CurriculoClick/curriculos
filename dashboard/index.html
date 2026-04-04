@@ -3,201 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Pro | CurriculoClick</title>
+    <title>Painel CurriculoClick v3.0</title>
     <link rel="stylesheet" href="assets/painel.css">
     <script src="https://kit.fontawesome.com/cb81440751.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-    <div class="dashboard">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-logo">
-                <i class="fa-solid fa-bolt"></i> Admin Pro
+    <div class="app-container">
+        <!-- Sidebar Navigation (Drawer no Mobile) -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fa-solid fa-bolt-lightning"></i>
+                <span>Admin v3.0</span>
+                <button class="mobile-close" onclick="toggleSidebar()"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <nav class="sidebar-nav">
-                <a href="#" class="nav-item active" onclick="limparFormulario()"><i class="fa-solid fa-plus-circle"></i> Novo Currículo</a>
-                <a href="../admin/" class="nav-item"><i class="fa-solid fa-list"></i> Netlify CMS</a>
-                <a href="configuracao.html" class="nav-item"><i class="fa-solid fa-cog"></i> Configurações</a>
-                <a href="../" class="nav-item"><i class="fa-solid fa-eye"></i> Ver Site</a>
+            
+            <nav class="sidebar-menu">
+                <a href="#" class="menu-item active" onclick="limparFormulario()"><i class="fa-solid fa-plus-circle"></i> Novo</a>
+                <a href="configuracao.html" class="menu-item"><i class="fa-solid fa-gears"></i> Ajustes</a>
+                <a href="../" class="menu-item"><i class="fa-solid fa-eye"></i> Ver Site</a>
             </nav>
 
-            <div class="sidebar-section" style="margin-top: 2rem;">
-                <h3 style="font-size: 0.75rem; text-transform: uppercase; color: #666; margin-bottom: 0.5rem; letter-spacing: 0.05rem;">Meus Clientes</h3>
-                <div id="clientesList" class="sidebar-nav" style="gap: 0.2rem; max-height: 300px; overflow-y: auto;">
-                    <div style="font-size: 0.8rem; color: #555; padding: 0.5rem;">Carregando...</div>
+            <div class="sidebar-section">
+                <h3><i class="fa-solid fa-users"></i> Recentes</h3>
+                <div id="clientesList" class="client-list">
+                    <!-- JS Populated -->
                 </div>
             </div>
         </aside>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Search / Load Bar -->
-            <div class="search-container">
-                <div class="search-box">
-                    <i class="fa-solid fa-search"></i>
-                    <input type="text" id="loadId" placeholder="Digite o ID/Nome do currículo para editar (ex: milena-pacheco)">
-                    <button onclick="carregarCurriculoExistente()" class="btn btn-primary">Carregar</button>
-                </div>
-            </div>
+        <!-- Main Content Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()" id="overlay"></div>
 
-            <div class="panel-grid">
-                
-                <!-- Form Area -->
-                <div class="form-container">
-                    <form id="cvForm">
-                        
-                        <!-- Sección: Información General -->
-                        <div class="form-card">
-                            <div class="section-header">
-                                <h2><i class="fa-solid fa-user-edit"></i> Dados Pessoais</h2>
-                            </div>
-                            <div class="form-group">
-                                <label>Foto de Perfil</label>
-                                <div class="photo-uploader" id="photoUploader">
-                                    <i class="fa-solid fa-camera fa-2x"></i>
-                                    <p>Trocar Imagem</p>
-                                    <img id="photoPreview" class="photo-preview">
-                                    <input type="file" id="photoInput" hidden accept="image/*">
+        <!-- Main Viewport -->
+        <main class="main-viewport">
+            <!-- Header Mobile -->
+            <header class="mobile-header">
+                <button onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
+                <span>CurriculoClick</span>
+                <button onclick="publicarCurriculo()"><i class="fa-solid fa-cloud-arrow-up"></i></button>
+            </header>
+
+            <div class="view-content">
+                <div class="editor-grid">
+                    
+                    <!-- Editor Side -->
+                    <div class="editor-workspace">
+                        <form id="cvForm">
+                            <!-- Card: Identidade -->
+                            <div class="card">
+                                <div class="card-header"><h3><i class="fa-solid fa-id-card"></i> Identidade</h3></div>
+                                <div class="card-body">
+                                    <div class="profile-upload-zone" id="photoUploader">
+                                        <div class="img-wrapper">
+                                            <img id="photoPreview" class="profile-img">
+                                            <i class="fa-solid fa-camera upload-icon"></i>
+                                        </div>
+                                        <span>Trocar Foto</span>
+                                        <input type="file" id="photoInput" hidden accept="image/*">
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="field-item">
+                                            <label>Nome</label>
+                                            <input type="text" id="nome" placeholder="Ex: Milena" class="input-pro">
+                                        </div>
+                                        <div class="field-item">
+                                            <label>Sobrenome</label>
+                                            <input type="text" id="sobrenome" placeholder="Ex: Pacheco" class="input-pro">
+                                        </div>
+                                    </div>
+                                    <div class="field-item">
+                                        <label>Profissão</label>
+                                        <input type="text" id="profissao" placeholder="Ex: Administradora" class="input-pro">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="form-group"><label>Nome</label><input type="text" id="nome" class="form-control" placeholder="Milena Pacheco"></div>
-                                <div class="form-group"><label>Profissão</label><input type="text" id="profissao" class="form-control" placeholder="Administradora"></div>
-                            </div>
-                            <div class="row-3">
-                                <div class="form-group"><label>Idade</label><input type="text" id="idade" class="form-control"></div>
-                                <div class="form-group"><label>Estado Civil</label><input type="text" id="estado_civil" class="form-control"></div>
-                                <div class="form-group"><label>Localização</label><input type="text" id="localizacao" class="form-control"></div>
-                            </div>
-                            <div class="form-group">
-                                <label>Perfil Profissional (Resumo)</label>
-                                <textarea id="descricao" class="form-control" rows="3"></textarea>
-                            </div>
-                        </div>
 
-                        <!-- Sección: Redes Sociais Dinâmicas -->
-                        <div class="form-card">
-                            <div class="section-header d-flex">
-                                <h2><i class="fa-solid fa-share-nodes"></i> Redes Sociais</h2>
-                                <button type="button" class="btn btn-small" onclick="adicionarSocial()"><i class="fa-solid fa-plus"></i></button>
-                            </div>
-                            <div id="socialList" class="dynamic-list">
-                                <!-- JS Populated -->
-                            </div>
-                        </div>
-
-                        <!-- Sección: Interesses (Ícones) -->
-                        <div class="form-card">
-                            <div class="section-header">
-                                <h2><i class="fa-solid fa-star"></i> Interesses e Ícones</h2>
-                                <p style="font-size: 0.75rem; color: var(--text-muted);">Selecione os ícones que aparecerão no currículo.</p>
-                            </div>
-                            <div class="icon-selector" id="interestIcons">
-                                <!-- JS Populated -->
-                            </div>
-                        </div>
-
-                        <!-- Sección: Habilidades (Barras de Progresso) -->
-                        <div class="form-card">
-                            <div class="section-header d-flex">
-                                <h2><i class="fa-solid fa-bolt"></i> Habilidades</h2>
-                                <button type="button" class="btn btn-small" onclick="adicionarHabilidade()"><i class="fa-solid fa-plus"></i></button>
-                            </div>
-                            <div id="habilidadesList" class="dynamic-list">
-                                <!-- JS Populated -->
-                            </div>
-                        </div>
-
-                        <!-- Sección: Idiomas -->
-                        <div class="form-card">
-                            <div class="section-header d-flex">
-                                <h2><i class="fa-solid fa-language"></i> Idiomas</h2>
-                                <button type="button" class="btn btn-small" onclick="adicionarIdioma()"><i class="fa-solid fa-plus"></i></button>
-                            </div>
-                            <div id="idiomasList" class="dynamic-list">
-                                <!-- JS Populated -->
-                            </div>
-                        </div>
-
-                        <!-- Sección: Experiência Profissional -->
-                        <div class="form-card">
-                            <div class="section-header d-flex">
-                                <h2><i class="fa-solid fa-briefcase"></i> Experiência Profissional</h2>
-                                <button type="button" class="btn btn-small" onclick="adicionarExperiencia()"><i class="fa-solid fa-plus"></i></button>
-                            </div>
-                            <div id="experienciasList" class="dynamic-list">
-                                <!-- JS Populated -->
-                            </div>
-                        </div>
-
-                        <!-- Sección: WhatsApp Widget -->
-                        <div class="form-card highlight">
-                            <div class="section-header">
-                                <h2><i class="fa-brands fa-whatsapp"></i> Configuração do WhatsApp Widget</h2>
-                            </div>
-                            <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 1rem;">
-                                <div class="form-group">
-                                    <label>Idade</label>
-                                    <input type="text" id="idade" class="form-control" placeholder="Ex: 32 anos">
-                                </div>
-                                <div class="form-group">
-                                    <label>Localização</label>
-                                    <input type="text" id="localizacao" class="form-control" placeholder="Ex: Cidade Nova - Brasil">
+                            <!-- Card: Contato -->
+                            <div class="card">
+                                <div class="card-header"><h3><i class="fa-solid fa-map-location-dot"></i> Contato e Endereço</h3></div>
+                                <div class="card-body">
+                                    <div class="field-item">
+                                        <label>Endereço Completo</label>
+                                        <input type="text" id="endereco" placeholder="Ex: Rua Floriano Peixoto, 123... - Curitiba" class="input-pro">
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="field-item"><label>E-mail</label><input type="email" id="email" class="input-pro"></div>
+                                        <div class="field-item"><label>Celular</label><input type="text" id="telefone" class="input-pro"></div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="form-group">
-                                    <label>Telefone do Widget (C/ DDD)</label>
-                                    <input type="text" id="wa_numero" class="form-control" placeholder="219XXXXXXXX">
-                                </div>
-                                <div class="form-group" style="display:flex; align-items:center;">
-                                    <label style="margin-right:10px">Widget Ativo?</label>
-                                    <input type="checkbox" id="wa_ativo" checked>
+
+                            <!-- Card: Perfil -->
+                            <div class="card">
+                                <div class="card-header"><h3><i class="fa-solid fa-user-pen"></i> Perfil Profissional</h3></div>
+                                <div class="card-body">
+                                    <textarea id="descricao" class="textarea-pro" rows="4" placeholder="Escreva sobre você de forma livre..."></textarea>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label>Mensagem de Saudação Automática</label>
-                                <textarea id="wa_msg_saudacao" class="form-control" rows="2" placeholder="Olá, estou interessado em seu trabalho!"></textarea>
-                            </div>
-                        </div>
 
-                    </form>
-                </div>
-
-                <!-- Preview Column -->
-                <div class="preview-container">
-                    <div class="preview-card">
-                        <div class="preview-browser">
-                            <div class="browser-header">
-                                <span class="dot dot-red"></span>
-                                <span class="dot dot-yellow"></span>
-                                <span class="dot dot-green"></span>
+                            <!-- Card: Redes Sociais -->
+                            <div class="card">
+                                <div class="card-header d-flex-sb">
+                                    <h3><i class="fa-solid fa-share-nodes"></i> Redes Sociais</h3>
+                                    <button type="button" class="btn-add" onclick="adicionarSocial()"><i class="fa-solid fa-plus"></i></button>
+                                </div>
+                                <div class="card-body" id="socialList">
+                                    <!-- JS populated -->
+                                </div>
                             </div>
-                            <iframe id="previewFrame" src="about:blank" class="preview-iframe-container"></iframe>
+
+                            <!-- Card: Habilidades (Max 5) -->
+                            <div class="card">
+                                <div class="card-header d-flex-sb">
+                                    <h3><i class="fa-solid fa-bolt"></i> Habilidades (Máx 5)</h3>
+                                    <button type="button" class="btn-add" onclick="adicionarHabilidade()"><i class="fa-solid fa-plus"></i></button>
+                                </div>
+                                <div class="card-body" id="habilidadesList">
+                                    <!-- JS populated -->
+                                </div>
+                            </div>
+
+                            <!-- Card: Idiomas (Max 3) -->
+                            <div class="card">
+                                <div class="card-header d-flex-sb">
+                                    <h3><i class="fa-solid fa-language"></i> Idiomas (Máx 3)</h3>
+                                    <button type="button" class="btn-add" onclick="adicionarIdioma()"><i class="fa-solid fa-plus"></i></button>
+                                </div>
+                                <div class="card-body" id="idiomasList">
+                                    <!-- JS populated -->
+                                </div>
+                            </div>
+
+                            <!-- Card: Experiência, Educação, Certificados -->
+                            <div class="card">
+                                <div class="card-header"><h3><i class="fa-solid fa-briefcase"></i> Trajetória</h3></div>
+                                <div class="card-body">
+                                    <div class="field-item"><label>Experiência Profissional</label><textarea id="exp_profissional" class="textarea-pro" rows="4" placeholder="Cargos, Empresas e Períodos..."></textarea></div>
+                                    <div class="field-item"><label>Educação / Formação</label><textarea id="educacao" class="textarea-pro" rows="3" placeholder="Faculdade, Curso, Ano..."></textarea></div>
+                                    <div class="field-item"><label>Certificados e Cursos</label><textarea id="certificados" class="textarea-pro" rows="3" placeholder="Certificações, workshops..."></textarea></div>
+                                </div>
+                            </div>
+
+                            <!-- Card: Interesses & Ícones -->
+                            <div class="card">
+                                <div class="card-header"><h3><i class="fa-solid fa-face-smile"></i> Interesses e Ícones</h3></div>
+                                <div class="card-body">
+                                    <div class="icon-grid" id="interestIcons">
+                                        <!-- JS populated -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card: WhatsApp Widget (Redirecionamento) -->
+                            <div class="card accent">
+                                <div class="card-header"><h3><i class="fa-brands fa-whatsapp"></i> WhatsApp Widget</h3></div>
+                                <div class="card-body">
+                                    <div class="field-item">
+                                        <label>Número do Cliente (Com DDD)</label>
+                                        <input type="text" id="wa_numero" placeholder="219XXXXXXXX" class="input-pro">
+                                        <small>O chat usará a foto de perfil automaticamente.</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <!-- Preview Side (Desktop Only) -->
+                    <div class="preview-workspace">
+                        <div class="sticky-preview">
+                            <div class="browser-mockup">
+                                <div class="browser-ctrl"><span></span><span></span><span></span></div>
+                                <iframe id="previewFrame" src="about:blank"></iframe>
+                            </div>
                         </div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </main>
 
-        <!-- Actions Bar -->
-        <div class="actions-bar">
-            <button class="btn btn-outline" onclick="limparFormulario()">Limpar</button>
-            <button class="btn btn-primary" id="publishBtn"><i class="fa-solid fa-cloud-upload"></i> Publicar / Atualizar Online</button>
+        <!-- Floating Action Button (Mobile) -->
+        <div class="fab-actions">
+            <button class="fab btn-secondary" onclick="limparFormulario()"><i class="fa-solid fa-trash"></i></button>
+            <button class="fab btn-primary" id="publishBtn"><i class="fa-solid fa-paper-plane"></i></button>
         </div>
 
     </div>
 
-    <!-- Modals / Loaders -->
-    <div id="loader" class="loading-overlay">
-        <div class="loader-content">
-            <i class="fa-solid fa-sync fa-spin fa-3x"></i>
-            <h3>Processando...</h3>
+    <!-- Loading Screen -->
+    <div id="loader" class="screen-loader">
+        <div class="loader-box">
+            <div class="spinner"></div>
+            <h3>Publicando...</h3>
         </div>
     </div>
 
     <script src="assets/painel.js"></script>
+    <script>
+        // Toggle Sidebar no Mobile
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('overlay').classList.toggle('show');
+        }
+    </script>
 </body>
 </html>
