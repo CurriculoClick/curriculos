@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuração | CurriculoClick Admin</title>
+    <link rel="stylesheet" href="../ativos/estilos/estilo.css">
+    <script src="https://kit.fontawesome.com/cb81440751.js" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --cor-primaria: #0B0A0A;
+            --cor-secundaria: #403A3A;
+            --cor-fundo: #FCFCFC;
+            --cor-sucesso: #2ecc71;
+            --cor-alerta: #e74c3c;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: var(--cor-fundo);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .config-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .config-header i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--cor-primaria);
+        }
+
+        .config-header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--cor-primaria);
+        }
+
+        .config-header p {
+            font-size: 0.9rem;
+            color: var(--cor-texto-claro);
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--cor-secundaria);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--cor-primaria);
+        }
+
+        .btn-salvar {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--cor-primaria);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.3s;
+        }
+
+        .btn-salvar:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+        }
+
+        .btn-voltar {
+            display: inline-block;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--cor-texto-claro);
+            text-decoration: none;
+        }
+
+        .status-msg {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 0.5rem;
+            font-size: 0.85rem;
+            display: none;
+        }
+
+        .status-sucesso {
+            display: block;
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-erro {
+            display: block;
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .hint {
+            font-size: 0.75rem;
+            color: #888;
+            margin-top: 0.3rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="config-card">
+        <div class="config-header">
+            <i class="fa-solid fa-gear"></i>
+            <h1>Configuração do Painel</h1>
+            <p>Conecte seu repositório para permitir a criação automática de currículos.</p>
+        </div>
+
+        <form id="configForm">
+            <div class="form-group">
+                <label for="githubToken">GitHub Token (PAT)</label>
+                <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxx" required>
+                <div class="hint">Ele fica salvo apenas localmente no seu navegador.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="repoPath">Repositório (usuário/projeto)</label>
+                <input type="text" id="repoPath" value="thiagodelgado/curriculoclick" required>
+            </div>
+
+            <button type="submit" class="btn-salvar">Salvar Configurações</button>
+        </form>
+
+        <div id="status" class="status-msg"></div>
+
+        <a href="index.html" class="btn-voltar">
+            <i class="fa-solid fa-arrow-left"></i> Ir para o Painel
+        </a>
+    </div>
+
+    <script>
+        const configForm = document.getElementById('configForm');
+        const status = document.getElementById('status');
+
+        // Carregar dados salvos
+        window.onload = () => {
+            const savedRepo = localStorage.getItem('cc_github_repo');
+            const savedToken = localStorage.getItem('cc_github_token');
+            if (savedRepo) document.getElementById('repoPath').value = savedRepo;
+            if (savedToken) document.getElementById('githubToken').value = savedToken;
+        };
+
+        configForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const token = document.getElementById('githubToken').value;
+            const repo = document.getElementById('repoPath').value;
+
+            try {
+                localStorage.setItem('cc_github_token', token);
+                localStorage.setItem('cc_github_repo', repo);
+                
+                status.innerText = "Configurações salvas com sucesso!";
+                status.className = "status-msg status-sucesso";
+                
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+            } catch (err) {
+                status.innerText = "Erro ao salvar: " + err.message;
+                status.className = "status-msg status-erro";
+            }
+        });
+    </script>
+</body>
+</html>

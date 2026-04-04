@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo | CurriculoClick</title>
+    <link rel="stylesheet" href="assets/painel.css">
+    <script src="https://kit.fontawesome.com/cb81440751.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <div class="dashboard">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <i class="fa-solid fa-bolt"></i> Admin
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active"><i class="fa-solid fa-plus-circle"></i> Novo Currículo</a>
+                <a href="../admin/" class="nav-item"><i class="fa-solid fa-list"></i> Ver Todos (CMS)</a>
+                <a href="configuracao.html" class="nav-item"><i class="fa-solid fa-cog"></i> Configurações</a>
+                <a href="../" class="nav-item"><i class="fa-solid fa-eye"></i> Visualizar Site</a>
+            </nav>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="main-content">
+            <div class="panel-grid">
+                
+                <!-- Form Column -->
+                <div class="form-container">
+                    <div class="form-card">
+                        <div class="section-header">
+                            <h2><i class="fa-solid fa-user-edit"></i> Informações do Cliente</h2>
+                        </div>
+
+                        <form id="cvForm">
+                            <div class="form-group">
+                                <label>Foto de Perfil</label>
+                                <div class="photo-uploader" id="photoUploader">
+                                    <i class="fa-solid fa-camera fa-2x" style="color:#ccc"></i>
+                                    <p>Clique ou arraste a foto aqui</p>
+                                    <img id="photoPreview" class="photo-preview">
+                                    <input type="file" id="photoInput" hidden accept="image/*">
+                                </div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div class="form-group">
+                                    <label>Nome Completo</label>
+                                    <input type="text" id="nome" class="form-control" placeholder="Ex: Milena Pacheco" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Profissão</label>
+                                    <input type="text" id="profissao" class="form-control" placeholder="Ex: Administradora" required>
+                                </div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                                <div class="form-group">
+                                    <label>Idade</label>
+                                    <input type="text" id="idade" class="form-control" placeholder="Ex: 32 anos">
+                                </div>
+                                <div class="form-group">
+                                    <label>Estado Civil</label>
+                                    <input type="text" id="estado_civil" class="form-control" placeholder="Ex: Noiva">
+                                </div>
+                                <div class="form-group">
+                                    <label>Localização</label>
+                                    <input type="text" id="localizacao" class="form-control" placeholder="Ex: Cidade Nova - Brasil">
+                                </div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div class="form-group">
+                                    <label>E-mail</label>
+                                    <input type="email" id="email" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Telefone / WhatsApp</label>
+                                    <input type="text" id="telefone" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Perfil / Resumo Profissional</label>
+                                <textarea id="descricao" class="form-control" rows="4"></textarea>
+                            </div>
+
+                            <div class="section-header" style="margin-top: 3rem;">
+                                <h2><i class="fa-solid fa-icons"></i> Seletor de Ícones (Interesses)</h2>
+                                <p style="font-size:0.8rem; color:var(--text-muted)">Selecione os interesses do cliente para o currículo.</p>
+                            </div>
+                            <div class="icon-selector" id="interestIcons">
+                                <!-- JS Populated -->
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Preview Column -->
+                <div class="preview-container">
+                    <div class="preview-card">
+                        <div class="preview-browser">
+                            <div class="browser-header">
+                                <span class="dot dot-red"></span>
+                                <span class="dot dot-yellow"></span>
+                                <span class="dot dot-green"></span>
+                                <div style="margin-left: 1rem; color: #999; font-size: 0.75rem; display: flex; align-items: center;">
+                                    <i class="fa-solid fa-lock" style="font-size: 0.6rem; margin-right: 4px;"></i> 
+                                    curriculoclick.netlify.app/preview
+                                </div>
+                            </div>
+                            <div class="preview-iframe-container">
+                                <div style="display:flex; align-items:center; justify-content:center; height:100%; color:#999; flex-direction:column; background:#eee">
+                                    <i class="fa-solid fa-file-invoice fa-3x" style="margin-bottom:1rem"></i>
+                                    <span>Preview do Currículo</span>
+                                    <small>(Aparecerá aqui conforme você edita)</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- Fixed Actions Bar -->
+        <div class="actions-bar">
+            <button class="btn btn-outline" onclick="window.location.reload()"><i class="fa-solid fa-rotate"></i> Limpar</button>
+            <button class="btn btn-primary" id="publishBtn"><i class="fa-solid fa-rocket"></i> Publicar Currículo Online</button>
+        </div>
+
+    </div>
+
+    <div class="loading-overlay" id="loader">
+        <div style="text-align:center">
+            <i class="fa-solid fa-circle-notch fa-spin fa-3x" style="margin-bottom:1rem; color:var(--accent)"></i>
+            <h3>Publicando no GitHub...</h3>
+            <p>Isso levará apenas alguns segundos.</p>
+        </div>
+    </div>
+
+    <script src="assets/painel.js"></script>
+</body>
+</html>

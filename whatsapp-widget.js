@@ -51,6 +51,15 @@ estilo.innerHTML = `
     overflow: hidden;
     z-index: 9998;
     font-family: 'Segoe UI', sans-serif;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .whatsapp-chat.open {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .chat-header {
@@ -250,7 +259,7 @@ chatBox.innerHTML = `
     </div>
   </div>
 
-  <div class="whatsapp-button" onclick="alternarChat()">
+  <div class="whatsapp-button">
     <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="Botão WhatsApp" />
   </div>
 
@@ -259,6 +268,10 @@ chatBox.innerHTML = `
   </audio>
 `;
 document.body.appendChild(chatBox);
+
+// Ativar clique do botão via JS (evita dependência de evento inline)
+const whatsappBtn = document.querySelector('.whatsapp-button');
+if (whatsappBtn) whatsappBtn.addEventListener('click', () => window.alternarChat());
 
 // Carrega configuração de WhatsApp (cumprimentos e mensagem) do JSON de currículo ou modelo
 fetch(`${resumeJsonPath}?t=${Date.now()}`)
@@ -308,9 +321,9 @@ let mensagemTimeoutId;
 // Função para atualizar o background do chat baseado no modo escuro/claro
 function atualizarBackgroundChat() {
   if(document.body.classList.contains('modo-escuro')) {
-    document.documentElement.style.setProperty('--chat-background-image', "url('https://raw.githubusercontent.com/thiagodelgado/appdoid/refs/heads/gh-pages/stylesheets/16-17-18.svg')");
+    document.documentElement.style.setProperty('--chat-background-image', "url('https://raw.githubusercontent.com/thiagodelgado/appdoid/gh-pages/stylesheets/16-17-18.svg')");
   } else {
-    document.documentElement.style.setProperty('--chat-background-image', "url('https://raw.githubusercontent.com/thiagodelgado/appdoid/refs/heads/gh-pages/stylesheets/15-16-17.svg')");
+    document.documentElement.style.setProperty('--chat-background-image', "url('https://raw.githubusercontent.com/thiagodelgado/appdoid/gh-pages/stylesheets/15-16-17.svg')");
   }
 }
 
@@ -340,43 +353,54 @@ window.alternarChat = function () {
     const typingIndicator = document.getElementById('typing');
     typingIndicator.style.display = 'flex';
     mensagemEnviada = false;
-    box.style.display = 'flex';
-    chatVisivel = true;
-    
+
     // Atualizar background do chat
     atualizarBackgroundChat();
-    
-    // Remover setTimeout, mostrar mensagem imediatamente
-    fetch(`${resumeJsonPath}?t=${Date.now()}`)
-      .then(res => res.json())
-      .catch(err => {
-        console.error('Erro ao carregar dados do chat:', err);
-        return { whatsapp: { cumprimentos: whatsappConfig.cumprimentos, mensagemPosCumprimento: whatsappConfig.mensagemPosCumprimento } };
-      })
-      .then(data => {
-        const horaAtual = new Date().getHours();
-        const periodo = horaAtual < 12 ? 'manha' : (horaAtual < 18 ? 'tarde' : 'noite');
-        const cumprimentos = data.whatsapp?.cumprimentos || mensagensPadrao.cumprimentos;
-        const saudacao = cumprimentos[periodo] || mensagensPadrao.cumprimentos[periodo];
-        const posMsg = data.whatsapp?.mensagemPosCumprimento || whatsappConfig.mensagemPosCumprimento;
-        const message = document.createElement('div');
-        message.classList.add('message');
-        message.innerHTML = `
-          ${saudacao}<br />
-          ${posMsg}
-          <div class="message-time">
-            ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-            <svg viewBox="0 0 24 24"><path d="M1.8 12l2.1-2.1L9 15l11.1-11.1L22.2 6 9 19.2z"/><path d="M12 19.2L7.2 14.4l1.4-1.4L12 16.4l7.8-7.8 1.4 1.4z"/></svg>
-          </div>
-        `;
-        document.getElementById('typing').style.display = 'none';
-        body.appendChild(message);
-        sound.play().catch(err => console.warn('Falha ao reproduzir som:', err));
-        mensagemEnviada = true;
-      });
+    const bgCss = getComputedStyle(document.documentElement).getPropertyValue('--chat-background-image').trim();
+    const match = bgCss.match(/url\(["']?(.*?)["']?\)/);
+    const bgUrl = match ? match[1] : null;
+
+    const openAndType = () => {
+      box.classList.add('open');
+      chatVisivel = true;
+      fetch(`${resumeJsonPath}?t=${Date.now()}`)
+        .then(res => res.json())
+        .catch(err => { console.error('Erro ao carregar dados do chat:', err); return { whatsapp: { cumprimentos: whatsappConfig.cumprimentos, mensagemPosCumprimento: whatsappConfig.mensagemPosCumprimento } }; })
+        .then(data => {
+          const horaAtual = new Date().getHours();
+          const periodo = horaAtual < 12 ? 'manha' : (horaAtual < 18 ? 'tarde' : 'noite');
+          const cumprimentos = data.whatsapp?.cumprimentos || mensagensPadrao.cumprimentos;
+          const saudacao = cumprimentos[periodo] || mensagensPadrao.cumprimentos[periodo];
+          const posMsg = data.whatsapp?.mensagemPosCumprimento || whatsappConfig.mensagemPosCumprimento;
+          const message = document.createElement('div');
+          message.classList.add('message');
+          message.innerHTML = `
+            ${saudacao}<br />
+            ${posMsg}
+            <div class="message-time">
+              ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              <svg viewBox="0 0 24 24"><path d="M1.8 12l2.1-2.1L9 15l11.1-11.1L22.2 6 9 19.2z"/><path d="M12 19.2L7.2 14.4l1.4-1.4L12 16.4l7.8-7.8 1.4 1.4z"/></svg>
+            </div>
+          `;
+          mensagemTimeoutId = setTimeout(() => {
+            document.getElementById('typing').style.display = 'none';
+            body.appendChild(message);
+            sound.play().catch(() => {});
+            mensagemEnviada = true;
+          }, 1480);
+        });
+    };
+    if (bgUrl) {
+      const img = new Image();
+      img.onload = openAndType;
+      img.onerror = openAndType;
+      img.src = bgUrl;
+    } else {
+      openAndType();
+    }
   } else {
     clearTimeout(mensagemTimeoutId);
-    box.style.display = 'none';
+    box.classList.remove('open');
     chatVisivel = false;
   }
 };
