@@ -1,35 +1,33 @@
 {
-  "certificacoes": [
-    {
-      "titulo": "Certificação em Branding",
-      "ano": "2022",
-      "detalhes": "Escola de Design do Rio"
-    },
-    {
-      "titulo": "UX/UI Design",
-      "ano": "2021",
-      "detalhes": "Coursera - CalArts"
-    }
-  ],
   "inicio": {
-    "foto_perfil": "dados/uploads/jessica-oliveira/jessica-oliveira.png",
-    "idade": "59 anos",
-    "botao_baixar": "Baixar Currículo",
-    "telefone": "(21) 9 6894 - 5505",
-    "localizacao": "Mangaratiba - Rio de Janeiro",
     "nome": "Edna Silva",
-    "estado_civil": "Divorciada",
+    "profissao": "Mãe de Pets",
+    "endereco": "Mangaratiba - Rio de Janeiro",
+    "localizacao": "Mangaratiba - Rio de Janeiro",
     "email": "ednasp@outlook.com",
-    "profissao": "Mãe de Pets"
+    "telefone": "(21) 9 6894 - 5505",
+    "foto_perfil": "dados/uploads/edna-silva.png",
+    "botao_baixar": "Baixar Currículo"
   },
+  "social": [
+    { "rede": "Facebook", "url": "https://facebook.com/edna.silva" },
+    { "rede": "Instagram", "url": "https://instagram.com/edna_silva" },
+    { "rede": "LinkedIn", "url": "https://www.linkedin.com/in/edna-silva" }
+  ],
   "perfil": {
     "descricao": "Designer Gráfica com 5 anos de experiência em branding e criação de identidade visual. Apaixonada por comunicação visual que conecta marcas e pessoas."
   },
-  "social": {
-    "facebook": "https://facebook.com/jessica.oliveira",
-    "instagram": "https://instagram.com/jessica_oli",
-    "linkedin": "https://www.linkedin.com/in/jessica-oliveira"
-  },
+  "habilidades": [
+    { "nome": "Cozinhar", "nivel": 40 },
+    { "nome": "Fazer Empadão", "nivel": 85 },
+    { "nome": "Fazer Café", "nivel": 100 },
+    { "nome": "Faxina", "nivel": 30 }
+  ],
+  "idiomas": [
+    { "nome": "Português", "nivel": "Nativo" },
+    { "nome": "Gatês", "nivel": "Fluente" },
+    { "nome": "Petisquês", "nivel": "Avançado" }
+  ],
   "experiencia_profissional": [
     {
       "cargo": "Designer Gráfica Pleno",
@@ -44,59 +42,34 @@
       "descricao": "Apoio na criação de layouts, edição de imagens e preparação de arquivos para impressão."
     }
   ],
-  "whatsapp": {
-    "ativo": true,
-    "numero": "5521981234567",
-    "cumprimentos": {
-      "manha": "Bom dia!",
-      "tarde": "Boa tarde!",
-      "noite": "Boa noite!"
-    },
-    "mensagemPosCumprimento": "Oi! Já conhece Safira e Uruca?"
-  },
-  "interesses": [
-    "Fotografia",
-    "Arte Digital",
-    "Viagens",
-    "Moda"
-  ],
-  "habilidades": [
-    {
-      "nome": "Cozinhar",
-      "nivel": 40
-    },
-    {
-      "nome": "Fazer Empadão",
-      "nivel": 85
-    },
-    {
-      "nome": "Fazer Café",
-      "nivel": 100
-    },
-    {
-      "nome": "Faxina",
-      "nivel": 30
-    }
-  ],
   "educacao": [
     {
-      "titulo": "Bacharelado em Design Gráfico",
+      "curso": "Bacharelado em Design Gráfico",
       "instituicao": "UFRJ - Brasil",
       "periodo": "2015 - 2018"
     }
   ],
-  "idiomas": [
+  "certificados": [
     {
-      "nome": "Português",
-      "estrelas": 5
+      "titulo": "Certificação em Branding",
+      "ano": "2022",
+      "instituicao": "Escola de Design do Rio"
     },
     {
-      "nome": "Gatês",
-      "estrelas": 4
-    },
-    {
-      "nome": "Petisquês",
-      "estrelas": 3
+      "titulo": "UX/UI Design",
+      "ano": "2021",
+      "instituicao": "Coursera - CalArts"
     }
-  ]
+  ],
+  "interesses": [
+    "fotografia",
+    "arte digital",
+    "viagens",
+    "moda"
+  ],
+  "whatsapp": {
+    "ativo": true,
+    "numero": "5521968945505",
+    "mensagemPadrao": "Olá! Gostaria de falar sobre o currículo."
+  }
 }
