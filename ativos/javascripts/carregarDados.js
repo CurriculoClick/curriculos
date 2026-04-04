@@ -341,15 +341,18 @@ function aplicarDadosAoCurriculo(dados) {
                             ${temLinha ? '<span class="experiencia_linha"></span>' : ''}
                         </div>
                         <div class="experiencia_dados bd-grid">
-                            <h3 class="experiencia_titulo">${exp.cargo || exp.titulo}</h3>
-                            <span class="experiencia_empresa">${exp.empresa}</span>
-                            <span class="experiencia_ano">${exp.periodo || exp.data}</span>
-                            <p class="experiencia_descricao">${exp.descricao}</p>
+                            <h3 class="experiencia_titulo">${exp.cargo || exp.titulo || ''}</h3>
+                            <span class="experiencia_empresa">${exp.empresa || ''}</span>
+                            <span class="experiencia_ano">${exp.periodo || exp.data || ''}</span>
+                            <p class="experiencia_descricao">
+                                ${exp.descricao || ''}
+                            </p>
                         </div>
                     `;
                     experienciaContainer.appendChild(div);
                 });
             } else if (typeof expData === 'string' && expData.trim() !== '') {
+                // Legado ou texto livre
                 const div = document.createElement('div');
                 div.className = 'experiencia_conteudo';
                 div.innerHTML = `

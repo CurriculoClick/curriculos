@@ -8,16 +8,18 @@ Use este prompt abaixo com qualquer IA (como eu, Antigravity) para converter as 
 
 > "Abaixo está uma mensagem que recebi de um cliente pelo WhatsApp. Por favor, extraia as seguintes informações para eu preencher meu painel administrativo de currículos. Retorne os dados em uma lista organizada:
 > 
-> - Nome completo
+> - Nome e Sobrenome (separados)
 > - Profissão
-> - Idade, Estado Civil e Localização
+> - Idade e Localização (Endereço completo)
 > - E-mail e Telefone para WhatsApp
-> - Resumo Profissional (Perfil)
+> - Perfil Profissional (Texto livre para resumo)
 > - Lista de Redes Sociais (Rede e Link/@user)
-> - Habilidades (Nome e uma porcentagem de 0 a 100% de domínio)
-> - Idiomas (Nome e Nível de Fluência)
-> - Experiências Profissionais (Cargo, Empresa, Período e Resumo de atividades)
-> - Formação Acadêmica ou Certificações
+> - Habilidades (Máximo de 5, com domínio de 0 a 100%)
+> - Idiomas (Máximo de 3, com nível de fluência)
+> - Experiência Profissional (Texto livre resumindo trajetória)
+> - Educação e Formação (Texto livre)
+> - Certificados e Cursos (Texto livre)
+> - Lista de Interesses para Ícones
 > 
 > [COLE A MENSAGEM DO WHATSAPP AQUI]"
 

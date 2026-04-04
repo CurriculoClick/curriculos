@@ -1,6 +1,6 @@
 /**
- * CurriculoClick Dashboard Engine v3.0
- * Foco: Nome/Sobrenome, Endereço, Limites (5 Habilidades, 3 Idiomas), Responsividade.
+ * CurriculoClick Dashboard Engine v3.1
+ * Foco: Nome/Sobrenome, Endereço, Limites (5 Habs, 3 Idis, 3 Exps), Responsividade.
  */
 
 const GITHUB_API = 'https://api.github.com';
@@ -12,6 +12,7 @@ let currentData = null;
 let currentSlug = '';
 const LIMIT_HABILIDADES = 5;
 const LIMIT_IDIOMAS = 3;
+const LIMIT_EXPERIENCIA = 3;
 
 // Icons Definitions
 const INTEREST_ICONS = {
@@ -62,6 +63,7 @@ function setupCoreEvents() {
 
 function renderIconSelectors() {
     const grid = document.getElementById('interestIcons');
+    if (!grid) return;
     grid.innerHTML = '';
     Object.entries(INTEREST_ICONS).forEach(([name, icon]) => {
         const item = document.createElement('div');
@@ -77,6 +79,7 @@ function renderIconSelectors() {
 
 async function listarCurriculos() {
     const listEl = document.getElementById('clientesList');
+    if (!listEl) return;
     try {
         const res = await fetch(`${GITHUB_API}/repos/${githubRepo}/contents/dados`, {
             headers: { 'Authorization': `token ${githubToken}` }
@@ -116,7 +119,7 @@ function preencherFormulario(data, slug) {
     document.getElementById('nome').value = partesNome[0] || '';
     document.getElementById('sobrenome').value = partesNome.slice(1).join(' ') || '';
     document.getElementById('profissao').value = data.inicio?.profissao || '';
-    document.getElementById('endereco').value = data.inicio?.localizacao || data.inicio?.endereco || '';
+    document.getElementById('endereco').value = data.inicio?.endereco || data.inicio?.localizacao || '';
     document.getElementById('email').value = data.inicio?.email || '';
     document.getElementById('telefone').value = data.inicio?.telefone || '';
     
@@ -127,11 +130,6 @@ function preencherFormulario(data, slug) {
 
     // Textareas
     document.getElementById('descricao').value = data.perfil?.descricao || '';
-    document.getElementById('exp_profissional').value = Array.isArray(data.experiencia_profissional) 
-        ? data.experiencia_profissional.map(e => `${e.titulo} @ ${e.empresa}\n${e.data}\n${e.descricao}`).join('\n\n')
-        : data.experiencia_profissional || '';
-
-    // Educação e Certificados (se estiverem no modelo novo ou antigo)
     document.getElementById('educacao').value = typeof data.educacao === 'string' ? data.educacao : (Array.isArray(data.educacao) ? data.educacao.map(e => `${e.curso} - ${e.instituicao}`).join('\n') : '');
     document.getElementById('certificados').value = typeof data.certificados === 'string' ? data.certificados : (Array.isArray(data.certificados) ? data.certificados.map(c => c.nome).join('\n') : '');
 
@@ -139,6 +137,9 @@ function preencherFormulario(data, slug) {
     if (data.social) data.social.forEach(s => adicionarSocial(s));
     if (data.habilidades) data.habilidades.forEach(h => adicionarHabilidade(h));
     if (data.idiomas) data.idiomas.forEach(i => adicionarIdioma(i));
+    if (data.experiencia_profissional && Array.isArray(data.experiencia_profissional)) {
+        data.experiencia_profissional.forEach(e => adicionarExperiencia(e));
+    }
     
     // Interesses
     if (data.interesses) {
@@ -196,6 +197,23 @@ function adicionarIdioma(data = null) {
     list.appendChild(div);
 }
 
+function adicionarExperiencia(data = null) {
+    const list = document.getElementById('experienciasList');
+    if (list.children.length >= LIMIT_EXPERIENCIA && !data) return alert(`Limite de ${LIMIT_EXPERIENCIA} experiências atingido.`);
+    const div = document.createElement('div');
+    div.className = 'dynamic-item';
+    div.innerHTML = `
+        <button type="button" class="btn-remove" onclick="this.parentElement.remove()">×</button>
+        <div class="form-row">
+            <div class="field-item"><label>Cargo/Função</label><input type="text" class="input-pro e-cargo" placeholder="Ex: Vice-Presidente" value="${data?.cargo || data?.titulo || ''}"></div>
+            <div class="field-item"><label>Empresa</label><input type="text" class="input-pro e-empresa" placeholder="Ex: Pizza Hut" value="${data?.empresa || ''}"></div>
+        </div>
+        <div class="field-item"><label>Período</label><input type="text" class="input-pro e-periodo" placeholder="Ex: Janeiro 2022 - Atual" value="${data?.periodo || data?.data || ''}"></div>
+        <div class="field-item"><label>Atividades/Resumo</label><textarea class="textarea-pro e-desc" rows="2" placeholder="Resumo do serviço...">${data?.descricao || ''}</textarea></div>
+    `;
+    list.appendChild(div);
+}
+
 // --- Publicar ---
 
 async function publicarCurriculo() {
@@ -236,6 +254,12 @@ function collectData() {
     const idis = Array.from(document.querySelectorAll('#idiomasList .dynamic-item')).map(it => ({
         nome: it.querySelector('.i-nome').value, nivel: it.querySelector('.i-nivel').value
     }));
+    const exps = Array.from(document.querySelectorAll('#experienciasList .dynamic-item')).map(it => ({
+        cargo: it.querySelector('.e-cargo').value,
+        empresa: it.querySelector('.e-empresa').value,
+        periodo: it.querySelector('.e-periodo').value,
+        descricao: it.querySelector('.e-desc').value
+    }));
     const ints = Array.from(document.querySelectorAll('.icon-item.selected')).map(el => el.title);
 
     return {
@@ -243,7 +267,7 @@ function collectData() {
             nome: fullNome,
             profissao: document.getElementById('profissao').value,
             endereco: document.getElementById('endereco').value,
-            localizacao: document.getElementById('endereco').value, // Compatibilidade
+            localizacao: document.getElementById('endereco').value,
             email: document.getElementById('email').value,
             telefone: document.getElementById('telefone').value,
             botao_baixar: "BAIXAR CURRÍCULO"
@@ -252,7 +276,7 @@ function collectData() {
         perfil: { descricao: document.getElementById('descricao').value },
         habilidades: habs,
         idiomas: idis,
-        experiencia_profissional: document.getElementById('exp_profissional').value,
+        experiencia_profissional: exps,
         educacao: document.getElementById('educacao').value,
         certificados: document.getElementById('certificados').value,
         interesses: ints,
@@ -264,7 +288,6 @@ function collectData() {
     };
 }
 
-// --- GitHub API Helper (igual anterior) ---
 async function uploadToGitHub(path, content, isText = false) {
     let base64 = isText ? btoa(unescape(encodeURIComponent(content))) : await toBase64(content);
     let sha = null;
@@ -275,7 +298,7 @@ async function uploadToGitHub(path, content, isText = false) {
     const res = await fetch(`${GITHUB_API}/repos/${githubRepo}/contents/${path}`, {
         method: 'PUT',
         headers: { 'Authorization': `token ${githubToken}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: `Dashboard v3: ${path}`, content: base64, sha: sha })
+        body: JSON.stringify({ message: `Dashboard v3.1: ${path}`, content: base64, sha: sha })
     });
     if (!res.ok) throw new Error("Erro GitHub");
 }
@@ -290,13 +313,12 @@ function toBase64(file) {
 function limparFormulario(full = true) {
     if (full) document.getElementById('cvForm').reset();
     document.getElementById('photoPreview').style.display = 'none';
-    document.getElementById('socialList').innerHTML = '';
-    document.getElementById('habilidadesList').innerHTML = '';
-    document.getElementById('idiomasList').innerHTML = '';
+    const dynamicLists = ['socialList', 'habilidadesList', 'idiomasList', 'experienciasList'];
+    dynamicLists.forEach(id => { const el = document.getElementById(id); if (el) el.innerHTML = ''; });
     document.querySelectorAll('.icon-item').forEach(i => i.classList.remove('selected'));
     currentSlug = ''; currentData = null;
     if (full) { adicionarSocial({rede: 'WhatsApp', url: ''}); }
 }
 
 function showLoader(show) { document.getElementById('loader').style.display = show ? 'flex' : 'none'; }
-function atualizarPreview(slug = null) { const iframe = document.getElementById('previewFrame'); iframe.src = slug ? `../?id=${slug}` : 'about:blank'; }
+function atualizarPreview(slug = null) { const iframe = document.getElementById('previewFrame'); if (iframe) iframe.src = slug ? `../?id=${slug}` : 'about:blank'; }
