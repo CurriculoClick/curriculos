@@ -56,20 +56,22 @@ function setupCoreEvents() {
     const surnameInput = document.getElementById('sobrenome');
     const slugInput = document.getElementById('slug');
 
-    const updateSlug = () => {
-        if (isManualSlug) return;
-        const val = `${nameInput.value}-${surnameInput.value}`.trim()
-            .toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-        slugInput.value = val;
-        updateUrlDisplay(val);
-    };
+    if (nameInput && surnameInput && slugInput) {
+        const updateSlug = () => {
+            if (isManualSlug) return;
+            const val = `${nameInput.value}-${surnameInput.value}`.trim()
+                .toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+            slugInput.value = val;
+            updateUrlDisplay(val);
+        };
 
-    nameInput.addEventListener('input', updateSlug);
-    surnameInput.addEventListener('input', updateSlug);
-    slugInput.addEventListener('input', () => {
-        isManualSlug = true;
-        updateUrlDisplay(slugInput.value);
-    });
+        nameInput.addEventListener('input', updateSlug);
+        surnameInput.addEventListener('input', updateSlug);
+        slugInput.addEventListener('input', () => {
+            isManualSlug = true;
+            updateUrlDisplay(slugInput.value);
+        });
+    }
 }
 
 function updateUrlDisplay(slug) {
@@ -120,13 +122,17 @@ async function listarCurriculos() {
         });
         const files = await res.json();
         listEl.innerHTML = '';
-        files.filter(f => f.name.endsWith('.json') && f.name !== 'modelo.json').forEach(file => {
-            const btn = document.createElement('div');
-            btn.className = 'menu-item';
-            btn.innerHTML = `<i class="fa-solid fa-circle-user"></i> <span>${file.name.replace('.json', '')}</span>`;
-            btn.onclick = () => carregarCurriculo(file.name.replace('.json', ''));
-            listEl.appendChild(btn);
-        });
+        if (Array.isArray(files)) {
+            files.filter(f => f.name.endsWith('.json') && f.name !== 'modelo.json').forEach(file => {
+                const btn = document.createElement('div');
+                btn.className = 'menu-item';
+                btn.innerHTML = `<i class="fa-solid fa-circle-user"></i> <span>${file.name.replace('.json', '')}</span>`;
+                btn.onclick = () => carregarCurriculo(file.name.replace('.json', ''));
+                listEl.appendChild(btn);
+            });
+        } else {
+            listEl.innerHTML = '<small>Nenhum currículo encontrado.</small>';
+        }
     } catch (e) { listEl.innerHTML = '<small>Erro ao listar</small>'; }
 }
 
