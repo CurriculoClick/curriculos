@@ -1,6 +1,6 @@
 /**
- * CurriculoClick Dashboard Engine v3.4
- * Foco: Live Preview, Gestão de URL (Slug) e Renomeação Segura.
+ * CurriculoClick Dashboard Engine v3.5
+ * Foco: Editabilidade Total, Retrocompatibilidade (Texto Livre) e Live Preview.
  */
 
 const GITHUB_API = 'https://api.github.com';
@@ -76,6 +76,7 @@ function setupCoreEvents() {
 
 function updateUrlDisplay(slug) {
     const display = document.getElementById('urlDisplay');
+    if (!display) return;
     const baseUrl = window.location.origin + window.location.pathname.replace('dashboard/', '');
     display.textContent = `${baseUrl}?id=${slug}`;
 }
@@ -130,8 +131,6 @@ async function listarCurriculos() {
                 btn.onclick = () => carregarCurriculo(file.name.replace('.json', ''));
                 listEl.appendChild(btn);
             });
-        } else {
-            listEl.innerHTML = '<small>Nenhum currículo encontrado.</small>';
         }
     } catch (e) { listEl.innerHTML = '<small>Erro ao listar</small>'; }
 }
@@ -153,50 +152,147 @@ function preencherFormulario(data, slug) {
     limparFormulario(false);
     currentSlug = slug;
     currentData = data;
-    isManualSlug = true; // Ao carregar, assume que o slug já está definido
+    isManualSlug = true;
 
     const partesNome = data.inicio?.nome?.split(' ') || [];
-    document.getElementById('nome').value = partesNome[0] || '';
-    document.getElementById('sobrenome').value = partesNome.slice(1).join(' ') || '';
-    document.getElementById('slug').value = slug;
+    const nomeEl = document.getElementById('nome');
+    const sobEl = document.getElementById('sobrenome');
+    const slugEl = document.getElementById('slug');
+    
+    if (nomeEl) nomeEl.value = partesNome[0] || '';
+    if (sobEl) sobEl.value = partesNome.slice(1).join(' ') || '';
+    if (slugEl) slugEl.value = slug;
     updateUrlDisplay(slug);
     
-    document.getElementById('profissao').value = data.inicio?.profissao || '';
-    document.getElementById('endereco').value = data.inicio?.endereco || data.inicio?.localizacao || '';
-    document.getElementById('email').value = data.inicio?.email || '';
-    document.getElementById('telefone').value = data.inicio?.telefone || '';
+    if (document.getElementById('profissao')) document.getElementById('profissao').value = data.inicio?.profissao || '';
+    if (document.getElementById('endereco')) document.getElementById('endereco').value = data.inicio?.endereco || data.inicio?.localizacao || '';
+    if (document.getElementById('email')) document.getElementById('email').value = data.inicio?.email || '';
+    if (document.getElementById('telefone')) document.getElementById('telefone').value = data.inicio?.telefone || '';
+    
     if (data.inicio?.foto_perfil) {
         document.getElementById('photoPreview').src = `../${data.inicio.foto_perfil}?t=${Date.now()}`;
         document.getElementById('photoPreview').style.display = 'block';
     }
-    document.getElementById('descricao').value = data.perfil?.descricao || '';
+    
+    if (document.getElementById('descricao')) document.getElementById('descricao').value = data.perfil?.descricao || '';
+    
     if (data.social) data.social.forEach(s => adicionarSocial(s));
     if (data.habilidades) data.habilidades.forEach(h => adicionarHabilidade(h));
     if (data.idiomas) data.idiomas.forEach(i => adicionarIdioma(i));
-    if (data.experiencia_profissional && Array.isArray(data.experiencia_profissional)) data.experiencia_profissional.forEach(e => adicionarExperiencia(e));
-    if (data.educacao && Array.isArray(data.educacao)) data.educacao.forEach(e => adicionarEducacao(e));
-    if (data.certificados && Array.isArray(data.certificados)) data.certificados.forEach(c => adicionarCertificado(c));
+    
+    // Trajetória com tratamento de legado (strings)
+    const exps = data.experiencia_profissional;
+    if (Array.isArray(exps)) exps.forEach(e => adicionarExperiencia(e));
+    else if (typeof exps === 'string') adicionarExperiencia(exps);
+
+    const edus = data.educacao;
+    if (Array.isArray(edus)) edus.forEach(e => adicionarEducacao(e));
+    else if (typeof edus === 'string') adicionarEducacao(edus);
+
+    const certs = data.certificados || data.certificacoes;
+    if (Array.isArray(certs)) certs.forEach(c => adicionarCertificado(c));
+    else if (typeof certs === 'string') adicionarCertificado(certs);
+
     if (data.interesses) {
         data.interesses.forEach(int => {
             const icon = document.querySelector(`.icon-item[title="${int}"]`);
             if (icon) icon.classList.add('selected');
         });
     }
-    if (data.whatsapp) { document.getElementById('wa_numero').value = data.whatsapp.numero || ''; }
+    
+    if (data.whatsapp) { 
+        const waEl = document.getElementById('wa_numero');
+        if (waEl) waEl.value = data.whatsapp.numero || ''; 
+    }
+    
     atualizarPreview(slug);
 }
 
 // --- Dynamic Fields ---
-function adicionarSocial(d=null) { const l = document.getElementById('socialList'); const div = document.createElement('div'); div.className = 'dynamic-item form-row'; div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><select class="input-pro s-rede">${['LinkedIn','WhatsApp','Instagram','TikTok','GitHub','Site'].map(r => `<option value="${r}" ${d?.rede === r ? 'selected' : ''}>${r}</option>`).join('')}</select></div><div class="field-item"><input type="text" class="input-pro s-url" placeholder="Link" value="${d?.url || ''}"></div>`; l.appendChild(div); if(!d) syncPreview(); }
-function adicionarHabilidade(d=null) { const l = document.getElementById('habilidadesList'); if (l.children.length >= LIMIT_HABILIDADES && !d) return alert(`Limit ${LIMIT_HABILIDADES}`); const div = document.createElement('div'); div.className = 'dynamic-item form-row'; div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><input type="text" class="input-pro h-nome" placeholder="Hab" value="${d?.nome || ''}"></div><div class="field-item"><input type="number" class="input-pro h-nivel" value="${d?.nivel || 80}"></div>`; l.appendChild(div); if(!d) syncPreview(); }
-function adicionarIdioma(d=null) { const l = document.getElementById('idiomasList'); if (l.children.length >= LIMIT_IDIOMAS && !d) return alert(`Limit ${LIMIT_IDIOMAS}`); const div = document.createElement('div'); div.className = 'dynamic-item form-row'; div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><input type="text" class="input-pro i-nome" placeholder="Idio" value="${d?.nome || ''}"></div><div class="field-item"><input type="text" class="input-pro i-nivel" placeholder="Flu" value="${d?.nivel || ''}"></div>`; l.appendChild(div); if(!d) syncPreview(); }
-function adicionarExperiencia(d=null) { const l = document.getElementById('experienciasList'); if (l.children.length >= LIMIT_EXPERIENCIA && !d) return alert(`Limit ${LIMIT_EXPERIENCIA}`); const div = document.createElement('div'); div.className = 'dynamic-item'; div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="form-row"><div class="field-item"><label>Cargo</label><input type="text" class="input-pro e-cargo" value="${d?.cargo || d?.titulo || ''}"></div><div class="field-item"><label>Empresa</label><input type="text" class="input-pro e-empresa" value="${d?.empresa || ''}"></div></div><div class="field-item"><label>Período</label><input type="text" class="input-pro e-periodo" value="${d?.periodo || d?.data || ''}"></div><div class="field-item"><label>Atividades</label><textarea class="textarea-pro e-desc" rows="2">${d?.descricao || ''}</textarea></div>`; l.appendChild(div); if(!d) syncPreview(); }
-function adicionarEducacao(d=null) { const l = document.getElementById('educacaoList'); if (l.children.length >= LIMIT_EDUCACAO && !d) return alert(`Limit ${LIMIT_EDUCACAO}`); const div = document.createElement('div'); div.className = 'dynamic-item'; div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><label>Curso</label><input type="text" class="input-pro edu-curso" value="${d?.curso || d?.titulo || ''}"></div><div class="field-item"><label>Instituição</label><input type="text" class="input-pro edu-inst" value="${d?.instituicao || ''}"></div><div class="field-item"><label>Período</label><input type="text" class="input-pro edu-per" value="${d?.periodo || d?.ano || ''}"></div>`; l.appendChild(div); if(!d) syncPreview(); }
-function adicionarCertificado(d=null) { const l = document.getElementById('certificadosList'); if (l.children.length >= LIMIT_CERTIFICADOS && !d) return alert(`Limit ${LIMIT_CERTIFICADOS}`); const div = document.createElement('div'); div.className = 'dynamic-item'; div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><label>Ano</label><input type="text" class="input-pro cert-ano" value="${d?.ano || ''}"></div><div class="field-item"><label>Título</label><input type="text" class="input-pro cert-titulo" value="${d?.titulo || d?.nome || ''}"></div>`; l.appendChild(div); if(!d) syncPreview(); }
+function adicionarSocial(d=null) { 
+    const l = document.getElementById('socialList'); 
+    const div = document.createElement('div'); 
+    div.className = 'dynamic-item form-row'; 
+    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><select class="input-pro s-rede">${['LinkedIn','WhatsApp','Instagram','TikTok','GitHub','Site'].map(r => `<option value="${r}" ${d?.rede === r ? 'selected' : ''}>${r}</option>`).join('')}</select></div><div class="field-item"><input type="text" class="input-pro s-url" placeholder="Link" value="${d?.url || ''}"></div>`; 
+    l.appendChild(div); 
+    if(!d) syncPreview(); 
+}
+
+function adicionarHabilidade(d=null) { 
+    const l = document.getElementById('habilidadesList'); 
+    if (l.children.length >= LIMIT_HABILIDADES && !d) return alert(`Limit ${LIMIT_HABILIDADES}`); 
+    const div = document.createElement('div'); 
+    div.className = 'dynamic-item form-row'; 
+    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><input type="text" class="input-pro h-nome" placeholder="Hab" value="${d?.nome || ''}"></div><div class="field-item"><input type="number" class="input-pro h-nivel" value="${d?.nivel || 80}"></div>`; 
+    l.appendChild(div); 
+    if(!d) syncPreview(); 
+}
+
+function adicionarIdioma(d=null) { 
+    const l = document.getElementById('idiomasList'); 
+    if (l.children.length >= LIMIT_IDIOMAS && !d) return alert(`Limit ${LIMIT_IDIOMAS}`); 
+    const div = document.createElement('div'); 
+    div.className = 'dynamic-item form-row'; 
+    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><input type="text" class="input-pro i-nome" placeholder="Idio" value="${d?.nome || ''}"></div><div class="field-item"><input type="text" class="input-pro i-nivel" placeholder="Flu" value="${d?.nivel || ''}"></div>`; 
+    l.appendChild(div); 
+    if(!d) syncPreview(); 
+}
+
+function adicionarExperiencia(d=null) { 
+    const l = document.getElementById('experienciasList'); 
+    if (l.children.length >= LIMIT_EXPERIENCIA && !d) return alert(`Limit ${LIMIT_EXPERIENCIA}`); 
+    const div = document.createElement('div'); 
+    div.className = 'dynamic-item'; 
+    
+    // Tratamento de legado: se for string, coloca na descrição
+    const isLegacy = typeof d === 'string';
+    const cargo = isLegacy ? '' : (d?.cargo || d?.titulo || '');
+    const empresa = isLegacy ? '' : (d?.empresa || '');
+    const periodo = isLegacy ? '' : (d?.periodo || d?.data || '');
+    const desc = isLegacy ? d : (d?.descricao || '');
+
+    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="form-row"><div class="field-item"><label>Cargo</label><input type="text" class="input-pro e-cargo" value="${cargo}"></div><div class="field-item"><label>Empresa</label><input type="text" class="input-pro e-empresa" value="${empresa}"></div></div><div class="field-item"><label>Período</label><input type="text" class="input-pro e-periodo" value="${periodo}"></div><div class="field-item"><label>Atividades</label><textarea class="textarea-pro e-desc" rows="2">${desc}</textarea></div>`; 
+    l.appendChild(div); 
+    if(!d) syncPreview(); 
+}
+
+function adicionarEducacao(d=null) { 
+    const l = document.getElementById('educacaoList'); 
+    if (l.children.length >= LIMIT_EDUCACAO && !d) return alert(`Limit ${LIMIT_EDUCACAO}`); 
+    const div = document.createElement('div'); 
+    div.className = 'dynamic-item'; 
+    
+    // Tratamento de legado
+    const isLegacy = typeof d === 'string';
+    const curso = isLegacy ? d : (d?.curso || d?.titulo || '');
+    const inst = isLegacy ? '' : (d?.instituicao || '');
+    const per = isLegacy ? '' : (d?.periodo || d?.ano || '');
+
+    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><label>Curso</label><input type="text" class="input-pro edu-curso" value="${curso}"></div><div class="field-item"><label>Instituição</label><input type="text" class="input-pro edu-inst" value="${inst}"></div><div class="field-item"><label>Período</label><input type="text" class="input-pro edu-per" value="${per}"></div>`; 
+    l.appendChild(div); 
+    if(!d) syncPreview(); 
+}
+
+function adicionarCertificado(d=null) { 
+    const l = document.getElementById('certificadosList'); 
+    if (l.children.length >= LIMIT_CERTIFICADOS && !d) return alert(`Limit ${LIMIT_CERTIFICADOS}`); 
+    const div = document.createElement('div'); 
+    div.className = 'dynamic-item'; 
+    
+    // Tratamento de legado
+    const isLegacy = typeof d === 'string';
+    const ano = isLegacy ? '' : (d?.ano || '');
+    const titulo = isLegacy ? d : (d?.titulo || d?.nome || '');
+
+    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><label>Ano</label><input type="text" class="input-pro cert-ano" value="${ano}"></div><div class="field-item"><label>Título</label><input type="text" class="input-pro cert-titulo" value="${titulo}"></div>`; 
+    l.appendChild(div); 
+    if(!d) syncPreview(); 
+}
 
 // --- Publicar ---
 async function publicarCurriculo() {
-    const newSlug = document.getElementById('slug').value.trim();
+    const sInput = document.getElementById('slug');
+    const newSlug = sInput ? sInput.value.trim() : '';
     if (!newSlug) return alert("URL obrigatória.");
     showLoader(true);
 
@@ -204,10 +300,8 @@ async function publicarCurriculo() {
         const payload = collectData();
         const photoInput = document.getElementById('photoInput');
         
-        // Se a slug mudou, deletamos o antigo e salvamos o novo
         if (currentSlug && currentSlug !== newSlug) {
             await deletarDoGitHub(`dados/${currentSlug}.json`);
-            // Se houver foto antiga, deletamos também para evitar lixo
             if (currentData && currentData.inicio.foto_perfil && currentData.inicio.foto_perfil.includes(currentSlug)) {
                 await deletarDoGitHub(currentData.inicio.foto_perfil);
             }
@@ -218,7 +312,6 @@ async function publicarCurriculo() {
             await uploadToGitHub(photoPath, photoInput.files[0]);
             payload.inicio.foto_perfil = photoPath;
         } else if (currentData && currentData.inicio.foto_perfil) {
-            // Se mudou a slug mas manteve a foto, precisamos renomear o arquivo da foto no GitHub
             if (currentSlug !== newSlug && currentData.inicio.foto_perfil.includes(currentSlug)) {
                 const oldPath = currentData.inicio.foto_perfil;
                 const newPath = `dados/uploads/${newSlug}.png`;
@@ -238,7 +331,9 @@ async function publicarCurriculo() {
 }
 
 function collectData() {
-    const fullNome = `${document.getElementById('nome').value} ${document.getElementById('sobrenome').value}`.trim();
+    const n = document.getElementById('nome')?.value || '';
+    const s = document.getElementById('sobrenome')?.value || '';
+    const fullNome = `${n} ${s}`.trim();
     const social = Array.from(document.querySelectorAll('#socialList .dynamic-item')).map(it => ({ rede: it.querySelector('.s-rede').value, url: it.querySelector('.s-url').value }));
     const habs = Array.from(document.querySelectorAll('#habilidadesList .dynamic-item')).map(it => ({ nome: it.querySelector('.h-nome').value, nivel: it.querySelector('.h-nivel').value }));
     const idis = Array.from(document.querySelectorAll('#idiomasList .dynamic-item')).map(it => ({ nome: it.querySelector('.i-nome').value, nivel: it.querySelector('.i-nivel').value }));
@@ -247,13 +342,12 @@ function collectData() {
     const certs = Array.from(document.querySelectorAll('#certificadosList .dynamic-item')).map(it => ({ ano: it.querySelector('.cert-ano').value, titulo: it.querySelector('.cert-titulo').value }));
     const ints = Array.from(document.querySelectorAll('.icon-item.selected')).map(el => el.title);
     return {
-        inicio: { nome: fullNome, profissao: document.getElementById('profissao').value, endereco: document.getElementById('endereco').value, localizacao: document.getElementById('endereco').value, email: document.getElementById('email').value, telefone: document.getElementById('telefone').value, botao_baixar: "BAIXAR" },
-        social, perfil: { descricao: document.getElementById('descricao').value }, habilidades: habs, idiomas: idis, experiencia_profissional: exps, educacao: edus, certificados: certs, interesses: ints,
-        whatsapp: { ativo: true, numero: document.getElementById('wa_numero').value, mensagemPadrao: "Olá..." }
+        inicio: { nome: fullNome, profissao: document.getElementById('profissao')?.value || '', endereco: document.getElementById('endereco')?.value || '', localizacao: document.getElementById('endereco')?.value || '', email: document.getElementById('email')?.value || '', telefone: document.getElementById('telefone')?.value || '', botao_baixar: "BAIXAR" },
+        social, perfil: { descricao: document.getElementById('descricao')?.value || '' }, habilidades: habs, idiomas: idis, experiencia_profissional: exps, educacao: edus, certificados: certs, interesses: ints,
+        whatsapp: { ativo: true, numero: document.getElementById('wa_numero')?.value || '', mensagemPadrao: "Olá..." }
     };
 }
 
-// --- GitHub API Helpers ---
 async function uploadToGitHub(path, content, isText = false) {
     let base64 = isText ? btoa(unescape(encodeURIComponent(content))) : await toBase64(content);
     let sha = null;
@@ -263,19 +357,19 @@ async function uploadToGitHub(path, content, isText = false) {
     } catch (e) {}
     const res = await fetch(`${GITHUB_API}/repos/${githubRepo}/contents/${path}`, {
         method: 'PUT', headers: { 'Authorization': `token ${githubToken}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: `Save v3.4: ${path}`, content: base64, sha })
+        body: JSON.stringify({ message: `Save v3.5: ${path}`, content: base64, sha })
     });
-    if (!res.ok) throw new Error(`Erro GitHub: ${res.statusText}`);
+    if (!res.ok) throw new Error(`Err`);
 }
 
 async function deletarDoGitHub(path) {
     try {
         const resGet = await fetch(`${GITHUB_API}/repos/${githubRepo}/contents/${path}`, { headers: { 'Authorization': `token ${githubToken}` } });
         if (!resGet.ok) return;
-        const sha = (await resGet.json()).sha;
+        const s = (await resGet.json()).sha;
         await fetch(`${GITHUB_API}/repos/${githubRepo}/contents/${path}`, {
             method: 'DELETE', headers: { 'Authorization': `token ${githubToken}`, 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: `Delete v3.4: ${path}`, sha })
+            body: JSON.stringify({ message: `Delete v3.5: ${path}`, sha: s })
         });
     } catch (e) {}
 }
@@ -284,15 +378,14 @@ async function renomearArquivoGitHub(oldPath, newPath) {
     try {
         const resGet = await fetch(`${GITHUB_API}/repos/${githubRepo}/contents/${oldPath}`, { headers: { 'Authorization': `token ${githubToken}` } });
         if (!resGet.ok) return;
-        const data = await resGet.json();
-        const base64 = data.content;
+        const d = await resGet.json();
         await fetch(`${GITHUB_API}/repos/${githubRepo}/contents/${newPath}`, {
             method: 'PUT', headers: { 'Authorization': `token ${githubToken}`, 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: `Rename (Move) v3.4: ${newPath}`, content: base64 })
+            body: JSON.stringify({ message: `Move v3.5: ${newPath}`, content: d.content })
         });
         await fetch(`${GITHUB_API}/repos/${githubRepo}/contents/${oldPath}`, {
             method: 'DELETE', headers: { 'Authorization': `token ${githubToken}`, 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: `Rename (Delete Old) v3.4: ${oldPath}`, sha: data.sha })
+            body: JSON.stringify({ message: `Cleanup v3.5: ${oldPath}`, sha: d.sha })
         });
     } catch (e) {}
 }
@@ -300,23 +393,32 @@ async function renomearArquivoGitHub(oldPath, newPath) {
 function toBase64(file) { return new Promise((r, j) => { const rd = new FileReader(); rd.readAsDataURL(file); rd.onload = () => r(rd.result.split(',')[1]); rd.onerror = e => j(e); }); }
 
 function limparFormulario(f = true) {
-    if (f) document.getElementById('cvForm').reset();
-    document.getElementById('photoPreview').style.display = 'none';
-    ['socialList', 'habilidadesList', 'idiomasList', 'experienciasList', 'educacaoList', 'certificadosList'].forEach(id => { const el = document.getElementById(id); if (el) el.innerHTML = ''; });
+    if (f) {
+        const form = document.getElementById('cvForm');
+        if (form) form.reset();
+    }
+    const photo = document.getElementById('photoPreview');
+    if (photo) photo.style.display = 'none';
+    
+    ['socialList', 'habilidadesList', 'idiomasList', 'experienciasList', 'educacaoList', 'certificadosList'].forEach(id => { 
+        const el = document.getElementById(id); 
+        if (el) el.innerHTML = ''; 
+    });
+    
     document.querySelectorAll('.icon-item').forEach(i => i.classList.remove('selected'));
     currentSlug = ''; currentData = null; isManualSlug = false;
     if (f) adicionarSocial({rede: 'WhatsApp', url: ''});
-    updateSlugDisplayFromInputs();
+    updateURLManual();
     syncPreview();
 }
 
-function updateSlugDisplayFromInputs() {
-    const n = document.getElementById('nome').value;
-    const s = document.getElementById('sobrenome').value;
-    const val = `${n}-${s}`.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-    const slugInput = document.getElementById('slug');
-    if (slugInput) { slugInput.value = val; updateUrlDisplay(val); }
+function updateURLManual() {
+    const n = document.getElementById('nome')?.value || '';
+    const s = document.getElementById('sobrenome')?.value || '';
+    const v = `${n}-${s}`.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+    const si = document.getElementById('slug');
+    if (si) { si.value = v; updateUrlDisplay(v); }
 }
 
-function showLoader(s) { document.getElementById('loader').style.display = s ? 'flex' : 'none'; }
+function showLoader(s) { const l = document.getElementById('loader'); if (l) l.style.display = s ? 'flex' : 'none'; }
 function atualizarPreview(s = null) { const i = document.getElementById('previewFrame'); if (i) i.src = (s && s !== '') ? `../?id=${s}` : '../?id=modelo'; }
