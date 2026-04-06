@@ -12,7 +12,7 @@
   "social": [
     {
       "rede": "Instagram",
-      "url": "www.instgram.com"
+      "url": "@juliana"
     }
   ],
   "perfil": {
@@ -21,11 +21,11 @@
   "habilidades": [
     {
       "nome": "Word",
-      "nivel": "80"
+      "nivel": 80
     },
     {
       "nome": "Excell",
-      "nivel": "80"
+      "nivel": 80
     }
   ],
   "idiomas": [
@@ -56,6 +56,6 @@
   "whatsapp": {
     "ativo": true,
     "numero": "",
-    "mensagemPadrao": "Olá..."
+    "mensagemPadrao": "Olá! Gostaria de falar sobre o currículo."
   }
 }
