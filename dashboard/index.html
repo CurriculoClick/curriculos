@@ -20,9 +20,11 @@
             
             <nav class="sidebar-menu">
                 <a href="#" class="menu-item active" onclick="limparFormulario()"><i class="fa-solid fa-plus-circle"></i> Novo</a>
+                <a href="#" class="menu-item" onclick="document.getElementById('importJsonInput').click()"><i class="fa-solid fa-folder-open"></i> Importar do PC</a>
                 <a href="configuracao.html" class="menu-item"><i class="fa-solid fa-gears"></i> Ajustes</a>
                 <a href="../" class="menu-item"><i class="fa-solid fa-eye"></i> Ver Site</a>
             </nav>
+            <input type="file" id="importJsonInput" accept=".json" style="display: none;">
 
             <div class="sidebar-section">
                 <h3><i class="fa-solid fa-users"></i> Recentes</h3>

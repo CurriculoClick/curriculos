@@ -38,19 +38,34 @@ function carregarDadosLocal(id) {
 // Função para carregar os dados do currículo a partir do JSON
 async function carregarDadosCliente(id) {
     try {
-        // Carrega JSON pelo path relativo
+        // Carrega JSON pelo path relativo estático
         const path = `dados/${id}.json`;
-        if (DEBUG) console.log(`Carregando currículo (fetch): ${path}`);
+        if (DEBUG) console.log(`Carregando currículo (fetch estático): ${path}`);
         const resposta = await fetch(path);
+        
         if (!resposta.ok) {
-            throw new Error(`Não foi possível carregar o currículo (ID: ${id})`);
+            if (DEBUG) console.warn(`Falha na rota estática (404). Acionando Smart Fallback Dinâmico na API public...`);
+            
+            // Fallback via API (Bypassa o tempo de build do GitHub Pages)
+            const fallbackRepo = localStorage.getItem('cc_github_repo') || 'thiagodelgado/curriculoclick';
+            const apiRes = await fetch(`https://api.github.com/repos/${fallbackRepo}/contents/dados/${id}.json?t=${Date.now()}`);
+            
+            if (!apiRes.ok) throw new Error("Fallback Dinâmico também falhou. Arquivo inexistente em todas as instâncias.");
+            
+            const fileData = await apiRes.json();
+            const cleanedBase64 = fileData.content.replace(/\n|\r/g, ''); // Limpa quebras do repositório
+            const dadosApi = JSON.parse(decodeURIComponent(escape(atob(cleanedBase64))));
+            aplicarDadosAoCurriculo(dadosApi);
+            return true;
         }
+        
+        // Se a estática der certo de primeira
         const dados = await resposta.json();
         aplicarDadosAoCurriculo(dados);
         return true;
     } catch (erro) {
-        console.error("Erro ao carregar dados do currículo via fetch:", erro);
-        alert("Não foi possível carregar os dados do currículo. O modelo padrão será exibido.");
+        console.error("Erro absoluto ao tentar carregar dados do currículo:", erro);
+        alert("O currículo acessado não encontra-se na base ou acabou de ser escrito e está propagando na rede online. O modelo genérico de amostragem será ativado.");
         return false;
     }
 }
@@ -564,7 +579,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (window.location.protocol === 'file:') {
             // Carregamento local via XHR
             if (DEBUG) console.log('Carregando local via XHR:', id);
-            await carregarDadosLocal(id);
+            const sucessoLocal = carregarDadosLocal(id);
+            if (!sucessoLocal) {
+                if (DEBUG) console.warn("Leitura da pasta local falhou. Tentando baixar do Repositório via API...");
+                await carregarDadosCliente(id);
+            }
         } else {
             // Carregamento via fetch HTTP
             if (DEBUG) console.log('Carregando via fetch HTTP:', id);

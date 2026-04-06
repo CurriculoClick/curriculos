@@ -1,6 +1,6 @@
 /**
- * CurriculoClick Dashboard Engine v3.6
- * Foco: Estabilidade Máxima, Conversão Legado (Social/Idiomas), Live Preview.
+ * CurriculoClick Dashboard Engine v3.7
+ * Foco: Depuração em Tempo Real, Preenchimento Total e Anti-Cache.
  */
 
 const GITHUB_API = 'https://api.github.com';
@@ -67,6 +67,29 @@ function setupCoreEvents() {
         surnameInput.addEventListener('input', updateSlug);
         slugInput.addEventListener('input', () => { isManualSlug = true; updateUrlDisplay(slugInput.value); });
     }
+
+    const importInput = document.getElementById('importJsonInput');
+    if (importInput) {
+        importInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                try {
+                    const json = JSON.parse(ev.target.result);
+                    let nomeSlug = file.name.replace('.json', '');
+                    if (nomeSlug.toLowerCase() === 'modelo-de-dados-cms' || nomeSlug.toLowerCase() === 'modelo') nomeSlug = '';
+                    preencherFormulario(json, nomeSlug);
+                    alert("✅ Currículo importado com sucesso do seu PC! Agora você pode editar todas as informações.");
+                } catch(err) {
+                    console.error("Erro JSON:", err);
+                    alert("Erro ao ler o arquivo JSON: O arquivo não possui uma estrutura de dados válida.");
+                }
+                importInput.value = ''; // Limpar input para poder re-enviar caso necessário no futuro
+            };
+            reader.readAsText(file);
+        });
+    }
 }
 
 function updateUrlDisplay(slug) {
@@ -113,7 +136,7 @@ async function listarCurriculos() {
     const listEl = document.getElementById('clientesList');
     if (!listEl) return;
     try {
-        const res = await fetch(`${GITHUB_API}/repos/${githubRepo}/contents/dados`, {
+        const res = await fetch(`${GITHUB_API}/repos/${githubRepo}/contents/dados?t=${Date.now()}`, {
             headers: { 'Authorization': `token ${githubToken}` }
         });
         const files = await res.json();
@@ -133,127 +156,148 @@ async function listarCurriculos() {
 async function carregarCurriculo(slug) {
     showLoader(true);
     try {
-        const response = await fetch(`${GITHUB_API}/repos/${githubRepo}/contents/dados/${slug}.json`, {
+        const response = await fetch(`${GITHUB_API}/repos/${githubRepo}/contents/dados/${slug}.json?t=${Date.now()}`, {
             headers: { 'Authorization': `token ${githubToken}` }
         });
         const fileData = await response.json();
-        const json = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
+        const cleanedBase64 = fileData.content.replace(/\n|\r/g, ''); // Remover chunk breaks
+        const json = JSON.parse(decodeURIComponent(escape(atob(cleanedBase64))));
         preencherFormulario(json, slug);
-    } catch (e) { alert("Falha ao carregar"); }
+    } catch (e) { 
+        console.error(e);
+        alert("Falha ao carregar arquivo de dados. Verifique sua conexão ou token."); 
+    }
     finally { showLoader(false); }
 }
 
 function preencherFormulario(data, slug) {
-    limparFormulario(false);
-    currentSlug = slug;
-    currentData = data;
-    isManualSlug = true;
+    try {
+        limparFormulario(false);
+        currentSlug = slug;
+        currentData = data;
+        isManualSlug = true;
 
-    // Identidade
-    const partesNome = (data.inicio?.nome || slug).split(' ');
-    if (document.getElementById('nome')) document.getElementById('nome').value = partesNome[0] || '';
-    if (document.getElementById('sobrenome')) document.getElementById('sobrenome').value = partesNome.slice(1).join(' ') || '';
-    if (document.getElementById('slug')) document.getElementById('slug').value = slug;
-    updateUrlDisplay(slug);
-    
-    if (document.getElementById('profissao')) document.getElementById('profissao').value = data.inicio?.profissao || '';
-    if (document.getElementById('endereco')) document.getElementById('endereco').value = data.inicio?.endereco || data.inicio?.localizacao || '';
-    if (document.getElementById('email')) document.getElementById('email').value = data.inicio?.email || '';
-    if (document.getElementById('telefone')) document.getElementById('telefone').value = data.inicio?.telefone || '';
-    
-    if (data.inicio?.foto_perfil) {
+        // Identidade
+        const partesNome = (data.inicio?.nome || slug).split(' ');
+        if (document.getElementById('nome')) document.getElementById('nome').value = partesNome[0] || '';
+        if (document.getElementById('sobrenome')) document.getElementById('sobrenome').value = partesNome.slice(1).join(' ') || '';
+        if (document.getElementById('slug')) document.getElementById('slug').value = slug;
+        updateUrlDisplay(slug);
+        
+        if (document.getElementById('profissao')) document.getElementById('profissao').value = data.inicio?.profissao || '';
+        if (document.getElementById('endereco')) document.getElementById('endereco').value = data.inicio?.endereco || data.inicio?.localizacao || '';
+        if (document.getElementById('email')) document.getElementById('email').value = data.inicio?.email || '';
+        if (document.getElementById('telefone')) document.getElementById('telefone').value = data.inicio?.telefone || '';
+        
         const photo = document.getElementById('photoPreview');
-        if (photo) {
+        if (data.inicio?.foto_perfil && photo) {
             photo.src = `../${data.inicio.foto_perfil}?t=${Date.now()}`;
             photo.style.display = 'block';
         }
-    }
-    
-    if (document.getElementById('descricao')) document.getElementById('descricao').value = data.perfil?.descricao || '';
-    
-    // REDES SOCIAIS (Robustez para Legado: Objeto para Link)
-    if (data.social) {
-        if (Array.isArray(data.social)) data.social.forEach(s => adicionarSocial(s));
-        else if (typeof data.social === 'object') {
-            Object.entries(data.social).forEach(([rede, url]) => {
-                const redeFormatada = rede.charAt(0).toUpperCase() + rede.slice(1);
-                adicionarSocial({ rede: redeFormatada, url: url });
+        
+        if (document.getElementById('descricao')) document.getElementById('descricao').value = data.perfil?.descricao || '';
+        
+        // REDES SOCIAIS
+        if (data.social) {
+            if (Array.isArray(data.social)) {
+                data.social.forEach(s => adicionarSocial(s));
+            } else if (typeof data.social === 'object') {
+                Object.entries(data.social).forEach(([rede, url]) => {
+                    if (url && url !== "") {
+                        const redeFormatada = rede.charAt(0).toUpperCase() + rede.slice(1);
+                        adicionarSocial({ rede: redeFormatada, url: url });
+                    }
+                });
+            }
+        }
+        
+        // HABILIDADES
+        if (Array.isArray(data.habilidades)) data.habilidades.forEach(h => adicionarHabilidade(h));
+        
+        // IDIOMAS
+        if (Array.isArray(data.idiomas)) {
+            data.idiomas.forEach(i => {
+                let nivel = i.nivel;
+                if (!nivel && i.estrelas) {
+                    const niveis = ['Básico','Intermediário','Avançado','Fluente','Nativo'];
+                    nivel = niveis[Math.min(i.estrelas - 1, 4)];
+                }
+                adicionarIdioma({ nome: i.nome, nivel: nivel || '' });
             });
         }
-    }
-    
-    if (Array.isArray(data.habilidades)) data.habilidades.forEach(h => adicionarHabilidade(h));
-    
-    // IDIOMAS (Robustez para Legado: Estrelas)
-    if (Array.isArray(data.idiomas)) {
-        data.idiomas.forEach(i => {
-            let nivel = i.nivel;
-            if (!nivel && i.estrelas) {
-                const niveis = ['Básico','Intermediário','Avançado','Fluente','Nativo'];
-                nivel = niveis[Math.min(i.estrelas - 1, 4)];
-            }
-            adicionarIdioma({ nome: i.nome, nivel: nivel || '' });
+        
+        // TRAJETÓRIA
+        const exps = data.experiencia_profissional;
+        if (Array.isArray(exps)) exps.forEach(e => adicionarExperiencia(e));
+        else if (typeof exps === 'string' && exps.trim() !== "") adicionarExperiencia(exps);
+
+        const edus = data.educacao;
+        if (Array.isArray(edus)) edus.forEach(e => {
+            // Suporte a formatos antigos onde educacao era diferente
+            if (typeof e === 'object') adicionarEducacao(e);
+            else if (typeof e === 'string') adicionarEducacao(e);
         });
-    }
-    
-    // Trajetória robusta
-    const exps = data.experiencia_profissional;
-    if (Array.isArray(exps)) exps.forEach(e => adicionarExperiencia(e));
-    else if (typeof exps === 'string') adicionarExperiencia(exps);
+        else if (typeof edus === 'string' && edus.trim() !== "") adicionarEducacao(edus);
 
-    const edus = data.educacao;
-    if (Array.isArray(edus)) edus.forEach(e => adicionarEducacao(e));
-    else if (typeof edus === 'string') adicionarEducacao(edus);
-
-    const certs = data.certificados || data.certificacoes;
-    if (Array.isArray(certs)) certs.forEach(c => adicionarCertificado(c));
-    else if (typeof certs === 'string') adicionarCertificado(certs);
-
-    // Ícones (Robustez Case Insensitive)
-    if (Array.isArray(data.interesses)) {
-        data.interesses.forEach(int => {
-            const lowInt = int.toLowerCase().trim();
-            const icon = document.querySelector(`.icon-item[title="${lowInt}"]`);
-            if (icon) icon.classList.add('selected');
+        const certs = data.certificados || data.certificacoes;
+        if (Array.isArray(certs)) certs.forEach(c => {
+            if (typeof c === 'object') adicionarCertificado(c);
+            else if (typeof c === 'string') adicionarCertificado(c);
         });
-    }
-    
-    if (data.whatsapp) { 
+        else if (typeof certs === 'string' && certs.trim() !== "") adicionarCertificado(certs);
+
+        // ÍCONES
+        if (Array.isArray(data.interesses)) {
+            data.interesses.forEach(int => {
+                const lowInt = int.toLowerCase().trim();
+                const icon = document.querySelector(`.icon-item[title="${lowInt}"]`);
+                if (icon) icon.classList.add('selected');
+            });
+        }
+        
+        // WHATSAPP
         const waEl = document.getElementById('wa_numero');
-        if (waEl) waEl.value = (typeof data.whatsapp === 'object') ? data.whatsapp.numero : (typeof data.whatsapp === 'string' ? data.whatsapp : ''); 
+        if (waEl && data.whatsapp) { 
+            waEl.value = (typeof data.whatsapp === 'object') ? (data.whatsapp.numero || '') : (typeof data.whatsapp === 'string' ? data.whatsapp : ''); 
+        }
+        
+        console.log("Formulário preenchido com sucesso para:", slug);
+        atualizarPreview(slug);
+
+    } catch (err) {
+        console.error("Erro ao preencher formulário:", err);
+        alert("Ocorreu um erro ao processar os dados deste currículo. Verifique o console ou tente novamente.");
     }
-    
-    atualizarPreview(slug);
 }
 
 // --- Dynamic Fields ---
 function adicionarSocial(d=null) { 
     const l = document.getElementById('socialList'); if (!l) return;
     const div = document.createElement('div'); div.className = 'dynamic-item form-row'; 
-    const redes = ['LinkedIn','WhatsApp','Instagram','TikTok','GitHub','Site'];
-    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><select class="input-pro s-rede">${redes.map(r => `<option value="${r}" ${d?.rede === r ? 'selected' : ''}>${r}</option>`).join('')}</select></div><div class="field-item"><input type="text" class="input-pro s-url" placeholder="Link" value="${d?.url || ''}"></div>`; 
+    const redes = ['WhatsApp','Instagram','LinkedIn','Facebook','TikTok','GitHub','Site','Twitter','YouTube'];
+    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><select class="input-pro s-rede">${redes.map(r => `<option value="${r}" ${d?.rede === r ? 'selected' : ''}>${r}</option>`).join('')}</select></div><div class="field-item"><input type="text" class="input-pro s-url" placeholder="Link/Telefone" value="${d?.url || ''}"></div>`; 
     l.appendChild(div); if(!d) syncPreview(); 
 }
 
 function adicionarHabilidade(d=null) { 
     const l = document.getElementById('habilidadesList'); if (!l) return;
-    if (l.children.length >= LIMIT_HABILIDADES && !d) return alert(`Limit ${LIMIT_HABILIDADES}`); 
+    if (l.children.length >= LIMIT_HABILIDADES && !d) return alert(`Limite: ${LIMIT_HABILIDADES}`); 
     const div = document.createElement('div'); div.className = 'dynamic-item form-row'; 
-    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><input type="text" class="input-pro h-nome" placeholder="Hab" value="${d?.nome || ''}"></div><div class="field-item"><input type="number" class="input-pro h-nivel" value="${d?.nivel || 80}"></div>`; 
+    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><input type="text" class="input-pro h-nome" placeholder="Habilidade" value="${d?.nome || ''}"></div><div class="field-item"><input type="number" class="input-pro h-nivel" value="${d?.nivel || 80}"></div>`; 
     l.appendChild(div); if(!d) syncPreview(); 
 }
 
 function adicionarIdioma(d=null) { 
     const l = document.getElementById('idiomasList'); if (!l) return;
-    if (l.children.length >= LIMIT_IDIOMAS && !d) return alert(`Limit ${LIMIT_IDIOMAS}`); 
+    if (l.children.length >= LIMIT_IDIOMAS && !d) return alert(`Limite: ${LIMIT_IDIOMAS}`); 
     const div = document.createElement('div'); div.className = 'dynamic-item form-row'; 
-    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><input type="text" class="input-pro i-nome" placeholder="Idio" value="${d?.nome || ''}"></div><div class="field-item"><input type="text" class="input-pro i-nivel" placeholder="Flu/Bas" value="${d?.nivel || ''}"></div>`; 
+    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><input type="text" class="input-pro i-nome" placeholder="Idioma" value="${d?.nome || ''}"></div><div class="field-item"><input type="text" class="input-pro i-nivel" placeholder="Nível (ex: Fluente)" value="${d?.nivel || ''}"></div>`; 
     l.appendChild(div); if(!d) syncPreview(); 
 }
 
 function adicionarExperiencia(d=null) { 
     const l = document.getElementById('experienciasList'); if (!l) return;
-    if (l.children.length >= LIMIT_EXPERIENCIA && !d) return alert(`Limit ${LIMIT_EXPERIENCIA}`); 
+    if (l.children.length >= LIMIT_EXPERIENCIA && !d) return alert(`Limite: ${LIMIT_EXPERIENCIA}`); 
     const div = document.createElement('div'); div.className = 'dynamic-item'; 
     const isL = typeof d === 'string';
     const cargo = isL ? '' : (d?.cargo || d?.titulo || '');
@@ -266,7 +310,7 @@ function adicionarExperiencia(d=null) {
 
 function adicionarEducacao(d=null) { 
     const l = document.getElementById('educacaoList'); if (!l) return;
-    if (l.children.length >= LIMIT_EDUCACAO && !d) return alert(`Limit ${LIMIT_EDUCACAO}`); 
+    if (l.children.length >= LIMIT_EDUCACAO && !d) return alert(`Limite: ${LIMIT_EDUCACAO}`); 
     const div = document.createElement('div'); div.className = 'dynamic-item'; 
     const isL = typeof d === 'string';
     const curso = isL ? d : (d?.curso || d?.titulo || '');
@@ -278,7 +322,7 @@ function adicionarEducacao(d=null) {
 
 function adicionarCertificado(d=null) { 
     const l = document.getElementById('certificadosList'); if (!l) return;
-    if (l.children.length >= LIMIT_CERTIFICADOS && !d) return alert(`Limit ${LIMIT_CERTIFICADOS}`); 
+    if (l.children.length >= LIMIT_CERTIFICADOS && !d) return alert(`Limite: ${LIMIT_CERTIFICADOS}`); 
     const div = document.createElement('div'); div.className = 'dynamic-item'; 
     const isL = typeof d === 'string';
     const ano = isL ? '' : (d?.ano || '');
@@ -291,7 +335,7 @@ function adicionarCertificado(d=null) {
 async function publicarCurriculo() {
     const sEl = document.getElementById('slug');
     const newSlug = sEl ? sEl.value.trim() : '';
-    if (!newSlug) return alert("URL obrigatória.");
+    if (!newSlug) return alert("URL (Link) é obrigatória.");
     showLoader(true);
     try {
         const payload = collectData();
@@ -313,10 +357,10 @@ async function publicarCurriculo() {
             } else payload.inicio.foto_perfil = currentData.inicio.foto_perfil;
         }
         await uploadToGitHub(`dados/${newSlug}.json`, JSON.stringify(payload, null, 2), true);
-        alert("Sucesso!");
+        alert("Currículo publicado com sucesso!");
         listarCurriculos();
         window.location.href = `../?id=${newSlug}`;
-    } catch (e) { alert(`Falha: ${e.message}`); }
+    } catch (e) { alert(`Falha na publicação: ${e.message}`); }
     finally { showLoader(false); }
 }
 
@@ -325,7 +369,7 @@ function collectData() {
     const s = document.getElementById('sobrenome')?.value || '';
     const full = `${n} ${s}`.trim();
     const soc = Array.from(document.querySelectorAll('#socialList .dynamic-item')).map(it => ({ rede: it.querySelector('.s-rede').value, url: it.querySelector('.s-url').value }));
-    const habs = Array.from(document.querySelectorAll('#habilidadesList .dynamic-item')).map(it => ({ nome: it.querySelector('.h-nome').value, nivel: it.querySelector('.h-nivel').value }));
+    const habs = Array.from(document.querySelectorAll('#habilidadesList .dynamic-item')).map(it => ({ nome: it.querySelector('.h-nome').value, nivel: parseInt(it.querySelector('.h-nivel').value) || 0 }));
     const idis = Array.from(document.querySelectorAll('#idiomasList .dynamic-item')).map(it => ({ nome: it.querySelector('.i-nome').value, nivel: it.querySelector('.i-nivel').value }));
     const exps = Array.from(document.querySelectorAll('#experienciasList .dynamic-item')).map(it => ({ cargo: it.querySelector('.e-cargo').value, empresa: it.querySelector('.e-empresa').value, periodo: it.querySelector('.e-periodo').value, descricao: it.querySelector('.e-desc').value }));
     const edus = Array.from(document.querySelectorAll('#educacaoList .dynamic-item')).map(it => ({ curso: it.querySelector('.edu-curso').value, instituicao: it.querySelector('.edu-inst').value, periodo: it.querySelector('.edu-per').value }));
@@ -334,7 +378,7 @@ function collectData() {
     return {
         inicio: { nome: full, profissao: document.getElementById('profissao')?.value || '', endereco: document.getElementById('endereco')?.value || '', localizacao: document.getElementById('endereco')?.value || '', email: document.getElementById('email')?.value || '', telefone: document.getElementById('telefone')?.value || '', botao_baixar: "BAIXAR" },
         social: soc, perfil: { descricao: document.getElementById('descricao')?.value || '' }, habilidades: habs, idiomas: idis, experiencia_profissional: exps, educacao: edus, certificados: certs, interesses: ints,
-        whatsapp: { ativo: true, numero: document.getElementById('wa_numero')?.value || '', mensagemPadrao: "Olá..." }
+        whatsapp: { ativo: true, numero: document.getElementById('wa_numero')?.value || '', mensagemPadrao: "Olá! Gostaria de falar sobre o currículo." }
     };
 }
 
@@ -347,7 +391,7 @@ async function uploadToGitHub(path, content, isText = false) {
     } catch (e) {}
     await fetch(`${GITHUB_API}/repos/${githubRepo}/contents/${path}`, {
         method: 'PUT', headers: { 'Authorization': `token ${githubToken}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: `Dash v3.6: ${path}`, content: b64, sha })
+        body: JSON.stringify({ message: `Dashboard Edit: ${path}`, content: b64, sha })
     });
 }
 
@@ -358,7 +402,7 @@ async function deletarDoGitHub(path) {
         const sha = (await res.json()).sha;
         await fetch(`${GITHUB_API}/repos/${githubRepo}/contents/${path}`, {
             method: 'DELETE', headers: { 'Authorization': `token ${githubToken}` },
-            body: JSON.stringify({ message: `Delete v3.6: ${path}`, sha })
+            body: JSON.stringify({ message: `Delete v3.7: ${path}`, sha })
         });
     } catch (e) {}
 }
@@ -370,11 +414,11 @@ async function renomearArquivoGitHub(oldPath, newPath) {
         const d = await res.json();
         await fetch(`${GITHUB_API}/repos/${githubRepo}/contents/${newPath}`, {
             method: 'PUT', headers: { 'Authorization': `token ${githubToken}`, 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: `Move v3.6: ${newPath}`, content: d.content })
+            body: JSON.stringify({ message: `Move v3.7: ${newPath}`, content: d.content })
         });
         await fetch(`${GITHUB_API}/repos/${githubRepo}/contents/${oldPath}`, {
             method: 'DELETE', headers: { 'Authorization': `token ${githubToken}` },
-            body: JSON.stringify({ message: `Cleanup v3.6: ${oldPath}`, sha: d.sha })
+            body: JSON.stringify({ message: `Cleanup v3.7: ${oldPath}`, sha: d.sha })
         });
     } catch (e) {}
 }
