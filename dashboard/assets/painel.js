@@ -12,6 +12,7 @@ let currentData = null;
 let currentSlug = '';
 let isManualSlug = false;
 let syncTimeout = null;
+let cropperInstance = null;
 const LIMIT_HABILIDADES = 5;
 const LIMIT_IDIOMAS = 3;
 const LIMIT_EXPERIENCIA = 3;
@@ -36,11 +37,12 @@ function setupCoreEvents() {
         if (file) {
             const reader = new FileReader();
             reader.onload = (ev) => { 
-                if (photoPreview) { photoPreview.src = ev.target.result; photoPreview.style.display = 'block'; }
-                syncPreview();
+                // Abre a janela do Cropper em vez de colocar na tela direto
+                abrirCropper(ev.target.result);
             };
             reader.readAsDataURL(file);
         }
+        e.target.value = ''; // Reset para permitir reconversão
     });
 
     const pubBtn = document.getElementById('publishBtn');
@@ -340,13 +342,19 @@ async function publicarCurriculo() {
     try {
         const payload = collectData();
         const photoInput = document.getElementById('photoInput');
+        const photoPreview = document.getElementById('photoPreview');
+        const isCroppedImage = photoPreview && photoPreview.src && photoPreview.src.startsWith('data:image/');
+        
         if (currentSlug && currentSlug !== newSlug) {
             await deletarDoGitHub(`dados/${currentSlug}.json`);
             if (currentData?.inicio?.foto_perfil?.includes(currentSlug)) await deletarDoGitHub(currentData.inicio.foto_perfil);
         }
-        if (photoInput?.files.length > 0) {
+        
+        // Faz a verificação se a foto foi cortada e gerou um Base64 RAW
+        if (isCroppedImage) {
             const path = `dados/uploads/${newSlug}.png`;
-            await uploadToGitHub(path, photoInput.files[0]);
+            const base64Data = photoPreview.src.split(',')[1];
+            await uploadToGitHub(path, base64Data, false, true); // Usa modo raw base64
             payload.inicio.foto_perfil = path;
         } else if (currentData?.inicio?.foto_perfil) {
             if (currentSlug !== newSlug && currentData.inicio.foto_perfil.includes(currentSlug)) {
@@ -382,8 +390,8 @@ function collectData() {
     };
 }
 
-async function uploadToGitHub(path, content, isText = false) {
-    let b64 = isText ? btoa(unescape(encodeURIComponent(content))) : await toBase64(content);
+async function uploadToGitHub(path, content, isText = false, isRawBase64 = false) {
+    let b64 = isRawBase64 ? content : (isText ? btoa(unescape(encodeURIComponent(content))) : await toBase64(content));
     let sha = null;
     try {
         const res = await fetch(`${GITHUB_API}/repos/${githubRepo}/contents/${path}`, { headers: { 'Authorization': `token ${githubToken}` } });
@@ -446,3 +454,55 @@ function updateURLManual() {
 
 function showLoader(s) { const l = document.getElementById('loader'); if (l) l.style.display = s ? 'flex' : 'none'; }
 function atualizarPreview(s = null) { const i = document.getElementById('previewFrame'); if (i) i.src = (s && s !== '') ? `../?id=${s}` : '../?id=modelo'; }
+
+// --- Cropper Logic ---
+function abrirCropper(imageSrc) {
+    const modal = document.getElementById('cropModal');
+    const image = document.getElementById('cropImage');
+    
+    image.src = imageSrc;
+    modal.style.display = 'flex';
+    
+    if (cropperInstance) cropperInstance.destroy();
+    
+    cropperInstance = new Cropper(image, {
+        aspectRatio: 1,
+        viewMode: 1,
+        dragMode: 'move',
+        autoCropArea: 0.9,
+        restore: false,
+        guides: true,
+        center: true,
+        highlight: false,
+        cropBoxMovable: true,
+        cropBoxResizable: true,
+        toggleDragModeOnDblclick: false,
+    });
+}
+
+function fecharCropper() {
+    document.getElementById('cropModal').style.display = 'none';
+    if (cropperInstance) {
+        cropperInstance.destroy();
+        cropperInstance = null;
+    }
+}
+
+function aplicarCorte() {
+    if (!cropperInstance) return;
+    const canvas = cropperInstance.getCroppedCanvas({
+        width: 400,
+        height: 400,
+        imageSmoothingEnabled: true,
+        imageSmoothingQuality: 'high',
+    });
+    if (canvas) {
+        const photoPreview = document.getElementById('photoPreview');
+        if (photoPreview) {
+            photoPreview.src = canvas.toDataURL('image/png', 0.9);
+            photoPreview.style.display = 'block';
+        }
+        syncPreview();
+    }
+    fecharCropper();
+}

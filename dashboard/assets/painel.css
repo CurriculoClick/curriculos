@@ -179,3 +179,13 @@ body {
     border-top: 4px solid white; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 1rem;
 }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+/* Modal Cropper */
+.crop-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 1rem; backdrop-filter: blur(5px); }
+.crop-modal-content { background: var(--surface); border-radius: 12px; width: 100%; max-width: 600px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+.crop-header { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.crop-header h3 { margin: 0; font-size: 1.1rem; color: var(--primary); }
+.close-crop { background: none; border: none; font-size: 1.25rem; color: var(--text-muted); cursor: pointer; }
+.close-crop:hover { color: #ff4757; }
+.crop-body { padding: 1.5rem; background: #000; height: 400px; }
+.crop-body img { display: block; max-width: 100%; }
+.crop-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 1rem; }

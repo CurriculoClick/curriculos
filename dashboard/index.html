@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel CurriculoClick v3.0</title>
     <link rel="stylesheet" href="assets/painel.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/cb81440751.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 </head>
 <body>
 
@@ -225,6 +227,23 @@
             <button class="fab btn-primary" id="publishBtn"><i class="fa-solid fa-paper-plane"></i></button>
         </div>
 
+    </div>
+
+    <!-- Modal do Cropper -->
+    <div id="cropModal" class="crop-modal" style="display: none;">
+        <div class="crop-modal-content">
+            <div class="crop-header">
+                <h3>Ajustar Foto de Perfil</h3>
+                <button type="button" class="close-crop" onclick="fecharCropper()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="crop-body">
+                <img id="cropImage" src="">
+            </div>
+            <div class="crop-footer">
+                <button type="button" class="btn-secondary" onclick="fecharCropper()">Cancelar</button>
+                <button type="button" class="btn-primary" onclick="aplicarCorte()"><i class="fa-solid fa-crop-simple"></i> Cortar e Salvar</button>
+            </div>
+        </div>
     </div>
 
     <!-- Loading Screen -->
