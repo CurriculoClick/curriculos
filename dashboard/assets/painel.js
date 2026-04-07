@@ -98,9 +98,9 @@ function setupCoreEvents() {
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
             const term = e.target.value.toLowerCase().trim();
-            const items = document.querySelectorAll('#clientesList .menu-item');
+            const items = document.querySelectorAll('#clientesList .client-item');
             items.forEach(item => {
-                const name = item.textContent.toLowerCase();
+                const name = item.querySelector('span').textContent.toLowerCase();
                 if (name.includes(term)) {
                     item.style.display = 'flex';
                 } else {
@@ -161,22 +161,51 @@ function renderIconSelectors() {
 async function listarCurriculos() {
     const listEl = document.getElementById('clientesList');
     if (!listEl) return;
+    
+    // Mostra estado de carregamento sutil na lista
+    listEl.innerHTML = '<div class="list-loader"><i class="fa-solid fa-circle-notch fa-spin"></i> Sincronizando...</div>';
+    
     try {
         const res = await fetch(`${GITHUB_API}/repos/${githubRepo}/contents/dados?t=${Date.now()}`, {
             headers: { 'Authorization': `token ${githubToken}` }
         });
         const files = await res.json();
         listEl.innerHTML = '';
+        
         if (Array.isArray(files)) {
-            files.filter(f => f.name.endsWith('.json') && f.name !== 'modelo.json').forEach(file => {
-                const btn = document.createElement('div');
-                btn.className = 'menu-item';
-                btn.innerHTML = `<i class="fa-solid fa-circle-user"></i> <span>${file.name.replace('.json', '')}</span>`;
-                btn.onclick = () => carregarCurriculo(file.name.replace('.json', ''));
-                listEl.appendChild(btn);
+            // Filtra e ordena (os mais novos primeiro seria ideal, mas GitHub API retorna alfabético por padrão)
+            const jsonFiles = files.filter(f => f.name.endsWith('.json') && f.name !== 'modelo.json');
+            
+            if (jsonFiles.length === 0) {
+                listEl.innerHTML = '<div class="list-loader">Nenhum currículo encontrado</div>';
+                return;
+            }
+
+            jsonFiles.forEach(file => {
+                const slug = file.name.replace('.json', '');
+                const item = document.createElement('div');
+                item.className = 'client-item';
+                if (currentSlug === slug) item.classList.add('active');
+                
+                item.innerHTML = `
+                    <i class="fa-solid fa-file-user"></i>
+                    <span>${slug}</span>
+                    <i class="fa-solid fa-chevron-right" style="font-size:0.7rem; opacity:0.5"></i>
+                `;
+                
+                item.onclick = () => {
+                    // Remove active de todos e adiciona no clicado
+                    document.querySelectorAll('.client-item').forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                    carregarCurriculo(slug);
+                };
+                listEl.appendChild(item);
             });
         }
-    } catch (e) { listEl.innerHTML = '<small>Erro ao listar</small>'; }
+    } catch (e) { 
+        console.error("Erro ao listar:", e);
+        listEl.innerHTML = '<div class="list-loader" style="color:#ef4444">Erro ao carregar lista</div>'; 
+    }
 }
 
 async function carregarCurriculo(slug) {

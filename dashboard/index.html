@@ -30,17 +30,18 @@
             <input type="file" id="importJsonInput" accept=".json" style="display: none;">
 
             <div class="sidebar-section">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; padding: 0 0.5rem;">
-                    <h3 style="margin: 0;"><i class="fa-solid fa-users"></i> Recentes</h3>
+                <div class="sidebar-section-header">
+                    <h3><i class="fa-solid fa-file-invoice"></i> Meus Currículos</h3>
+                    <button class="btn-refresh" onclick="listarCurriculos()" title="Atualizar Lista"><i class="fa-solid fa-rotate"></i></button>
                 </div>
-                <div style="padding: 0 0.5rem; margin-bottom: 0.5rem;">
-                    <div style="position: relative;">
-                        <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 0.8rem;"></i>
-                        <input type="text" id="searchCurriculo" placeholder="Buscar..." class="input-pro" style="padding-left: 28px; height: 35px; width: 100%; border-radius: 6px; font-size: 0.85rem;">
+                <div class="sidebar-search">
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="searchCurriculo" placeholder="Buscar currículo..." class="input-pro">
                     </div>
                 </div>
                 <div id="clientesList" class="client-list">
-                    <!-- JS Populated -->
+                    <div class="list-loader">Carregando...</div>
                 </div>
             </div>
         </aside>
