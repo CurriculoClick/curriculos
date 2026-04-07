@@ -219,12 +219,17 @@ function preencherFormulario(data, slug) {
         // IDIOMAS
         if (Array.isArray(data.idiomas)) {
             data.idiomas.forEach(i => {
-                let nivel = i.nivel;
-                if (!nivel && i.estrelas) {
-                    const niveis = ['Básico','Intermediário','Avançado','Fluente','Nativo'];
-                    nivel = niveis[Math.min(i.estrelas - 1, 4)];
+                let estrelas = i.estrelas;
+                if (!estrelas && i.nivel) {
+                    // Tenta traduzir legados de texto para estrelas
+                    const nivelLow = i.nivel.toLowerCase();
+                    if (nivelLow.includes('básico')) estrelas = 1;
+                    else if (nivelLow.includes('intermediário')) estrelas = 2;
+                    else if (nivelLow.includes('avançado')) estrelas = 3;
+                    else if (nivelLow.includes('fluente')) estrelas = 4;
+                    else if (nivelLow.includes('nativo')) estrelas = 5;
                 }
-                adicionarIdioma({ nome: i.nome, nivel: nivel || '' });
+                adicionarIdioma({ nome: i.nome, estrelas: estrelas || 5 });
             });
         }
         
@@ -293,7 +298,12 @@ function adicionarIdioma(d=null) {
     const l = document.getElementById('idiomasList'); if (!l) return;
     if (l.children.length >= LIMIT_IDIOMAS && !d) return alert(`Limite: ${LIMIT_IDIOMAS}`); 
     const div = document.createElement('div'); div.className = 'dynamic-item form-row'; 
-    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><input type="text" class="input-pro i-nome" placeholder="Ex: Inglês" value="${d?.nome || ''}"></div><div class="field-item"><input type="text" class="input-pro i-nivel" placeholder="Ex: Avançado" value="${d?.nivel || ''}"></div>`; 
+    const s1 = d?.estrelas == 1 ? 'selected' : '';
+    const s2 = d?.estrelas == 2 ? 'selected' : '';
+    const s3 = d?.estrelas == 3 ? 'selected' : '';
+    const s4 = d?.estrelas == 4 ? 'selected' : '';
+    const s5 = (d?.estrelas == 5 || !d) ? 'selected' : '';
+    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><input type="text" class="input-pro i-nome" placeholder="Ex: Inglês" value="${d?.nome || ''}"></div><div class="field-item"><select class="input-pro i-estrelas"><option value="1" ${s1}>1 Estrela</option><option value="2" ${s2}>2 Estrelas</option><option value="3" ${s3}>3 Estrelas</option><option value="4" ${s4}>4 Estrelas</option><option value="5" ${s5}>5 Estrelas</option></select></div>`; 
     l.appendChild(div); if(!d) syncPreview(); 
 }
 
@@ -378,7 +388,7 @@ function collectData() {
     const full = `${n} ${s}`.trim();
     const soc = Array.from(document.querySelectorAll('#socialList .dynamic-item')).map(it => ({ rede: it.querySelector('.s-rede').value, url: it.querySelector('.s-url').value }));
     const habs = Array.from(document.querySelectorAll('#habilidadesList .dynamic-item')).map(it => ({ nome: it.querySelector('.h-nome').value, nivel: parseInt(it.querySelector('.h-nivel').value) || 0 }));
-    const idis = Array.from(document.querySelectorAll('#idiomasList .dynamic-item')).map(it => ({ nome: it.querySelector('.i-nome').value, nivel: it.querySelector('.i-nivel').value }));
+    const idis = Array.from(document.querySelectorAll('#idiomasList .dynamic-item')).map(it => ({ nome: it.querySelector('.i-nome').value, estrelas: parseInt(it.querySelector('.i-estrelas').value) || 5 }));
     const exps = Array.from(document.querySelectorAll('#experienciasList .dynamic-item')).map(it => ({ cargo: it.querySelector('.e-cargo').value, empresa: it.querySelector('.e-empresa').value, periodo: it.querySelector('.e-periodo').value, descricao: it.querySelector('.e-desc').value }));
     const edus = Array.from(document.querySelectorAll('#educacaoList .dynamic-item')).map(it => ({ curso: it.querySelector('.edu-curso').value, instituicao: it.querySelector('.edu-inst').value, periodo: it.querySelector('.edu-per').value }));
     const certs = Array.from(document.querySelectorAll('#certificadosList .dynamic-item')).map(it => ({ ano: it.querySelector('.cert-ano').value, titulo: it.querySelector('.cert-titulo').value }));
