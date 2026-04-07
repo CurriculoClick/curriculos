@@ -122,6 +122,9 @@ function aplicarDadosAoCurriculo(dados) {
             }
         }
         
+        // Atualizar meta tags Open Graph dinamicamente no browser
+        atualizarMetaTagsOG(dados);
+        
         // Idade e estado civil
         const idadeEl = document.getElementById('idade');
         if (dados.inicio.idade) {
@@ -733,6 +736,65 @@ function animateProfession(profissaoEl, finalText) {
         });
     } else {
         profissaoEl.textContent = finalText;
+    }
+}
+
+/**
+ * Atualiza as meta tags Open Graph e Twitter Card no browser
+ * com os dados reais do candidato após o carregamento do JSON.
+ * Importante: Isso funciona para usuários que copiam o link do browser.
+ * Para crawlers (WhatsApp, LinkedIn, etc.) o Edge Function é responsável.
+ */
+function atualizarMetaTagsOG(dados) {
+    try {
+        if (!dados || !dados.inicio) return;
+
+        const nome = dados.inicio.nome || 'Currículo Profissional';
+        const profissao = dados.inicio.profissao || '';
+        const fotoPerfil = dados.inicio.foto_perfil || '';
+        const descricaoPerfil = (dados.perfil && dados.perfil.descricao) || `Confira o currículo profissional de ${nome}.`;
+
+        // Monta URL absoluta da foto de perfil
+        const origin = window.location.origin;
+        let fotoAbsoluta;
+        if (fotoPerfil) {
+            const basePath = fotoPerfil.replace(/^\/+/, '');
+            fotoAbsoluta = `${origin}/${basePath}`;
+        } else {
+            fotoAbsoluta = `${origin}/ativos/imagens/og-default.png`;
+        }
+
+        const titulo = profissao
+            ? `${nome} | ${profissao} – Currículo Click`
+            : `${nome} – Currículo Click`;
+        const descricao = descricaoPerfil.length > 160
+            ? descricaoPerfil.substring(0, 157) + '...'
+            : descricaoPerfil;
+        const paginaUrl = window.location.href;
+
+        // Helper para setar content de meta pelo id
+        function setMeta(id, value) {
+            const el = document.getElementById(id);
+            if (el) el.setAttribute('content', value);
+        }
+
+        // Atualizar título da página
+        document.title = `Currículo Click | ${nome}`;
+
+        // Open Graph
+        setMeta('og-url',         paginaUrl);
+        setMeta('og-title',       titulo);
+        setMeta('og-description', descricao);
+        setMeta('og-image',       fotoAbsoluta);
+
+        // Twitter Card
+        setMeta('tw-title',       titulo);
+        setMeta('tw-description', descricao);
+        setMeta('tw-image',       fotoAbsoluta);
+
+        if (DEBUG) console.log('[OG] Meta tags atualizadas:', { titulo, fotoAbsoluta, descricao });
+    } catch (e) {
+        console.warn('[OG] Erro ao atualizar meta tags:', e);
     }
 }
 

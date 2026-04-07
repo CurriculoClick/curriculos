@@ -5,6 +5,19 @@
 [build.environment]
   NODE_VERSION = "14"
 
+# ──────────────────────────────────────────────
+# Edge Functions
+# ──────────────────────────────────────────────
+# Injeta meta tags Open Graph dinamicamente para
+# crawlers do WhatsApp, LinkedIn, Facebook, etc.
+[[edge_functions]]
+  function = "og-inject"
+  path     = "/"
+
+# ──────────────────────────────────────────────
+# Redirects
+# ──────────────────────────────────────────────
+
 # 1. Servir config.yml diretamente (com prioridade)
 [[redirects]]
   from = "/admin/config.yml"
@@ -28,11 +41,4 @@
 [[redirects]]
   from = "/admin/*"
   to = "/admin/index.html"
-  status = 200
-
-# 5. Redirecionar /dados/* para o SPA
-# [[redirects]]
-#   from = "/dados/*"
-#   to = "/dados/:splat"
-#   status = 200
-#   force = true 
+  status = 200
