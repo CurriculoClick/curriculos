@@ -270,7 +270,22 @@ function aplicarDadosAoCurriculo(dados) {
                 const customIconClass = item.iconClass;
 
                 // Define texto a exibir e URL real
-                const displayName = customLabel || (raw.startsWith('@') ? raw : '@' + raw);
+                let displayUser = raw;
+                if (!customLabel && /^https?:\/\//i.test(raw)) {
+                    // Extrai usuário da URL (remove domínio e query params)
+                    try {
+                        const urlObj = new URL(raw);
+                        displayUser = urlObj.pathname.split('/').filter(p => p && p !== 'in' && p !== '@').pop();
+                        if (displayUser) displayUser = '@' + displayUser;
+                        else displayUser = raw; // fallback se não conseguir extrair
+                    } catch (e) {
+                        displayUser = raw;
+                    }
+                } else if (!customLabel && !raw.startsWith('@')) {
+                    displayUser = '@' + raw;
+                }
+
+                const displayName = customLabel || displayUser;
                 let actualUrl;
                 if (link) {
                     actualUrl = link;
