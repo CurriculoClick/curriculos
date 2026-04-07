@@ -277,7 +277,7 @@ function adicionarSocial(d=null) {
     const l = document.getElementById('socialList'); if (!l) return;
     const div = document.createElement('div'); div.className = 'dynamic-item form-row'; 
     const redes = ['WhatsApp','Instagram','LinkedIn','Facebook','TikTok','GitHub','Site','Twitter','YouTube'];
-    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><select class="input-pro s-rede">${redes.map(r => `<option value="${r}" ${d?.rede === r ? 'selected' : ''}>${r}</option>`).join('')}</select></div><div class="field-item"><input type="text" class="input-pro s-url" placeholder="Link/Telefone" value="${d?.url || ''}"></div>`; 
+    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><select class="input-pro s-rede">${redes.map(r => `<option value="${r}" ${d?.rede === r ? 'selected' : ''}>${r}</option>`).join('')}</select></div><div class="field-item"><input type="text" class="input-pro s-url" placeholder="Ex: instagram.com/milena" value="${d?.url || ''}"></div>`; 
     l.appendChild(div); if(!d) syncPreview(); 
 }
 
@@ -285,7 +285,7 @@ function adicionarHabilidade(d=null) {
     const l = document.getElementById('habilidadesList'); if (!l) return;
     if (l.children.length >= LIMIT_HABILIDADES && !d) return alert(`Limite: ${LIMIT_HABILIDADES}`); 
     const div = document.createElement('div'); div.className = 'dynamic-item form-row'; 
-    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><input type="text" class="input-pro h-nome" placeholder="Habilidade" value="${d?.nome || ''}"></div><div class="field-item"><input type="number" class="input-pro h-nivel" value="${d?.nivel || 80}"></div>`; 
+    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><input type="text" class="input-pro h-nome" placeholder="Ex: Power Point" value="${d?.nome || ''}"></div><div class="field-item"><input type="number" class="input-pro h-nivel" placeholder="0 a 100" value="${d?.nivel || 80}"></div>`; 
     l.appendChild(div); if(!d) syncPreview(); 
 }
 
@@ -293,7 +293,7 @@ function adicionarIdioma(d=null) {
     const l = document.getElementById('idiomasList'); if (!l) return;
     if (l.children.length >= LIMIT_IDIOMAS && !d) return alert(`Limite: ${LIMIT_IDIOMAS}`); 
     const div = document.createElement('div'); div.className = 'dynamic-item form-row'; 
-    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><input type="text" class="input-pro i-nome" placeholder="Idioma" value="${d?.nome || ''}"></div><div class="field-item"><input type="text" class="input-pro i-nivel" placeholder="Nível (ex: Fluente)" value="${d?.nivel || ''}"></div>`; 
+    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><input type="text" class="input-pro i-nome" placeholder="Ex: Inglês" value="${d?.nome || ''}"></div><div class="field-item"><input type="text" class="input-pro i-nivel" placeholder="Ex: Avançado" value="${d?.nivel || ''}"></div>`; 
     l.appendChild(div); if(!d) syncPreview(); 
 }
 
@@ -306,7 +306,7 @@ function adicionarExperiencia(d=null) {
     const emp = isL ? '' : (d?.empresa || '');
     const per = isL ? '' : (d?.periodo || d?.data || '');
     const desc = isL ? d : (d?.descricao || '');
-    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="form-row"><div class="field-item"><label>Cargo</label><input type="text" class="input-pro e-cargo" value="${cargo}"></div><div class="field-item"><label>Empresa</label><input type="text" class="input-pro e-empresa" value="${emp}"></div></div><div class="field-item"><label>Período</label><input type="text" class="input-pro e-periodo" value="${per}"></div><div class="field-item"><label>Atividades</label><textarea class="textarea-pro e-desc" rows="2">${desc}</textarea></div>`; 
+    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="form-row"><div class="field-item"><label>Cargo</label><input type="text" class="input-pro e-cargo" placeholder="Ex: Administradora Financeira" value="${cargo}"></div><div class="field-item"><label>Empresa</label><input type="text" class="input-pro e-empresa" placeholder="Ex: Pizza Hunt - Brasil" value="${emp}"></div></div><div class="field-item"><label>Período</label><input type="text" class="input-pro e-periodo" placeholder="Ex: Janeiro 2022 - Atual" value="${per}"></div><div class="field-item"><label>Atividades</label><textarea class="textarea-pro e-desc" rows="2" placeholder="Ex: Planejamento financeiro, controle financeiro e tomada de decisões financeiras estratégicas...">${desc}</textarea></div>`; 
     l.appendChild(div); if(!d) syncPreview(); 
 }
 
@@ -318,7 +318,7 @@ function adicionarEducacao(d=null) {
     const curso = isL ? d : (d?.curso || d?.titulo || '');
     const inst = isL ? '' : (d?.instituicao || '');
     const per = isL ? '' : (d?.periodo || d?.ano || '');
-    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><label>Curso</label><input type="text" class="input-pro edu-curso" value="${curso}"></div><div class="field-item"><label>Instituição</label><input type="text" class="input-pro edu-inst" value="${inst}"></div><div class="field-item"><label>Período</label><input type="text" class="input-pro edu-per" value="${per}"></div>`; 
+    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><label>Curso</label><input type="text" class="input-pro edu-curso" placeholder="Ex: Administração" value="${curso}"></div><div class="field-item"><label>Instituição</label><input type="text" class="input-pro edu-inst" placeholder="Ex: Centro Educacional Anhanguera" value="${inst}"></div><div class="field-item"><label>Período</label><input type="text" class="input-pro edu-per" placeholder="Ex: 2022 - Cursando" value="${per}"></div>`; 
     l.appendChild(div); if(!d) syncPreview(); 
 }
 
@@ -329,7 +329,7 @@ function adicionarCertificado(d=null) {
     const isL = typeof d === 'string';
     const ano = isL ? '' : (d?.ano || '');
     const tit = isL ? d : (d?.titulo || d?.nome || '');
-    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><label>Ano</label><input type="text" class="input-pro cert-ano" value="${ano}"></div><div class="field-item"><label>Título</label><input type="text" class="input-pro cert-titulo" value="${tit}"></div>`; 
+    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><label>Ano</label><input type="text" class="input-pro cert-ano" placeholder="Ex: 2023" value="${ano}"></div><div class="field-item"><label>Título</label><input type="text" class="input-pro cert-titulo" placeholder="Ex: Coursera | Administração Financeira" value="${tit}"></div>`; 
     l.appendChild(div); if(!d) syncPreview(); 
 }
 
