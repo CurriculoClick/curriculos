@@ -450,7 +450,7 @@ async function publicarCurriculo() {
         await uploadToGitHub(`dados/${newSlug}.json`, JSON.stringify(payload, null, 2), true);
         alert("Currículo publicado com sucesso!");
         listarCurriculos();
-        window.location.href = `../?id=${newSlug}`;
+        window.open(`../?id=${newSlug}`, '_blank');
     } catch (e) { alert(`Falha na publicação: ${e.message}`); }
     finally { showLoader(false); }
 }
