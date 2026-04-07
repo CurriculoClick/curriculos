@@ -1,0 +1,100 @@
+{
+  "inicio": {
+    "nome": "Mariana Souza",
+    "profissao": "Veterinária",
+    "endereco": "Campo Grande - RJ",
+    "localizacao": "Campo Grande - RJ",
+    "email": "marianaszp@outlook.com",
+    "telefone": "(21) 99214-0454",
+    "botao_baixar": "BAIXAR",
+    "cnh": "B",
+    "foto_perfil": "dados/uploads/mariana-souza.png"
+  },
+  "social": [
+    {
+      "rede": "Instagram",
+      "url": "@marianaszp"
+    },
+    {
+      "rede": "Facebook",
+      "url": "@marianaszp"
+    },
+    {
+      "rede": "LinkedIn",
+      "url": "marianaszp"
+    }
+  ],
+  "perfil": {
+    "descricao": "Veterinária formada por PUC com 8 anos de experiência."
+  },
+  "habilidades": [
+    {
+      "nome": "Word",
+      "nivel": 80
+    },
+    {
+      "nome": "Excell",
+      "nivel": 80
+    }
+  ],
+  "idiomas": [
+    {
+      "nome": "Português",
+      "estrelas": 5
+    },
+    {
+      "nome": "Inglês",
+      "estrelas": 2
+    }
+  ],
+  "experiencia_profissional": [
+    {
+      "cargo": "Veterinária",
+      "empresa": "Clinica Master Pet",
+      "periodo": "Janeiro 2026 - Atual",
+      "descricao": "Atendimento clinico e cirúrgico para pets"
+    }
+  ],
+  "educacao": [
+    {
+      "curso": "Veterinária",
+      "instituicao": "PUC",
+      "periodo": "2022"
+    },
+    {
+      "curso": "Curso Cirúrgico ",
+      "instituicao": "PUC - RJ",
+      "periodo": "2021 - 2022"
+    },
+    {
+      "curso": "Atendimento Clinico ",
+      "instituicao": "FEUC",
+      "periodo": "2019 - 2021"
+    }
+  ],
+  "certificados": [
+    {
+      "ano": "2020",
+      "titulo": "Pediatria PET"
+    },
+    {
+      "ano": "2019",
+      "titulo": "PetRescue"
+    }
+  ],
+  "interesses": [
+    "pets",
+    "natureza",
+    "vídeo game",
+    "leitura",
+    "fotografia",
+    "voluntariado",
+    "tecnologia"
+  ],
+  "whatsapp": {
+    "ativo": true,
+    "numero": "5521970707616",
+    "mensagemPosCumprimento": "Oi, Precisa de uma veterinária?",
+    "mensagemPadrao": "Olá! Gostaria de falar sobre o currículo."
+  }
+}
