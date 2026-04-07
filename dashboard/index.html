@@ -240,8 +240,17 @@
                                 <div class="card-body">
                                     <div class="field-item">
                                         <label>Número do Cliente (Com DDD)</label>
-                                        <input type="text" id="wa_numero" placeholder="Ex: 5511999999999" class="input-pro">
+                                        <input type="text" id="wa_numero" placeholder="Ex: 5521999999999" class="input-pro">
                                         <small>O chat usará a foto de perfil automaticamente.</small>
+                                    </div>
+                                    <div class="field-item" style="margin-top:1rem">
+                                        <label>Mensagem após a saudação</label>
+                                        <div style="display:flex; align-items:center; gap:0.5rem; background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:0.5rem 0.75rem; margin-bottom:0.4rem;">
+                                            <i class="fa-solid fa-lock" style="color:var(--text-muted);font-size:0.75rem;"></i>
+                                            <span style="color:var(--text-muted);font-size:0.82rem;white-space:nowrap;">Bom dia / Boa tarde / Boa noite</span>
+                                        </div>
+                                        <textarea id="wa_mensagem_pos" class="textarea-pro" rows="3" placeholder="Ex: Sou a Milena Pacheco, Administradora com 4 anos de experiência. Gostaria de me candidatar à vaga. Pode me chamar!"></textarea>
+                                        <small style="margin-top:0.25rem;display:block;">A saudação por horário é adicionada automaticamente pelo sistema — edite apenas o texto seguinte.</small>
                                     </div>
                                 </div>
                             </div>

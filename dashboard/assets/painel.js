@@ -294,6 +294,10 @@ function preencherFormulario(data, slug) {
         if (waEl && data.whatsapp) { 
             waEl.value = (typeof data.whatsapp === 'object') ? (data.whatsapp.numero || '') : (typeof data.whatsapp === 'string' ? data.whatsapp : ''); 
         }
+        const waMsgEl = document.getElementById('wa_mensagem_pos');
+        if (waMsgEl && data.whatsapp) {
+            waMsgEl.value = data.whatsapp.mensagemPosCumprimento || '';
+        }
         
         console.log("Formulário preenchido com sucesso para:", slug);
         atualizarPreview(slug);
@@ -430,7 +434,7 @@ function collectData() {
     return {
         inicio: inicioObj,
         social: soc, perfil: { descricao: document.getElementById('descricao')?.value || '' }, habilidades: habs, idiomas: idis, experiencia_profissional: exps, educacao: edus, certificados: certs, interesses: ints,
-        whatsapp: { ativo: true, numero: document.getElementById('wa_numero')?.value || '', mensagemPadrao: "Olá! Gostaria de falar sobre o currículo." }
+        whatsapp: { ativo: true, numero: document.getElementById('wa_numero')?.value || '', mensagemPosCumprimento: document.getElementById('wa_mensagem_pos')?.value || '', mensagemPadrao: "Olá! Gostaria de falar sobre o currículo." }
     };
 }
 
