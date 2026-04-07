@@ -92,6 +92,23 @@ function setupCoreEvents() {
             reader.readAsText(file);
         });
     }
+    
+    // Filtro de Busca de Currículos
+    const searchInput = document.getElementById('searchCurriculo');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase().trim();
+            const items = document.querySelectorAll('#clientesList .menu-item');
+            items.forEach(item => {
+                const name = item.textContent.toLowerCase();
+                if (name.includes(term)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    }
 }
 
 function updateUrlDisplay(slug) {
