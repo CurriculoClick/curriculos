@@ -200,79 +200,133 @@ function aplicarDadosAoCurriculo(dados) {
     }
     
     // REDES SOCIAIS
-    if (Array.isArray(dados.social) && dados.social.length > 0) {
+    const socialData = dados.social;
+    if (socialData) {
         const socialContainer = document.querySelector('.redes-sociais_container');
-        socialContainer.innerHTML = '';
-        function criarLinkSocial(url, label, iconClass) {
-            const link = document.createElement('a');
-            link.href = url;
-            link.target = '_blank';
-            link.className = 'redes-sociais_link';
-            link.innerHTML = `<i class="${iconClass} redes-sociais_icone"></i> ${label}`;
-            socialContainer.appendChild(link);
-        }
-        dados.social.forEach(item => {
-            const rede = item.rede;
-            const raw = item.url;
-            const link = item.link;
-            const customLabel = item.label;
-            const customIconClass = item.iconClass;
-
-            // Define texto a exibir e URL real
-            const displayName = customLabel || (raw.startsWith('@') ? raw : '@' + raw);
-            let actualUrl;
-            if (link) {
-                actualUrl = link;
-            } else if (/^https?:\/\//i.test(raw)) {
-                actualUrl = raw;
-            } else {
-                let baseUrl = '';
-                switch (rede) {
-                    case 'GitHub': baseUrl = 'https://github.com/'; break;
-                    case 'YouTube': baseUrl = 'https://www.youtube.com/'; break;
-                    case 'Facebook': baseUrl = 'https://www.facebook.com/'; break;
-                    case 'WhatsApp': baseUrl = 'https://wa.me/'; break;
-                    case 'Instagram': baseUrl = 'https://www.instagram.com/'; break;
-                    case 'TikTok': baseUrl = 'https://www.tiktok.com/@'; break;
-                    case 'LinkedIn': baseUrl = 'https://www.linkedin.com/in/'; break;
-                    default: break;
-                }
-                actualUrl = baseUrl + raw.replace(/^@/, '');
+        if (socialContainer) {
+            socialContainer.innerHTML = '';
+            
+            function criarLinkSocial(url, label, iconClass) {
+                const link = document.createElement('a');
+                link.href = url;
+                link.target = '_blank';
+                link.className = 'redes-sociais_link';
+                link.innerHTML = `<i class="${iconClass} redes-sociais_icone"></i> ${label}`;
+                socialContainer.appendChild(link);
             }
 
-            // Define classe de ícone
-            const iconClass = customIconClass || (() => {
-                switch (rede) {
-                    case 'GitHub': return 'fa-brands fa-github';
-                    case 'YouTube': return 'fa-brands fa-youtube';
-                    case 'Facebook': return 'fa-brands fa-facebook';
-                    case 'WhatsApp': return 'fa-brands fa-whatsapp';
-                    case 'Instagram': return 'fa-brands fa-instagram';
-                    case 'TikTok': return 'fa-brands fa-tiktok';
-                    case 'WeChat': return 'fa-brands fa-weixin';
-                    case 'Facebook Messenger': return 'fa-brands fa-facebook-messenger';
-                    case 'Snapchat': return 'fa-brands fa-snapchat';
-                    case 'Telegram': return 'fa-brands fa-telegram';
-                    case 'Twitter/X': return 'fa-brands fa-x';
-                    case 'Twitch': return 'fa-brands fa-twitch';
-                    case 'Slack': return 'fa-brands fa-slack';
-                    case 'Spotify': return 'fa-brands fa-spotify';
-                    case 'Medium': return 'fa-brands fa-medium';
-                    case 'Stack Overflow': return 'fa-brands fa-stack-overflow';
-                    case 'Tumblr': return 'fa-brands fa-tumblr';
-                    case 'Weibo': return 'fa-brands fa-weibo';
-                    case 'QQ': return 'fa-brands fa-qq';
-                    case 'Pinterest': return 'fa-brands fa-pinterest';
-                    case 'Reddit': return 'fa-brands fa-reddit';
-                    case 'LinkedIn': return 'fa-brands fa-linkedin';
-                    case 'Discord': return 'fa-brands fa-discord';
-                    default: return 'fa-solid fa-link';
-                }
-            })();
+            const redesArray = [];
 
-            if (actualUrl) criarLinkSocial(actualUrl, displayName, iconClass);
-        });
-        document.querySelector('.redes-sociais').style.display = 'block';
+            // Suporte para FORMATO NOVO (Array)
+            if (Array.isArray(socialData)) {
+                socialData.forEach(item => redesArray.push(item));
+            } 
+            // Suporte para FORMATO LEGADO (Objeto com campos fixos do Netlify CMS)
+            else if (typeof socialData === 'object') {
+                // Mapeamento de campos conhecidos do config.yml
+                const mapeamento = [
+                    { key: 'youtube', label: 'YouTube', icon: 'fa-brands fa-youtube' },
+                    { key: 'facebook', label: 'Facebook', icon: 'fa-brands fa-facebook' },
+                    { key: 'whatsapp', label: 'WhatsApp', icon: 'fa-brands fa-whatsapp' },
+                    { key: 'instagram', label: 'Instagram', icon: 'fa-brands fa-instagram' },
+                    { key: 'tiktok', label: 'TikTok', icon: 'fa-brands fa-tiktok' },
+                    { key: 'linkedin', label: 'LinkedIn', icon: 'fa-brands fa-linkedin' },
+                    { key: 'github', label: 'GitHub', icon: 'fa-brands fa-github' },
+                    { key: 'twitter', label: 'Twitter/X', icon: 'fa-brands fa-x' },
+                    { key: 'telegram', label: 'Telegram', icon: 'fa-brands fa-telegram' },
+                    { key: 'discord', label: 'Discord', icon: 'fa-brands fa-discord' }
+                ];
+
+                mapeamento.forEach(m => {
+                    // Tenta encontrar URL e Label no objeto (padrao: nomeRedeUrl e nomeRedeLabel ou apenas nomeRede)
+                    const url = socialData[m.key] || socialData[`${m.key}Url`];
+                    const label = socialData[`${m.key}Label`] || (url && (url.startsWith('@') ? url : '@' + m.label.toLowerCase()));
+                    if (url) {
+                        redesArray.push({
+                            rede: m.label,
+                            url: url,
+                            label: label,
+                            iconClass: m.icon
+                        });
+                    }
+                });
+                
+                // Chamada personalizada
+                if (socialData.customCallUrl) {
+                    redesArray.push({
+                        rede: 'Link',
+                        url: socialData.customCallUrl,
+                        label: socialData.customCallLabel || 'Meu Link',
+                        iconClass: 'fa-solid fa-link'
+                    });
+                }
+            }
+
+            redesArray.forEach(item => {
+                const rede = item.rede;
+                const raw = item.url;
+                const link = item.link;
+                const customLabel = item.label;
+                const customIconClass = item.iconClass;
+
+                // Define texto a exibir e URL real
+                const displayName = customLabel || (raw.startsWith('@') ? raw : '@' + raw);
+                let actualUrl;
+                if (link) {
+                    actualUrl = link;
+                } else if (/^https?:\/\//i.test(raw)) {
+                    actualUrl = raw;
+                } else {
+                    let baseUrl = '';
+                    switch (rede) {
+                        case 'GitHub': baseUrl = 'https://github.com/'; break;
+                        case 'YouTube': baseUrl = 'https://www.youtube.com/'; break;
+                        case 'Facebook': baseUrl = 'https://www.facebook.com/'; break;
+                        case 'WhatsApp': baseUrl = 'https://wa.me/'; break;
+                        case 'Instagram': baseUrl = 'https://www.instagram.com/'; break;
+                        case 'TikTok': baseUrl = 'https://www.tiktok.com/@'; break;
+                        case 'LinkedIn': baseUrl = 'https://www.linkedin.com/in/'; break;
+                        default: break;
+                    }
+                    actualUrl = baseUrl + raw.replace(/^@/, '');
+                }
+
+                // Define classe de ícone
+                const iconClass = customIconClass || (() => {
+                    switch (rede) {
+                        case 'GitHub': return 'fa-brands fa-github';
+                        case 'YouTube': return 'fa-brands fa-youtube';
+                        case 'Facebook': return 'fa-brands fa-facebook';
+                        case 'WhatsApp': return 'fa-brands fa-whatsapp';
+                        case 'Instagram': return 'fa-brands fa-instagram';
+                        case 'TikTok': return 'fa-brands fa-tiktok';
+                        case 'WeChat': return 'fa-brands fa-weixin';
+                        case 'Facebook Messenger': return 'fa-brands fa-facebook-messenger';
+                        case 'Snapchat': return 'fa-brands fa-snapchat';
+                        case 'Telegram': return 'fa-brands fa-telegram';
+                        case 'Twitter/X': return 'fa-brands fa-x';
+                        case 'Twitch': return 'fa-brands fa-twitch';
+                        case 'Slack': return 'fa-brands fa-slack';
+                        case 'Spotify': return 'fa-brands fa-spotify';
+                        case 'Medium': return 'fa-brands fa-medium';
+                        case 'Stack Overflow': return 'fa-brands fa-stack-overflow';
+                        case 'Tumblr': return 'fa-brands fa-tumblr';
+                        case 'Weibo': return 'fa-brands fa-weibo';
+                        case 'QQ': return 'fa-brands fa-qq';
+                        case 'Pinterest': return 'fa-brands fa-pinterest';
+                        case 'Reddit': return 'fa-brands fa-reddit';
+                        case 'LinkedIn': return 'fa-brands fa-linkedin';
+                        case 'Discord': return 'fa-brands fa-discord';
+                        default: return 'fa-solid fa-link';
+                    }
+                })();
+
+                if (actualUrl) criarLinkSocial(actualUrl, displayName, iconClass);
+            });
+            
+            const secaoSocial = document.querySelector('.redes-sociais');
+            if (secaoSocial) secaoSocial.style.display = redesArray.length > 0 ? 'block' : 'none';
+        }
     }
     
     // PERFIL
@@ -598,12 +652,6 @@ function aplicarDadosAoCurriculo(dados) {
 
 // Quando o DOM estiver pronto, carrega JSON do ID e aplica os dados
 document.addEventListener('DOMContentLoaded', async () => {
-    // Se estiver rodando via file://, apenas remove o loading e mantém HTML estático
-    if (window.location.protocol === 'file:') {
-        if (DEBUG) console.log('file:// detectado, mantendo conteúdo estático');
-        document.body.classList.remove('js-loading');
-        return;
-    }
     let idParam = obterIdDaUrl();
     // Normaliza o ID ou usa 'modelo' se não existir
     const id = idParam ? idParam.replace(/^curriculo[_-]/i, '').replace(/_/g, '-') : 'modelo';

@@ -40,6 +40,7 @@ collections:
                 }
               - { label: "Idade", name: "idade", widget: "string" }
               - { label: "Estado civil", name: "estado_civil", widget: "string" }
+              - { label: "CNH", name: "cnh", widget: "select", options: ["A", "B", "AB", "C", "D", "E", "ACC"], required: false }
               - { label: "Localização", name: "localizacao", widget: "string" }
               - { label: "Email", name: "email", widget: "string" }
               - { label: "Telefone", name: "telefone", widget: "string" }
@@ -233,6 +234,7 @@ collections:
             }
           - { label: "Idade", name: "idade", widget: "string" }
           - { label: "Estado civil", name: "estado_civil", widget: "string" }
+          - { label: "CNH", name: "cnh", widget: "select", options: ["A", "B", "AB", "C", "D", "E", "ACC"], required: false }
           - { label: "Localização", name: "localizacao", widget: "string" }
           - { label: "Email", name: "email", widget: "string" }
           - { label: "Telefone", name: "telefone", widget: "string" }

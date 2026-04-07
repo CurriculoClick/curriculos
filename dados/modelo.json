@@ -21,6 +21,7 @@
     "nome": "Milena Pacheco",
     "idade": "32 anos",
     "estado_civil": "Noiva",
+    "cnh": "B",
     "email": "milena.pch@exemplo.com",
     "profissao": "Administradora"
   },
@@ -28,9 +29,12 @@
     "descricao": "4 anos atuando na administração de pequenas e médias empresas em funções diversas. A habilidade com softwares de gestão e o comprometimento intenso com o crescimento da organização."
   },
   "social": {
-    "facebook": "https://facebook.com/",
-    "instagram": "https://instagram.com/",
-    "linkedin": "https://www.linkedin.com/"
+    "facebook": "https://facebook.com/milenapacheco",
+    "instagram": "@milenapacheco",
+    "linkedin": "milena-pacheco",
+    "whatsapp": "5511999999999",
+    "tiktok": "@milenapacheco",
+    "youtube": "MilenaPacheco"
   },
   "experiencia_profissional": [
     {
@@ -54,7 +58,8 @@
       "tarde": "Boa tarde!",
       "noite": "Boa noite!"
     },
-    "mensagemPosCumprimento": "Como posso te ajudar?"
+    "mensagemPosCumprimento": "Como posso te ajudar?",
+    "mensagemPadrao": "Olá, vi seu currículo no CurriculoClick e gostaria de conversar!"
   },
   "interesses": [
     "Pets",
