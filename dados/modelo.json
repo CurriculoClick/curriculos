@@ -28,11 +28,11 @@
   "perfil": {
     "descricao": "4 anos atuando na administração de pequenas e médias empresas em funções diversas. A habilidade com softwares de gestão e o comprometimento intenso com o crescimento da organização."
   },
-  "social": {
-    "facebook": "https://facebook.com/",
-    "instagram": "https://instagram.com/",
-    "linkedin": "https://www.linkedin.com/"
-  },
+  "social": [
+    { "rede": "Instagram", "url": "@milenapacheco" },
+    { "rede": "Facebook", "url": "https://facebook.com/milenapacheco" },
+    { "rede": "LinkedIn", "url": "milena-pacheco" }
+  ],
   "experiencia_profissional": [
     {
       "cargo": "Vice-Presidente Executiva",

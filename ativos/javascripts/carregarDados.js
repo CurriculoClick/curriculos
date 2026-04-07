@@ -225,12 +225,12 @@ function aplicarDadosAoCurriculo(dados) {
             else if (typeof socialData === 'object') {
                 // Mapeamento de campos conhecidos do config.yml
                 const mapeamento = [
-                    { key: 'youtube', label: 'YouTube', icon: 'fa-brands fa-youtube' },
-                    { key: 'facebook', label: 'Facebook', icon: 'fa-brands fa-facebook' },
-                    { key: 'whatsapp', label: 'WhatsApp', icon: 'fa-brands fa-whatsapp' },
                     { key: 'instagram', label: 'Instagram', icon: 'fa-brands fa-instagram' },
-                    { key: 'tiktok', label: 'TikTok', icon: 'fa-brands fa-tiktok' },
+                    { key: 'facebook', label: 'Facebook', icon: 'fa-brands fa-facebook' },
                     { key: 'linkedin', label: 'LinkedIn', icon: 'fa-brands fa-linkedin' },
+                    { key: 'whatsapp', label: 'WhatsApp', icon: 'fa-brands fa-whatsapp' },
+                    { key: 'youtube', label: 'YouTube', icon: 'fa-brands fa-youtube' },
+                    { key: 'tiktok', label: 'TikTok', icon: 'fa-brands fa-tiktok' },
                     { key: 'github', label: 'GitHub', icon: 'fa-brands fa-github' },
                     { key: 'twitter', label: 'Twitter/X', icon: 'fa-brands fa-x' },
                     { key: 'telegram', label: 'Telegram', icon: 'fa-brands fa-telegram' },
