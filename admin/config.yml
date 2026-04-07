@@ -46,43 +46,15 @@ collections:
               - { label: "Telefone", name: "telefone", widget: "string" }
               - { label: "Texto Botão Baixar", name: "botao_baixar", widget: "string" }
 
-          - label: "Redes Sociais"
+          - label: "Redes Sociais (Máx 4)"
             name: "social"
-            widget: "object"
+            widget: "list"
+            max: 4
             required: false
             fields:
-              - { label: "YouTube URL",      name: "youtubeUrl",      widget: "string" }
-              - { label: "YouTube Label",    name: "youtubeLabel",    widget: "string" }
-              - { label: "Facebook URL",     name: "facebookUrl",     widget: "string" }
-              - { label: "Facebook Label",   name: "facebookLabel",   widget: "string" }
-              - { label: "WhatsApp URL",     name: "whatsappUrl",     widget: "string" }
-              - { label: "WhatsApp Label",   name: "whatsappLabel",   widget: "string" }
-              - { label: "Instagram URL",    name: "instagramUrl",    widget: "string" }
-              - { label: "Instagram Label",  name: "instagramLabel",  widget: "string" }
-              - { label: "TikTok URL",       name: "tiktokUrl",       widget: "string" }
-              - { label: "TikTok Label",     name: "tiktokLabel",     widget: "string" }
-              - { label: "WeChat URL",       name: "wechatUrl",       widget: "string" }
-              - { label: "WeChat Label",     name: "wechatLabel",     widget: "string" }
-              - { label: "Facebook Messenger URL", name: "messengerUrl",  widget: "string" }
-              - { label: "Messenger Label",   name: "messengerLabel",  widget: "string" }
-              - { label: "Snapchat URL",     name: "snapchatUrl",     widget: "string" }
-              - { label: "Snapchat Label",   name: "snapchatLabel",   widget: "string" }
-              - { label: "Telegram URL",     name: "telegramUrl",     widget: "string" }
-              - { label: "Telegram Label",   name: "telegramLabel",   widget: "string" }
-              - { label: "Weibo URL",       name: "weiboUrl",        widget: "string" }
-              - { label: "Weibo Label",     name: "weiboLabel",      widget: "string" }
-              - { label: "QQ URL",          name: "qqUrl",           widget: "string" }
-              - { label: "QQ Label",        name: "qqLabel",         widget: "string" }
-              - { label: "Pinterest URL",    name: "pinterestUrl",    widget: "string" }
-              - { label: "Pinterest Label",  name: "pinterestLabel",  widget: "string" }
-              - { label: "Reddit URL",       name: "redditUrl",       widget: "string" }
-              - { label: "Reddit Label",     name: "redditLabel",     widget: "string" }
-              - { label: "LinkedIn URL",     name: "linkedinUrl",     widget: "string" }
-              - { label: "LinkedIn Label",   name: "linkedinLabel",   widget: "string" }
-              - { label: "Discord URL",      name: "discordUrl",      widget: "string" }
-              - { label: "Discord Label",    name: "discordLabel",    widget: "string" }
-              - { label: "Chamada personalizada URL",   name: "customCallUrl",    widget: "string", required: false }
-              - { label: "Chamada personalizada Label", name: "customCallLabel",  widget: "string", required: false, hint: "Texto amigável que aparece no currículo" }
+              - { label: "Rede", name: "rede", widget: "select", options: ["Facebook", "Instagram", "LinkedIn", "WhatsApp", "GitHub", "YouTube", "TikTok", "Telegram", "Discord", "Twitter/X", "Custom"] }
+              - { label: "URL ou Usuário", name: "url", widget: "string" }
+              - { label: "Rótulo (Opcional)", name: "label", widget: "string", required: false }
 
           - label: "Perfil"
             name: "perfil"
@@ -240,43 +212,15 @@ collections:
           - { label: "Telefone", name: "telefone", widget: "string" }
           - { label: "Texto Botão Baixar", name: "botao_baixar", widget: "string" }
 
-      - label: "Redes Sociais"
+      - label: "Redes Sociais (Máx 4)"
         name: "social"
-        widget: "object"
+        widget: "list"
+        max: 4
         required: false
         fields:
-          - { label: "YouTube URL",      name: "youtubeUrl",      widget: "string" }
-          - { label: "YouTube Label",    name: "youtubeLabel",    widget: "string" }
-          - { label: "Facebook URL",     name: "facebookUrl",     widget: "string" }
-          - { label: "Facebook Label",   name: "facebookLabel",   widget: "string" }
-          - { label: "WhatsApp URL",     name: "whatsappUrl",     widget: "string" }
-          - { label: "WhatsApp Label",   name: "whatsappLabel",   widget: "string" }
-          - { label: "Instagram URL",    name: "instagramUrl",    widget: "string" }
-          - { label: "Instagram Label",  name: "instagramLabel",  widget: "string" }
-          - { label: "TikTok URL",       name: "tiktokUrl",       widget: "string" }
-          - { label: "TikTok Label",     name: "tiktokLabel",     widget: "string" }
-          - { label: "WeChat URL",       name: "wechatUrl",       widget: "string" }
-          - { label: "WeChat Label",     name: "wechatLabel",     widget: "string" }
-          - { label: "Facebook Messenger URL", name: "messengerUrl",  widget: "string" }
-          - { label: "Messenger Label",   name: "messengerLabel",  widget: "string" }
-          - { label: "Snapchat URL",     name: "snapchatUrl",     widget: "string" }
-          - { label: "Snapchat Label",   name: "snapchatLabel",   widget: "string" }
-          - { label: "Telegram URL",     name: "telegramUrl",     widget: "string" }
-          - { label: "Telegram Label",   name: "telegramLabel",   widget: "string" }
-          - { label: "Weibo URL",       name: "weiboUrl",        widget: "string" }
-          - { label: "Weibo Label",     name: "weiboLabel",      widget: "string" }
-          - { label: "QQ URL",          name: "qqUrl",           widget: "string" }
-          - { label: "QQ Label",        name: "qqLabel",         widget: "string" }
-          - { label: "Pinterest URL",    name: "pinterestUrl",    widget: "string" }
-          - { label: "Pinterest Label",  name: "pinterestLabel",  widget: "string" }
-          - { label: "Reddit URL",       name: "redditUrl",       widget: "string" }
-          - { label: "Reddit Label",     name: "redditLabel",     widget: "string" }
-          - { label: "LinkedIn URL",     name: "linkedinUrl",     widget: "string" }
-          - { label: "LinkedIn Label",   name: "linkedinLabel",   widget: "string" }
-          - { label: "Discord URL",      name: "discordUrl",      widget: "string" }
-          - { label: "Discord Label",    name: "discordLabel",    widget: "string" }
-          - { label: "Chamada personalizada URL",   name: "customCallUrl",    widget: "string", required: false }
-          - { label: "Chamada personalizada Label", name: "customCallLabel",  widget: "string", required: false, hint: "Texto amigável que aparece no currículo" }
+          - { label: "Rede", name: "rede", widget: "select", options: ["Facebook", "Instagram", "LinkedIn", "WhatsApp", "GitHub", "YouTube", "TikTok", "Telegram", "Discord", "Twitter/X", "Custom"] }
+          - { label: "URL ou Usuário", name: "url", widget: "string" }
+          - { label: "Rótulo (Opcional)", name: "label", widget: "string", required: false }
 
       - label: "Perfil"
         name: "perfil"

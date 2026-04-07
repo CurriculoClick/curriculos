@@ -262,7 +262,7 @@ function aplicarDadosAoCurriculo(dados) {
                 }
             }
 
-            redesArray.forEach(item => {
+            redesArray.slice(0, 4).forEach(item => {
                 const rede = item.rede;
                 const raw = item.url;
                 const link = item.link;
