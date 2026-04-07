@@ -1,65 +1,34 @@
 {
-  "certificacoes": [
+  "inicio": {
+    "nome": "Bruna Monteiro",
+    "profissao": "Contadora",
+    "endereco": "Belo Horizonte - Brasil",
+    "localizacao": "Belo Horizonte - Brasil",
+    "email": "bruna.monteiro@exemplo.com",
+    "telefone": "(31) 9 9876-5432",
+    "botao_baixar": "BAIXAR",
+    "idade": "30 anos",
+    "estado_civil": "Casado(a)",
+    "cnh": "A",
+    "foto_perfil": "dados/uploads/bruna-monteiro/bruna-monteiro.png"
+  },
+  "social": [
     {
-      "titulo": "AWS Certified Solutions Architect",
-      "ano": "2021",
-      "detalhes": "Amazon Web Services"
+      "rede": "Facebook",
+      "url": "https://facebook.com/bruna.monteiro"
     },
     {
-      "titulo": "Microsoft Certified: Azure Developer Associate",
-      "ano": "2022",
-      "detalhes": "Microsoft"
+      "rede": "Instagram",
+      "url": "https://instagram.com/bruna.monteiro"
+    },
+    {
+      "rede": "WhatsApp",
+      "url": "https://www.linkedin.com/in/bruna-monteiro"
     }
   ],
-  "inicio": {
-    "foto_perfil": "dados/uploads/bruna-monteiro/bruna-monteiro.png",
-    "idade": "30 anos",
-    "botao_baixar": "Baixar Currículo",
-    "telefone": "(31) 9 9876-5432",
-    "localizacao": "Belo Horizonte - Brasil",
-    "nome": "Bruna Monteiro",
-    "estado_civil": "Casada",
-    "email": "bruna.monteiro@exemplo.com",
-    "profissao": "Contadora"
-  },
   "perfil": {
     "descricao": "Contadora com 8 anos de experiência em contabilidade financeira e gestão de tributos, especialista em análise de balanços e fluxo de caixa, focada na otimização de processos contábeis e compliance."
   },
-  "social": {
-    "facebook": "https://facebook.com/bruna.monteiro",
-    "instagram": "https://instagram.com/bruna.monteiro",
-    "linkedin": "https://www.linkedin.com/in/bruna-monteiro"
-  },
-  "experiencia_profissional": [
-    {
-      "cargo": "Engenheira de Software Sênior",
-      "empresa": "TechCore Solutions - Brasil",
-      "periodo": "Março 2020 - Atual",
-      "descricao": "Lidero equipe de desenvolvimento de microserviços em Node.js, implementando soluções de alta disponibilidade e performance."
-    },
-    {
-      "cargo": "Desenvolvedora Back-end",
-      "empresa": "DataFlow Corp - Brasil",
-      "periodo": "Julho 2016 - Fevereiro 2020",
-      "descricao": "Implementação de APIs RESTful em Java e Spring Boot, integração com bancos de dados relacionais e NoSQL."
-    }
-  ],
-  "whatsapp": {
-    "ativo": true,
-    "numero": "5531998765432",
-    "cumprimentos": {
-      "manha": "Bom dia!",
-      "tarde": "Boa tarde!",
-      "noite": "Boa noite!"
-    },
-    "mensagemPosCumprimento": "Olá! Posso ajudar com detalhes sobre oportunidades de engenharia de software?"
-  },
-  "interesses": [
-    "Tecnologia",
-    "Corrida",
-    "Leitura",
-    "Viagens"
-  ],
   "habilidades": [
     {
       "nome": "Java",
@@ -82,13 +51,6 @@
       "nivel": 70
     }
   ],
-  "educacao": [
-    {
-      "titulo": "Bacharelado em Ciência da Computação",
-      "instituicao": "UFMG - Brasil",
-      "periodo": "2012 - 2016"
-    }
-  ],
   "idiomas": [
     {
       "nome": "Português",
@@ -102,5 +64,47 @@
       "nome": "Alemão",
       "estrelas": 3
     }
-  ]
+  ],
+  "experiencia_profissional": [
+    {
+      "cargo": "Engenheira de Software Sênior",
+      "empresa": "TechCore Solutions - Brasil",
+      "periodo": "Março 2020 - Atual",
+      "descricao": "Lidero equipe de desenvolvimento de microserviços em Node.js, implementando soluções de alta disponibilidade e performance."
+    },
+    {
+      "cargo": "Desenvolvedora Back-end",
+      "empresa": "DataFlow Corp - Brasil",
+      "periodo": "Julho 2016 - Fevereiro 2020",
+      "descricao": "Implementação de APIs RESTful em Java e Spring Boot, integração com bancos de dados relacionais e NoSQL."
+    }
+  ],
+  "educacao": [
+    {
+      "curso": "Bacharelado em Ciência da Computação",
+      "instituicao": "UFMG - Brasil",
+      "periodo": "2012 - 2016"
+    }
+  ],
+  "certificados": [
+    {
+      "ano": "2021",
+      "titulo": "AWS Certified Solutions Architect"
+    },
+    {
+      "ano": "2022",
+      "titulo": "Microsoft Certified: Azure Developer Associate"
+    }
+  ],
+  "interesses": [
+    "viagens",
+    "leitura",
+    "tecnologia"
+  ],
+  "whatsapp": {
+    "ativo": true,
+    "numero": "5531998765432",
+    "mensagemPosCumprimento": "Olá! Posso ajudar com detalhes sobre oportunidades de engenharia de software?",
+    "mensagemPadrao": "Olá! Gostaria de falar sobre o currículo."
+  }
 }
