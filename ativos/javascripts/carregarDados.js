@@ -133,8 +133,8 @@ function aplicarDadosAoCurriculo(dados) {
                     if (status.includes('noiva') || status.includes('noivo')) icone = 'fa-ring';
                     else if (status.includes('casad')) icone = 'fa-heart';
                     else if (status.includes('divorc')) icone = 'fa-heart-crack';
-                    else if (status.includes('viúv')) icone = 'fa-heart-crack';
-                    else if (status.includes('união')) icone = 'fa-handshake';
+                    else if (status.includes('vi\u00fav')) icone = 'fa-heart-crack';
+                    else if (status.includes('uni\u00e3o')) icone = 'fa-handshake';
                     content += ` <i class="fa-solid ${icone} inicio_icone" style="margin-left:calc(0.75rem + 5px)"></i> ${dados.inicio.estado_civil}`;
                 }
                 idadeEl.innerHTML = content;
@@ -148,13 +148,16 @@ function aplicarDadosAoCurriculo(dados) {
                 if (status.includes('noiva') || status.includes('noivo')) icone = 'fa-ring';
                 else if (status.includes('casad')) icone = 'fa-heart';
                 else if (status.includes('divorc')) icone = 'fa-heart-crack';
-                else if (status.includes('viúv')) icone = 'fa-heart-crack';
-                else if (status.includes('união')) icone = 'fa-handshake';
+                else if (status.includes('vi\u00fav')) icone = 'fa-heart-crack';
+                else if (status.includes('uni\u00e3o')) icone = 'fa-handshake';
                 idadeEl.innerHTML = `<i class="fa-solid ${icone} inicio_icone"></i> ${dados.inicio.estado_civil}`;
                 idadeEl.style.display = '';
             }
         } else {
-            if (idadeEl) idadeEl.style.display = 'none';
+            // Só oculta se o elemento não tiver conteúdo estático já renderizado
+            if (idadeEl && idadeEl.textContent.trim() === '') {
+                idadeEl.style.display = 'none';
+            }
         }
         
         // CNH
