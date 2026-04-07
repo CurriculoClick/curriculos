@@ -302,10 +302,16 @@ function updateChatHeader() {
   }
   if (titleEl && nome) titleEl.textContent = nome;
   const telAnchor = document.querySelector('#telefone a');
-  const telNum = telAnchor ? telAnchor.href.replace(/\D/g, '') : '';
+  const telIdentidade = telAnchor ? telAnchor.href.replace(/\D/g, '') : '';
+  
+  // Prioridade: número específico do widget > número geral do currículo
+  const telFinal = (whatsappConfig.numero && whatsappConfig.numero.trim() !== "") 
+                    ? whatsappConfig.numero.replace(/\D/g, '') 
+                    : telIdentidade;
+
   const linkEl = document.querySelector('#chatBox .chat-footer a');
-  if (linkEl && telNum) {
-    let url = `https://wa.me/${telNum}`;
+  if (linkEl && telFinal) {
+    let url = `https://wa.me/${telFinal}`;
     if (whatsappConfig.mensagemPadrao) {
       url += `?text=${encodeURIComponent(whatsappConfig.mensagemPadrao)}`;
     }
