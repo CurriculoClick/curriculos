@@ -215,7 +215,20 @@ function preencherFormulario(data, slug) {
         if (document.getElementById('email')) document.getElementById('email').value = data.inicio?.email || '';
         if (document.getElementById('telefone')) document.getElementById('telefone').value = data.inicio?.telefone || '';
         if (document.getElementById('idade')) document.getElementById('idade').value = data.inicio?.idade || '';
-        if (document.getElementById('estado_civil')) document.getElementById('estado_civil').value = data.inicio?.estado_civil || '';
+        // Normaliza o estado civil para bater com os valores do <select>
+        const ecEl = document.getElementById('estado_civil');
+        if (ecEl && data.inicio?.estado_civil) {
+            const ecRaw = data.inicio.estado_civil.toLowerCase().trim();
+            let ecNorm = '';
+            if (ecRaw.includes('solteiro') || ecRaw.includes('solteira')) ecNorm = 'Solteiro(a)';
+            else if (ecRaw.includes('noivo') || ecRaw.includes('noiva')) ecNorm = 'Noivo(a)';
+            else if (ecRaw.includes('casado') || ecRaw.includes('casada')) ecNorm = 'Casado(a)';
+            else if (ecRaw.includes('divorciado') || ecRaw.includes('divorciada')) ecNorm = 'Divorciado(a)';
+            else if (ecRaw.includes('vi\u00favo') || ecRaw.includes('vi\u00fava')) ecNorm = 'Vi\u00favo(a)';
+            else if (ecRaw.includes('uni\u00e3o') || ecRaw.includes('est\u00e1vel')) ecNorm = 'Uni\u00e3o Est\u00e1vel';
+            else ecNorm = data.inicio.estado_civil; // usa o valor original como fallback
+            ecEl.value = ecNorm;
+        }
         if (document.getElementById('cnh')) document.getElementById('cnh').value = data.inicio?.cnh || '';
         
         const photo = document.getElementById('photoPreview');
