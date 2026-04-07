@@ -31,7 +31,7 @@
   "idiomas": [
     {
       "nome": "Portugues",
-      "nivel": "90%"
+      "estrelas": 5
     }
   ],
   "experiencia_profissional": [
@@ -56,6 +56,7 @@
   "whatsapp": {
     "ativo": true,
     "numero": "",
+    "mensagemPosCumprimento": "Oi, como vai?",
     "mensagemPadrao": "Olá! Gostaria de falar sobre o currículo."
   }
 }
