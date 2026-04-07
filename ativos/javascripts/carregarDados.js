@@ -123,21 +123,50 @@ function aplicarDadosAoCurriculo(dados) {
         }
         
         // Idade e estado civil
+        const idadeEl = document.getElementById('idade');
         if (dados.inicio.idade) {
-            const idadeEl = document.getElementById('idade');
             if (idadeEl) {
                 let content = `<i class="fa-solid fa-cake-candles inicio_icone"></i> ${dados.inicio.idade}`;
                 if (dados.inicio.estado_civil) {
                     const status = dados.inicio.estado_civil.toLowerCase();
                     let icone = 'fa-user';
-                    if (status.includes('noiva') || status.includes('noivo')) {
-                        icone = 'fa-ring';
-                    } else if (status.includes('casad')) {
-                        icone = 'fa-heart';
-                    }
+                    if (status.includes('noiva') || status.includes('noivo')) icone = 'fa-ring';
+                    else if (status.includes('casad')) icone = 'fa-heart';
+                    else if (status.includes('divorc')) icone = 'fa-heart-crack';
+                    else if (status.includes('viúv')) icone = 'fa-heart-crack';
+                    else if (status.includes('união')) icone = 'fa-handshake';
                     content += ` <i class="fa-solid ${icone} inicio_icone" style="margin-left:calc(0.75rem + 5px)"></i> ${dados.inicio.estado_civil}`;
                 }
                 idadeEl.innerHTML = content;
+                idadeEl.style.display = '';
+            }
+        } else if (dados.inicio.estado_civil) {
+            // Exibe apenas estado civil sem idade
+            if (idadeEl) {
+                const status = dados.inicio.estado_civil.toLowerCase();
+                let icone = 'fa-user';
+                if (status.includes('noiva') || status.includes('noivo')) icone = 'fa-ring';
+                else if (status.includes('casad')) icone = 'fa-heart';
+                else if (status.includes('divorc')) icone = 'fa-heart-crack';
+                else if (status.includes('viúv')) icone = 'fa-heart-crack';
+                else if (status.includes('união')) icone = 'fa-handshake';
+                idadeEl.innerHTML = `<i class="fa-solid ${icone} inicio_icone"></i> ${dados.inicio.estado_civil}`;
+                idadeEl.style.display = '';
+            }
+        } else {
+            if (idadeEl) idadeEl.style.display = 'none';
+        }
+        
+        // CNH
+        const cnhEl = document.getElementById('cnh');
+        if (cnhEl) {
+            if (dados.inicio.cnh) {
+                const iconesCNH = { 'A': 'fa-motorcycle', 'B': 'fa-car', 'AB': 'fa-car', 'C': 'fa-truck', 'D': 'fa-bus', 'E': 'fa-truck-moving', 'ACC': 'fa-bicycle' };
+                const iconeCNH = iconesCNH[dados.inicio.cnh] || 'fa-id-card';
+                cnhEl.innerHTML = `<i class="fa-solid ${iconeCNH} inicio_icone"></i> CNH Cat. ${dados.inicio.cnh}`;
+                cnhEl.style.display = '';
+            } else {
+                cnhEl.style.display = 'none';
             }
         }
         

@@ -214,6 +214,9 @@ function preencherFormulario(data, slug) {
         if (document.getElementById('endereco')) document.getElementById('endereco').value = data.inicio?.endereco || data.inicio?.localizacao || '';
         if (document.getElementById('email')) document.getElementById('email').value = data.inicio?.email || '';
         if (document.getElementById('telefone')) document.getElementById('telefone').value = data.inicio?.telefone || '';
+        if (document.getElementById('idade')) document.getElementById('idade').value = data.inicio?.idade || '';
+        if (document.getElementById('estado_civil')) document.getElementById('estado_civil').value = data.inicio?.estado_civil || '';
+        if (document.getElementById('cnh')) document.getElementById('cnh').value = data.inicio?.cnh || '';
         
         const photo = document.getElementById('photoPreview');
         if (data.inicio?.foto_perfil && photo) {
@@ -417,8 +420,15 @@ function collectData() {
     const edus = Array.from(document.querySelectorAll('#educacaoList .dynamic-item')).map(it => ({ curso: it.querySelector('.edu-curso').value, instituicao: it.querySelector('.edu-inst').value, periodo: it.querySelector('.edu-per').value }));
     const certs = Array.from(document.querySelectorAll('#certificadosList .dynamic-item')).map(it => ({ ano: it.querySelector('.cert-ano').value, titulo: it.querySelector('.cert-titulo').value }));
     const ints = Array.from(document.querySelectorAll('.icon-item.selected')).map(el => el.title);
+    const idadeVal = document.getElementById('idade')?.value || '';
+    const estCivilVal = document.getElementById('estado_civil')?.value || '';
+    const cnhVal = document.getElementById('cnh')?.value || '';
+    const inicioObj = { nome: full, profissao: document.getElementById('profissao')?.value || '', endereco: document.getElementById('endereco')?.value || '', localizacao: document.getElementById('endereco')?.value || '', email: document.getElementById('email')?.value || '', telefone: document.getElementById('telefone')?.value || '', botao_baixar: "BAIXAR" };
+    if (idadeVal) inicioObj.idade = idadeVal;
+    if (estCivilVal) inicioObj.estado_civil = estCivilVal;
+    if (cnhVal) inicioObj.cnh = cnhVal;
     return {
-        inicio: { nome: full, profissao: document.getElementById('profissao')?.value || '', endereco: document.getElementById('endereco')?.value || '', localizacao: document.getElementById('endereco')?.value || '', email: document.getElementById('email')?.value || '', telefone: document.getElementById('telefone')?.value || '', botao_baixar: "BAIXAR" },
+        inicio: inicioObj,
         social: soc, perfil: { descricao: document.getElementById('descricao')?.value || '' }, habilidades: habs, idiomas: idis, experiencia_profissional: exps, educacao: edus, certificados: certs, interesses: ints,
         whatsapp: { ativo: true, numero: document.getElementById('wa_numero')?.value || '', mensagemPadrao: "Olá! Gostaria de falar sobre o currículo." }
     };
