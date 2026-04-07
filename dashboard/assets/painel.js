@@ -127,7 +127,14 @@ function renderIconSelectors() {
         item.className = 'icon-item';
         item.innerHTML = `<i class="fa-solid ${icon}"></i>`;
         item.title = name;
-        item.onclick = () => { item.classList.toggle('selected'); syncPreview(); };
+        item.onclick = () => { 
+            if (!item.classList.contains('selected') && document.querySelectorAll('.icon-item.selected').length >= 8) {
+                alert("Você só pode selecionar até 8 ícones de interesses.");
+                return;
+            }
+            item.classList.toggle('selected'); 
+            syncPreview(); 
+        };
         grid.appendChild(item);
     });
 }
