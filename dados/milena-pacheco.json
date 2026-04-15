@@ -4,8 +4,8 @@
     "profissao": "Administradora",
     "endereco": "Cidade Nova - Brasil",
     "localizacao": "Cidade Nova - Brasil",
-    "email": "milena.pch@exemplo.com",
-    "telefone": "",
+    "email": "milena@exemplo.com",
+    "telefone": "(21) 9 7070-7616",
     "botao_baixar": "BAIXAR",
     "idade": "32 anos",
     "estado_civil": "Noivo(a)",
@@ -118,8 +118,8 @@
   ],
   "whatsapp": {
     "ativo": true,
-    "numero": "5511999999999",
-    "mensagemPosCumprimento": "Como posso te ajudar?",
+    "numero": "5521970707616",
+    "mensagemPosCumprimento": "Olá, Gostou desse Currículo? Entre em contato e solicite o seu agora mesmo!",
     "mensagemPadrao": "Olá! Gostaria de falar sobre o currículo."
   }
 }
