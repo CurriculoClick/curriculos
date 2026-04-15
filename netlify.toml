@@ -1,6 +1,6 @@
 [build]
-  command = "npm run build"
-  publish = "public"
+  command = "# Sem comando de build para economizar minutos"
+  publish = "."
 
 [build.environment]
   NODE_VERSION = "14"
