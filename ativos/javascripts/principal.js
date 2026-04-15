@@ -121,6 +121,11 @@ window.applyCustomColor = (hex, name) => {
   // guarda nome para PDF
   selectedColorName = sanitizeName(name);
   customColorActive = true;
+  
+  // Salva no localStorage para persistência
+  localStorage.setItem('cc_custom_color_hex', hex);
+  localStorage.setItem('cc_custom_color_name', name);
+
   // calcula cor de texto por contraste
   const [r, g, b] = hex.replace('#','').match(/.{2}/g).map(v=>parseInt(v,16));
   const brightness = (r*299 + g*587 + b*114)/1000;
@@ -139,6 +144,11 @@ window.applyCustomColor = (hex, name) => {
 function removeCustomColor() {
   customColorActive = false;
   selectedColorName = null;
+  
+  // Remove do localStorage
+  localStorage.removeItem('cc_custom_color_hex');
+  localStorage.removeItem('cc_custom_color_name');
+
   const root = document.documentElement;
   // remove custom theme
   root.classList.remove('custom-color-active');
@@ -384,8 +394,13 @@ document.addEventListener('DOMContentLoaded', async () => {
        });
    }
 
-   // Aplica cor customizada se definida
-   if (window.initialColorHex && window.innerWidth > 968) {
+   // Aplica cor customizada se definida (prioriza localStorage, depois o que vem do JSON inicial)
+   const savedHex = localStorage.getItem('cc_custom_color_hex');
+   const savedName = localStorage.getItem('cc_custom_color_name');
+
+   if (savedHex && window.innerWidth > 968) {
+     window.applyCustomColor(savedHex, savedName);
+   } else if (window.initialColorHex && window.innerWidth > 968) {
      window.applyCustomColor(window.initialColorHex, window.initialColorName);
    }
 });
