@@ -119,7 +119,7 @@
   "whatsapp": {
     "ativo": true,
     "numero": "5521970707616",
-    "mensagemPosCumprimento": "Olá, Gostou desse Currículo? Entre em contato e solicite o seu agora mesmo!",
+    "mensagemPosCumprimento": "Gostou desse Currículo? Entre em contato e solicite o seu agora mesmo!",
     "mensagemPadrao": "Olá! Gostaria de falar sobre o currículo."
   }
 }
