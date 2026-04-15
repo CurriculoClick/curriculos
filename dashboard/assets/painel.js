@@ -5,7 +5,7 @@
 
 const GITHUB_API = 'https://api.github.com';
 let githubToken = localStorage.getItem('cc_github_token');
-let githubRepo = localStorage.getItem('cc_github_repo') || 'thiagodelgado/curriculoclick';
+let githubRepo = localStorage.getItem('cc_github_repo') || 'CurriculoClick/curriculos';
 
 // State & Limits
 let currentData = null;
