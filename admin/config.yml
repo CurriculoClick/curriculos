@@ -1,7 +1,7 @@
 backend:
   name: git-gateway # Usa Netlify Identity para autenticação
   branch: main # Branch principal do seu repositório
-  repo: thiagodelgado/curriculoclick # Repositório GitHub
+  repo: CurriculoClick/curriculos # Repositório GitHub
 
 # Configuração para desenvolvimento local
 local_backend: true # Habilita backend local para desenvolvimento
