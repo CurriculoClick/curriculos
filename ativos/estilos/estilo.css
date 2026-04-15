@@ -215,10 +215,11 @@ html {
 }
 
 /* Em custom-color-active, forçar ícone dos botões a ficar preto */
-.curriculo_esquerda.custom-color-active .mudar-tema,
-.curriculo_esquerda.custom-color-active .gerar-pdf,
-.curriculo_esquerda.custom-color-active #botao-cores,
-.curriculo_esquerda.custom-color-active #botao-ocultar-foto {
+.custom-color-active .mudar-tema,
+.custom-color-active .gerar-pdf,
+.custom-color-active #botao-cores,
+.custom-color-active #botao-ocultar-foto {
+    background-color: #fff !important;
     color: #000 !important; /* força cor preta nos ícones dos botões */
 }
 
@@ -982,8 +983,8 @@ img {
     position: relative;
         background-color: var(--custom-color) !important;
     }
-    /* Aplica cor de texto apenas ao lado esquerdo */
-    body.custom-color-active .curriculo_esquerda * {
+    /* Aplica cor de texto apenas ao lado esquerdo (exceto botões de controle) */
+    body.custom-color-active .curriculo_esquerda *:not(.mudar-tema):not(#botao-cores):not(#botao-ocultar-foto):not(.gerar-pdf) {
         color: var(--custom-text-color) !important;
     }
 }
@@ -1172,11 +1173,15 @@ img {
     transition: opacity 0.3s ease-in-out; /* botão some mais rápido */
 }
 
-/* Forçar ícones pretos em modo escuro para botões circulares */
+/* Forçar ícones pretos em modo escuro ou cor customizada para botões circulares */
 body.modo-escuro .mudar-tema,
 body.modo-escuro .gerar-pdf,
 body.modo-escuro #botao-cores,
-body.modo-escuro #botao-ocultar-foto {
+body.modo-escuro #botao-ocultar-foto,
+body.custom-color-active .mudar-tema,
+body.custom-color-active .gerar-pdf,
+body.custom-color-active #botao-cores,
+body.custom-color-active #botao-ocultar-foto {
     background-color: #fff !important;
     color: #000 !important; /* força preto para o ícone */
 }
