@@ -502,6 +502,7 @@ img {
     background-color: var(--cor-corpo);
     box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.1);
     transition: all 0.5s ease;
+    display: flex;
 }
 
 /* Navegação */
@@ -873,7 +874,7 @@ img {
     align-items: center;
     padding: 0.4rem;
     background-color: var(--cor-container-alt);
-    border-radius: 0.25rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     z-index: var(--z-dica);
     transition: 0.4s;
     visibility: hidden;
@@ -1014,22 +1015,29 @@ img {
 
 /* Ajuste de posição do ícone ocultar foto em mobile */
 @media screen and (max-width: 768px) {
-    /* === APLICAÇÃO DE COR PERSONALIZADA NO MOBILE (MODELO) === */
-    html.custom-color-active,
+    /* === APLICAÇÃO DE COR PERSONALIZADA NO MOBILE (768px) === */
     body.custom-color-active {
+        --cor-corpo: var(--custom-color) !important;
+        --cor-container: var(--custom-color) !important;
+        --cor-container-alt: var(--custom-color) !important;
+        --cor-titulo: var(--custom-text-color) !important;
+        --cor-texto: var(--custom-text-color) !important;
+        --cor-texto-claro: var(--custom-text-color) !important;
         background-color: var(--custom-color) !important;
     }
-    body.custom-color-active .l-cabecalho,
-    body.custom-color-active .l-principal,
-    body.custom-color-active .curriculo,
-    body.custom-color-active .curriculo_esquerda,
-    body.custom-color-active .curriculo_direita {
+    html.custom-color-active {
         background-color: var(--custom-color) !important;
     }
-    body.custom-color-active *:not(.whatsapp-chat):not(.whatsapp-chat *):not(.whatsapp-button):not(.whatsapp-button *),
-    body.custom-color-active .curriculo *,
-    body.custom-color-active .l-cabecalho *,
-    body.custom-color-active .l-principal * {
+    /* Estilos diretos para menu e seta */
+    .custom-color-active .navegacao_menu,
+    .custom-color-active #navegacao-menu,
+    .custom-color-active .voltar-ao-topo {
+        background-color: var(--custom-color) !important;
+        background: var(--custom-color) !important;
+    }
+    .custom-color-active .navegacao_menu *,
+    .custom-color-active #navegacao-menu *,
+    .custom-color-active .voltar-ao-topo * {
         color: var(--custom-text-color) !important;
     }
     /* === FIM DA COR PERSONALIZADA MOBILE === */
@@ -1188,26 +1196,29 @@ body.custom-color-active #botao-ocultar-foto {
 
 /* Estilos para cor personalizada em mobile */
 @media screen and (max-width: 968px) {
-    /* Define background customizado no html e body */
-    html.custom-color-active,
+    /* Força cor do texto e background customizados via variáveis */
     body.custom-color-active {
+        --cor-corpo: var(--custom-color) !important;
+        --cor-container: var(--custom-color) !important;
+        --cor-container-alt: var(--custom-color) !important;
+        --cor-titulo: var(--custom-text-color) !important;
+        --cor-texto: var(--custom-text-color) !important;
+        --cor-texto-claro: var(--custom-text-color) !important;
         background-color: var(--custom-color) !important;
     }
-
-    /* Aplica background customizado em todos os containers principais */
-    body.custom-color-active .l-cabecalho,
-    body.custom-color-active .l-principal,
-    body.custom-color-active .curriculo,
-    body.custom-color-active .curriculo_esquerda,
-    body.custom-color-active .curriculo_direita {
+    html.custom-color-active {
         background-color: var(--custom-color) !important;
     }
-
-    /* Força cor do texto customizada em todos os elementos */
-    body.custom-color-active *,
-    body.custom-color-active .curriculo *,
-    body.custom-color-active .l-cabecalho *,
-    body.custom-color-active .l-principal * {
+    /* Estilos diretos para menu e seta no breakpoint 968px */
+    .custom-color-active .navegacao_menu,
+    .custom-color-active #navegacao-menu,
+    .custom-color-active .voltar-ao-topo {
+        background-color: var(--custom-color) !important;
+        background: var(--custom-color) !important;
+    }
+    .custom-color-active .navegacao_menu *,
+    .custom-color-active #navegacao-menu *,
+    .custom-color-active .voltar-ao-topo * {
         color: var(--custom-text-color) !important;
     }
 }

@@ -62,13 +62,18 @@ estilo.innerHTML = `
     transform: translateY(0);
   }
 
-  .chat-header {
-    background-color: #075e54;
-    color: white;
+  body .chat-header {
+    background-color: #075e54 !important;
+    color: white !important;
     padding: 12px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+
+  body .chat-header *,
+  body.custom-color-active .chat-header * {
+    color: white !important;
   }
 
   .chat-header .info span.chat-subtext::before {
@@ -103,7 +108,7 @@ estilo.innerHTML = `
   .close-btn {
     background: none;
     border: none;
-    color: white;
+    color: white !important;
     font-size: 20px;
     cursor: pointer;
   }

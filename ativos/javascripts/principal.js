@@ -138,6 +138,20 @@ window.applyCustomColor = (hex, name) => {
   root.classList.add('custom-color-active');
   // também marca no body para print override
   document.body.classList.add('custom-color-active');
+
+  // Força cor no menu mobile e seta de rolagem
+  const menu = document.querySelector('.navegacao_menu');
+  if (menu) {
+      menu.style.setProperty('background-color', hex, 'important');
+      const menuElements = menu.querySelectorAll('*');
+      menuElements.forEach(el => el.style.setProperty('color', textColor, 'important'));
+  }
+  const topo = document.querySelector('.voltar-ao-topo');
+  if (topo) {
+      topo.style.setProperty('background-color', hex, 'important');
+      const topoIcon = topo.querySelector('*');
+      if (topoIcon) topoIcon.style.setProperty('color', textColor, 'important');
+  }
 };
 
 // Função para remover cor customizada
@@ -157,6 +171,20 @@ function removeCustomColor() {
   // o CSS volta ao padrão para desktop e mobile
   // remove no body também
   document.body.classList.remove('custom-color-active');
+
+  // Remove estilos inline forçados
+  const menu = document.querySelector('.navegacao_menu');
+  if (menu) {
+      menu.style.removeProperty('background-color');
+      const menuElements = menu.querySelectorAll('*');
+      menuElements.forEach(el => el.style.removeProperty('color'));
+  }
+  const topo = document.querySelector('.voltar-ao-topo');
+  if (topo) {
+      topo.style.removeProperty('background-color');
+      const topoIcon = topo.querySelector('*');
+      if (topoIcon) topoIcon.style.removeProperty('color');
+  }
 }
 
 // Remove listener resize se existir
@@ -398,9 +426,9 @@ document.addEventListener('DOMContentLoaded', async () => {
    const savedHex = localStorage.getItem('cc_custom_color_hex');
    const savedName = localStorage.getItem('cc_custom_color_name');
 
-   if (savedHex && window.innerWidth > 968) {
-     window.applyCustomColor(savedHex, savedName);
-   } else if (window.initialColorHex && window.innerWidth > 968) {
-     window.applyCustomColor(window.initialColorHex, window.initialColorName);
-   }
+    if (savedHex) {
+      window.applyCustomColor(savedHex, savedName);
+    } else if (window.initialColorHex) {
+      window.applyCustomColor(window.initialColorHex, window.initialColorName);
+    }
 });
