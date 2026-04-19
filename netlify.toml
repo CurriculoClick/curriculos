@@ -1,5 +1,5 @@
 [build]
-  command = "# Sem comando de build para economizar minutos"
+  command = ":"
   publish = "."
 
 [build.environment]
