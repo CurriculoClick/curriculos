@@ -16,7 +16,7 @@ function obterIdDaUrl() {
 // Função alternativa síncrona para carregamento local de JSON via XHR (file://)
 function carregarDadosLocal(id) {
     try {
-        const path = `dados/${id}.json`;
+        const path = `dados/${id}.json?t=${Date.now()}`;
         const xhr = new XMLHttpRequest();
         xhr.overrideMimeType('application/json');
         xhr.open('GET', path, false); // síncrono
@@ -38,8 +38,8 @@ function carregarDadosLocal(id) {
 // Função para carregar os dados do currículo a partir do JSON
 async function carregarDadosCliente(id) {
     try {
-        // Carrega JSON pelo path relativo estático
-        const path = `dados/${id}.json`;
+        // Carrega JSON pelo path relativo estático com cache-buster para evitar 404 persistente
+        const path = `dados/${id}.json?t=${Date.now()}`;
         if (DEBUG) console.log(`Carregando currículo (fetch estático): ${path}`);
         const resposta = await fetch(path);
         

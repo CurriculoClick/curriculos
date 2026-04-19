@@ -197,7 +197,7 @@ collections:
               name: "foto_perfil", 
               widget: "image", 
               media_folder: "dados/uploads/{{slug}}", 
-              public_folder: "dados/uploads/{{slug}}",
+              public_folder: "/dados/uploads/{{slug}}",
               media_library: {
                 config: {
                   multiple: false
