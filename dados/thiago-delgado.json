@@ -54,7 +54,7 @@
   "whatsapp": {
     "ativo": true,
     "numero": "55219170753",
-    "mensagemPosCumprimento": "Olá, esse é o meu modelo de currículo, você gostaria de ter o seu? Entre em contato!",
+    "mensagemPosCumprimento": "Esse é o meu modelo de currículo, você gostaria de ter o seu? Entre em contato!",
     "mensagemPadrao": "Olá! Gostaria de falar sobre o currículo."
   }
 }
