@@ -1,0 +1,60 @@
+{
+  "inicio": {
+    "nome": "Thiago Delgado",
+    "profissao": "CEO | Administrador",
+    "endereco": "Rio de Janeiro - Brasil",
+    "localizacao": "Rio de Janeiro - Brasil",
+    "email": "thiagodelgado@outlook.com",
+    "telefone": "(21) 9 9217-0753",
+    "botao_baixar": "BAIXAR",
+    "idade": "38 anos",
+    "foto_perfil": "dados/uploads/thiago-delgado.png"
+  },
+  "social": [
+    {
+      "rede": "Facebook",
+      "url": "@thiagodelgados"
+    },
+    {
+      "rede": "Instagram",
+      "url": "@thiagodelgados"
+    },
+    {
+      "rede": "YouTube",
+      "url": "thiagodelgado"
+    }
+  ],
+  "perfil": {
+    "descricao": ""
+  },
+  "habilidades": [],
+  "idiomas": [
+    {
+      "nome": "Português",
+      "estrelas": 5
+    },
+    {
+      "nome": "Inglês",
+      "estrelas": 2
+    }
+  ],
+  "experiencia_profissional": [],
+  "educacao": [],
+  "certificados": [],
+  "interesses": [
+    "pets",
+    "vídeo game",
+    "música",
+    "tecnologia",
+    "programação",
+    "internet",
+    "redes sociais",
+    "praia"
+  ],
+  "whatsapp": {
+    "ativo": true,
+    "numero": "55219170753",
+    "mensagemPosCumprimento": "Esse é o meu modelo de currículo, você gostaria de ter o seu? Entre em contato!",
+    "mensagemPadrao": "Olá! Gostaria de falar sobre o currículo."
+  }
+}
