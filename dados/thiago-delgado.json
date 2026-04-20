@@ -25,9 +25,30 @@
     }
   ],
   "perfil": {
-    "descricao": ""
+    "descricao": "Profissional com 17 anos de atuação na área de tecnologia, com experiência no desenvolvimento de aplicações completas e soluções digitais eficientes. Possui domínio em tecnologias modernas, foco em performance, usabilidade e escalabilidade. Atua desde o planejamento até a entrega final, sempre buscando inovação, organização e melhoria contínua dos processos."
   },
-  "habilidades": [],
+  "habilidades": [
+    {
+      "nome": "TypeScript",
+      "nivel": 85
+    },
+    {
+      "nome": "React",
+      "nivel": 80
+    },
+    {
+      "nome": "AWS",
+      "nivel": 100
+    },
+    {
+      "nome": "UI/UX Design",
+      "nivel": 98
+    },
+    {
+      "nome": "Suporte Téc.",
+      "nivel": 100
+    }
+  ],
   "idiomas": [
     {
       "nome": "Português",
@@ -38,9 +59,57 @@
       "estrelas": 2
     }
   ],
-  "experiencia_profissional": [],
-  "educacao": [],
-  "certificados": [],
+  "experiencia_profissional": [
+    {
+      "cargo": "Full-Stack Engineer | CEO",
+      "empresa": "Digital Objetiva",
+      "periodo": "Janeiro 201 - Atual",
+      "descricao": "Desenvolvimento de aplicações web completas utilizando Node.js, React e TypeScript. Implementação de APIs escaláveis, integração com serviços em nuvem (AWS) e foco em performance e experiência do usuário."
+    },
+    {
+      "cargo": "Desenvolvedor Web / Suporte Técnico",
+      "empresa": "Info Tech",
+      "periodo": "Março 2016 – Dezembro 2019",
+      "descricao": "Atuação no desenvolvimento de sistemas web e suporte ao cliente, resolução de problemas técnicos, manutenção de sistemas e otimização de processos digitais."
+    },
+    {
+      "cargo": "Analista de Suporte e Infraestrutura",
+      "empresa": "Empreendedor Autônomo ",
+      "periodo": "Dezembro 2009 – Fevereiro 2016",
+      "descricao": "Atendimento técnico, manutenção de computadores, redes e suporte a usuários. Evolução para desenvolvimento e automação de processos internos."
+    }
+  ],
+  "educacao": [
+    {
+      "curso": "Engenharia de Software",
+      "instituicao": "Descomplica Digital – Brasil",
+      "periodo": "2022 – 2023"
+    },
+    {
+      "curso": "Análise e Desenvolvimento de Sistemas",
+      "instituicao": "Estácio",
+      "periodo": "2018 – 2021"
+    },
+    {
+      "curso": "Curso Técnico em Informática",
+      "instituicao": "SENAI RJ",
+      "periodo": "2014 – 2016"
+    }
+  ],
+  "certificados": [
+    {
+      "ano": "2023",
+      "titulo": "Alura | Formação Full-Stack JavaScript"
+    },
+    {
+      "ano": "2019",
+      "titulo": "Udemy | Desenvolvimento Web Moderno"
+    },
+    {
+      "ano": "2016",
+      "titulo": "Coursera | Cloud Computing com AWS"
+    }
+  ],
   "interesses": [
     "pets",
     "vídeo game",
