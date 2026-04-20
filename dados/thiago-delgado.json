@@ -1,0 +1,33 @@
+{
+  "inicio": {
+    "nome": "Thiago Delgado",
+    "profissao": "",
+    "endereco": "",
+    "localizacao": "",
+    "email": "",
+    "telefone": "",
+    "botao_baixar": "BAIXAR",
+    "foto_perfil": "dados/uploads/thiago-delgado.png"
+  },
+  "social": [
+    {
+      "rede": "WhatsApp",
+      "url": ""
+    }
+  ],
+  "perfil": {
+    "descricao": ""
+  },
+  "habilidades": [],
+  "idiomas": [],
+  "experiencia_profissional": [],
+  "educacao": [],
+  "certificados": [],
+  "interesses": [],
+  "whatsapp": {
+    "ativo": true,
+    "numero": "",
+    "mensagemPosCumprimento": "",
+    "mensagemPadrao": "Olá! Gostaria de falar sobre o currículo."
+  }
+}
