@@ -1,0 +1,13 @@
+# Ignorar pastas que não devem ser públicas no deploy raiz
+node_modules/
+.git/
+private/
+package-lock.json
+package.json
+netlify.toml
+LEIA-ME-DEPLOY.md
+REGRAS-DEPLOY.md
+.gitignore
+.netlify/
+temp/
+scratch/
