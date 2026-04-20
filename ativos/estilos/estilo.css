@@ -845,6 +845,7 @@ img {
 
 .idiomas_estrelas_desmarcado {
     color: var(--cor-texto-claro);
+    opacity: 0.7;
 }
 
 /* Interesses */

@@ -415,7 +415,7 @@ function aplicarDadosAoCurriculo(dados) {
                     if (i <= idioma.estrelas) {
                         estrelas += '<i class="fa-solid fa-star"></i>';
                     } else {
-                        estrelas += '<i class="fa-solid fa-star idiomas_estrelas_desmarcado"></i>';
+                        estrelas += '<i class="fa-regular fa-star idiomas_estrelas_desmarcado"></i>';
                     }
                 }
                 
