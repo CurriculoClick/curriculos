@@ -28,7 +28,16 @@
     "descricao": ""
   },
   "habilidades": [],
-  "idiomas": [],
+  "idiomas": [
+    {
+      "nome": "Português",
+      "estrelas": 5
+    },
+    {
+      "nome": "Inglês",
+      "estrelas": 2
+    }
+  ],
   "experiencia_profissional": [],
   "educacao": [],
   "certificados": [],
