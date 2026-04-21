@@ -1,22 +1,318 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CMS Currículo Click</title>
-  <link rel="cms-config-url" type="text/yaml" href="/admin/config.yml">
-  <!-- Force clear CMS cache -->
-  <script>
-    // Limpar cache do CMS para garantir que as alterações no config.yml sejam carregadas
-    window.localStorage.removeItem('netlify-cms-collections');
-    window.localStorage.removeItem('netlify-cms-config');
-    window.localStorage.clear();
-  </script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel CurriculoClick v3.0</title>
+    <link rel="icon" type="image/svg+xml" href="../ativos/imagens/favicon.svg">
+    <link rel="stylesheet" href="assets/painel.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/cb81440751.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 </head>
 <body>
-  <!-- Inclui o script do Netlify CMS -->
-  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 
+    <div class="app-container">
+        <!-- Sidebar Navigation (Drawer no Mobile) -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fa-solid fa-bolt-lightning"></i>
+                <span>Admin v3.0</span>
+                <button class="mobile-close" onclick="toggleSidebar()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <a href="#" class="menu-item active" onclick="limparFormulario()"><i class="fa-solid fa-plus-circle"></i> Novo</a>
+                <a href="#" class="menu-item" onclick="document.getElementById('importJsonInput').click()"><i class="fa-solid fa-folder-open"></i> Importar do PC</a>
+                <a href="configuracao.html" class="menu-item"><i class="fa-solid fa-gears"></i> Ajustes</a>
+                <a href="../" class="menu-item"><i class="fa-solid fa-eye"></i> Ver Site</a>
+            </nav>
+            <input type="file" id="importJsonInput" accept=".json" style="display: none;">
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-header">
+                    <h3><i class="fa-solid fa-file-invoice"></i> Meus Currículos</h3>
+                    <button class="btn-refresh" onclick="listarCurriculos()" title="Atualizar Lista"><i class="fa-solid fa-rotate"></i></button>
+                </div>
+                <div class="sidebar-search">
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="searchCurriculo" placeholder="Buscar currículo..." class="input-pro">
+                    </div>
+                </div>
+                <div id="clientesList" class="client-list">
+                    <div class="list-loader">Carregando...</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()" id="overlay"></div>
+
+        <!-- Main Viewport -->
+        <main class="main-viewport">
+            <!-- Header Mobile -->
+            <header class="mobile-header">
+                <button onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
+                <span>CurriculoClick</span>
+                <button onclick="publicarCurriculo()"><i class="fa-solid fa-cloud-arrow-up"></i></button>
+            </header>
+
+            <div class="view-content">
+                <div class="editor-grid">
+                    
+                    <!-- Editor Side -->
+                    <div class="editor-workspace">
+                        <form id="cvForm">
+                            <!-- Card: Identidade -->
+                            <div class="card">
+                                <div class="card-header"><h3><i class="fa-solid fa-id-card"></i> Identidade</h3></div>
+                                <div class="card-body">
+                                    <div class="profile-upload-zone" id="photoUploader">
+                                        <div class="img-wrapper">
+                                            <img id="photoPreview" class="profile-img">
+                                            <i class="fa-solid fa-camera upload-icon"></i>
+                                        </div>
+                                        <span>Trocar Foto</span>
+                                        <input type="file" id="photoInput" hidden accept="image/*">
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="field-item">
+                                            <label>Nome</label>
+                                            <input type="text" id="nome" placeholder="Ex: Milena" class="input-pro">
+                                        </div>
+                                        <div class="field-item">
+                                            <label>Sobrenome</label>
+                                            <input type="text" id="sobrenome" placeholder="Ex: Pacheco" class="input-pro">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="field-item">
+                                        <label>Link do Currículo (URL)</label>
+                                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                            <span style="color: var(--text-muted); font-size: 0.8rem; white-space: nowrap;">.../?id=</span>
+                                            <input type="text" id="slug" class="input-pro" placeholder="nome-sobrenome" style="font-weight: 700; color: var(--primary);">
+                                        </div>
+                                        <small id="urlDisplay" style="color: var(--accent); font-weight: 600; margin-top: 0.25rem; display: block;"></small>
+                                    </div>
+
+                                    <div class="field-item">
+                                        <label>Profissão</label>
+                                        <input type="text" id="profissao" placeholder="Ex: Administradora" class="input-pro">
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="field-item">
+                                            <label><i class="fa-solid fa-cake-candles" style="color:var(--primary)"></i> Idade <small style="color:var(--text-muted);font-weight:400">(opcional)</small></label>
+                                            <input type="text" id="idade" placeholder="Ex: 32 anos" class="input-pro">
+                                        </div>
+                                        <div class="field-item">
+                                            <label><i class="fa-solid fa-ring" style="color:var(--primary)"></i> Estado Civil <small style="color:var(--text-muted);font-weight:400">(opcional)</small></label>
+                                            <select id="estado_civil" class="input-pro">
+                                                <option value="">Não informar</option>
+                                                <option value="Solteiro(a)">Solteiro(a)</option>
+                                                <option value="Casado(a)">Casado(a)</option>
+                                                <option value="Noivo(a)">Noivo(a)</option>
+                                                <option value="Divorciado(a)">Divorciado(a)</option>
+                                                <option value="Viúvo(a)">Viúvo(a)</option>
+                                                <option value="União Estável">União Estável</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="field-item">
+                                        <label><i class="fa-solid fa-id-card" style="color:var(--primary)"></i> CNH <small style="color:var(--text-muted);font-weight:400">(opcional)</small></label>
+                                        <select id="cnh" class="input-pro">
+                                            <option value="">Não informar</option>
+                                            <option value="A">Categoria A &mdash; Moto</option>
+                                            <option value="B">Categoria B &mdash; Carro</option>
+                                            <option value="AB">Categoria AB &mdash; Moto + Carro</option>
+                                            <option value="C">Categoria C &mdash; Caminhão</option>
+                                            <option value="D">Categoria D &mdash; Ônibus</option>
+                                            <option value="E">Categoria E &mdash; Carreta</option>
+                                            <option value="ACC">ACC &mdash; Ciclomotor</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card: Contato -->
+                            <div class="card">
+                                <div class="card-header"><h3><i class="fa-solid fa-map-location-dot"></i> Contato e Endereço</h3></div>
+                                <div class="card-body">
+                                    <div class="field-item">
+                                        <label>Endereço Completo</label>
+                                        <input type="text" id="endereco" placeholder="Ex: Cidade Nova - Brasil" class="input-pro">
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="field-item"><label>E-mail</label><input type="email" id="email" placeholder="Ex: milena.pch@exemplo.com" class="input-pro"></div>
+                                        <div class="field-item"><label>Celular</label><input type="text" id="telefone" placeholder="Ex: (99) 9 9999-9999" class="input-pro"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card: Perfil -->
+                            <div class="card">
+                                <div class="card-header"><h3><i class="fa-solid fa-user-pen"></i> Perfil Profissional</h3></div>
+                                <div class="card-body">
+                                    <textarea id="descricao" class="textarea-pro" rows="4" placeholder="Ex: 4 anos atuando na administração de pequenas e médias empresas em funções diversas. A habilidade com softwares de gestão e o comprometimento intenso..."></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Card: Redes Sociais -->
+                            <div class="card">
+                                <div class="card-header d-flex-sb">
+                                    <h3><i class="fa-solid fa-share-nodes"></i> Redes Sociais</h3>
+                                    <button type="button" class="btn-add" onclick="adicionarSocial()"><i class="fa-solid fa-plus"></i></button>
+                                </div>
+                                <div class="card-body" id="socialList">
+                                    <!-- JS populated -->
+                                </div>
+                            </div>
+
+                            <!-- Card: Habilidades (Max 5) -->
+                            <div class="card">
+                                <div class="card-header d-flex-sb">
+                                    <h3><i class="fa-solid fa-bolt"></i> Habilidades (Máx 5)</h3>
+                                    <button type="button" class="btn-add" onclick="adicionarHabilidade()"><i class="fa-solid fa-plus"></i></button>
+                                </div>
+                                <div class="card-body" id="habilidadesList">
+                                    <!-- JS populated -->
+                                </div>
+                            </div>
+
+                            <!-- Card: Idiomas (Max 3) -->
+                            <div class="card">
+                                <div class="card-header d-flex-sb">
+                                    <h3><i class="fa-solid fa-language"></i> Idiomas (Máx 3)</h3>
+                                    <button type="button" class="btn-add" onclick="adicionarIdioma()"><i class="fa-solid fa-plus"></i></button>
+                                </div>
+                                <div class="card-body" id="idiomasList">
+                                    <!-- JS populated -->
+                                </div>
+                            </div>
+
+                            <!-- Card: Experiência Profissional (Max 3) -->
+                            <div class="card">
+                                <div class="card-header d-flex-sb">
+                                    <h3><i class="fa-solid fa-briefcase"></i> Experiência Profissional (Máx 3)</h3>
+                                    <button type="button" class="btn-add" onclick="adicionarExperiencia()"><i class="fa-solid fa-plus"></i></button>
+                                </div>
+                                <div class="card-body" id="experienciasList">
+                                    <!-- JS populated -->
+                                </div>
+                            </div>
+
+                            <!-- Card: Educação (Max 3) -->
+                            <div class="card">
+                                <div class="card-header d-flex-sb">
+                                    <h3><i class="fa-solid fa-graduation-cap"></i> Educação / Formação (Máx 3)</h3>
+                                    <button type="button" class="btn-add" onclick="adicionarEducacao()"><i class="fa-solid fa-plus"></i></button>
+                                </div>
+                                <div class="card-body" id="educacaoList">
+                                    <!-- JS populated -->
+                                </div>
+                            </div>
+
+                            <!-- Card: Certificados (Max 3) -->
+                            <div class="card">
+                                <div class="card-header d-flex-sb">
+                                    <h3><i class="fa-solid fa-certificate"></i> Certificados e Cursos (Máx 3)</h3>
+                                    <button type="button" class="btn-add" onclick="adicionarCertificado()"><i class="fa-solid fa-plus"></i></button>
+                                </div>
+                                <div class="card-body" id="certificadosList">
+                                    <!-- JS populated -->
+                                </div>
+                            </div>
+
+                            <!-- Card: Interesses & Ícones -->
+                            <div class="card">
+                                <div class="card-header"><h3><i class="fa-solid fa-face-smile"></i> Interesses e Ícones</h3></div>
+                                <div class="card-body">
+                                    <div class="icon-grid" id="interestIcons">
+                                        <!-- JS populated -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card: WhatsApp Widget (Redirecionamento) -->
+                            <div class="card accent">
+                                <div class="card-header"><h3><i class="fa-brands fa-whatsapp"></i> WhatsApp Widget</h3></div>
+                                <div class="card-body">
+                                    <div class="field-item">
+                                        <label>Número do Cliente (Com DDD)</label>
+                                        <input type="text" id="wa_numero" placeholder="Ex: 5521999999999" class="input-pro">
+                                        <small>O chat usará a foto de perfil automaticamente.</small>
+                                    </div>
+                                    <div class="field-item" style="margin-top:1rem">
+                                        <label>Mensagem após a saudação</label>
+                                        <div style="display:flex; align-items:center; gap:0.5rem; background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:0.5rem 0.75rem; margin-bottom:0.4rem;">
+                                            <i class="fa-solid fa-lock" style="color:var(--text-muted);font-size:0.75rem;"></i>
+                                            <span style="color:var(--text-muted);font-size:0.82rem;white-space:nowrap;">Bom dia / Boa tarde / Boa noite</span>
+                                        </div>
+                                        <textarea id="wa_mensagem_pos" class="textarea-pro" rows="3" placeholder="Ex: Sou a Milena Pacheco, Administradora com 4 anos de experiência. Gostaria de me candidatar à vaga. Pode me chamar!"></textarea>
+                                        <small style="margin-top:0.25rem;display:block;">A saudação por horário é adicionada automaticamente pelo sistema — edite apenas o texto seguinte.</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <!-- Preview Side (Desktop Only) -->
+                    <div class="preview-workspace">
+                        <div class="sticky-preview">
+                            <div class="browser-mockup">
+                                <div class="browser-ctrl"><span></span><span></span><span></span></div>
+                                <iframe id="previewFrame" src="about:blank"></iframe>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+        <!-- Floating Action Button (Mobile) -->
+        <div class="fab-actions">
+            <button class="fab btn-secondary" onclick="limparFormulario()"><i class="fa-solid fa-trash"></i></button>
+            <button class="fab btn-primary" id="publishBtn"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+
+    </div>
+
+    <!-- Modal do Cropper -->
+    <div id="cropModal" class="crop-modal" style="display: none;">
+        <div class="crop-modal-content">
+            <div class="crop-header">
+                <h3>Ajustar Foto de Perfil</h3>
+                <button type="button" class="close-crop" onclick="fecharCropper()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="crop-body">
+                <img id="cropImage" src="">
+            </div>
+            <div class="crop-footer">
+                <button type="button" class="btn-secondary" onclick="fecharCropper()">Cancelar</button>
+                <button type="button" class="btn-primary" onclick="aplicarCorte()"><i class="fa-solid fa-crop-simple"></i> Cortar e Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="loader" class="screen-loader">
+        <div class="loader-box">
+            <div class="spinner"></div>
+            <h3>Publicando...</h3>
+        </div>
+    </div>
+
+    <script src="assets/painel.js"></script>
+    <script>
+        // Toggle Sidebar no Mobile
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('overlay').classList.toggle('show');
+        }
+    </script>
 </body>
-</html> 
+</html>

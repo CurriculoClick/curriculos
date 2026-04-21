@@ -3,7 +3,11 @@
   "trailingSlash": true,
   "routes": [
     {
-      "src": "/admin/(.*\\.(js|css|yml|json|png|jpg|jpeg|svg|woff|woff2))$",
+      "src": "/admin/configuracao.html",
+      "dest": "/admin/configuracao.html"
+    },
+    {
+      "src": "/admin/(.*\\.(js|css|yml|json|png|jpg|jpeg|svg|woff|woff2|html))$",
       "dest": "/admin/$1"
     },
     {
