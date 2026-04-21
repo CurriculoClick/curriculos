@@ -1,9 +1,11 @@
 [build]
-  command = ""
+  command = ":"
   publish = "."
+  ignore = "git diff --quiet HEAD^ HEAD -- . ':!*.md' ':!private/*'"
 
 [build.environment]
-  NODE_VERSION = "14"
+  NODE_VERSION = "20"
+  NETLIFY_SKIP_INSTALL = "true"
 
 # ──────────────────────────────────────────────
 # Edge Functions
