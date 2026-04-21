@@ -1,8 +1,8 @@
 backend:
   name: github
-  repo: CurriculoClick/curriculos # Certifique-se de atualizar aqui se o nome do novo repo for diferente!
+  repo: thiagodelgado/curriculoclick
   branch: main
-  base_url: https://SEU-DOMINIO-NA-VERCEL.vercel.app # Você precisará atualizar isto após o primeiro deploy
+  base_url: https://curriculoclick.vercel.app
   auth_endpoint: api/auth
 
 # Configuração para desenvolvimento local
