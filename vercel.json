@@ -2,8 +2,16 @@
   "version": 2,
   "routes": [
     {
+      "src": "/admin/(.*\\.(js|css|yml|json|png|jpg|jpeg|svg|woff|woff2))$",
+      "dest": "/admin/$1"
+    },
+    {
       "src": "/admin/(.*)",
       "dest": "/admin/index.html"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
     },
     {
       "src": "/(.*)",

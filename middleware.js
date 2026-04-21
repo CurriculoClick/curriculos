@@ -1,28 +1,26 @@
 /**
  * CurriculoClick – Vercel Edge Middleware: middleware.js
  * 
- * Intercepta requisições para a raiz (?) e injeta metatags dinâmicas.
+ * Intercepta requisições para a raiz e injeta metatags dinâmicas.
+ * Versão simplificada (sem dependências externas de build).
  */
-
-import { next } from '@vercel/edge';
 
 export default async function middleware(req) {
     const url = new URL(req.url);
     const id = url.searchParams.get('id');
 
-    // Se não houver ID, segue o fluxo normal
+    // Se não houver ID, deixa passar para o arquivo estático
     if (!id) {
-        return next();
+        return; 
     }
 
-    // Normaliza o ID (ex: curriculo_nome -> nome)
+    // Normaliza o ID
     const idNormalizado = id.replace(/^curriculo[_-]/i, '').replace(/_/g, '-');
 
     try {
-        // Busca o index.html original (que está sendo servido estaticamente)
-        // Usamos origin para garantir que pegamos do mesmo deployment
+        // Busca o index.html original
         const indexRes = await fetch(new URL('/index.html', url.origin));
-        if (!indexRes.ok) return next();
+        if (!indexRes.ok) return;
         
         let html = await indexRes.text();
 
@@ -50,7 +48,7 @@ export default async function middleware(req) {
             }
         }
 
-        // Injeção de metatags (substituição simples mas eficaz)
+        // Injeção de metatags
         const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         
         const ogBlock = `
@@ -63,9 +61,8 @@ export default async function middleware(req) {
     <meta name="twitter:description" content="${esc(descricao)}">
     <meta name="twitter:image" content="${esc(fotoUrl)}">`;
 
-        // Injeta antes do fechamendo do head e remove tags base
         const htmlModificado = html
-            .replace(/<meta id="og-title"[\s\S]*?<meta id="tw-image"[^>]*>/i, '') // Limpa tags estáticas
+            .replace(/<meta id="og-title"[\s\S]*?<meta id="tw-image"[^>]*>/i, '') 
             .replace('</head>', `${ogBlock}\n</head>`);
 
         return new Response(htmlModificado, {
@@ -74,7 +71,7 @@ export default async function middleware(req) {
 
     } catch (e) {
         console.error('Erro no Middleware:', e);
-        return next();
+        return;
     }
 }
 
