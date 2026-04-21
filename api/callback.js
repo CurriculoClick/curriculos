@@ -1,27 +1,26 @@
 // api/callback.js
-import axios from 'axios';
-
 export default async function handler(req, res) {
   const { code } = req.query;
   const client_id = process.env.OAUTH_CLIENT_ID;
   const client_secret = process.env.OAUTH_CLIENT_SECRET;
 
   try {
-    const response = await axios.post(
-      'https://github.com/login/oauth/access_token',
-      {
+    // Usando fetch nativo para evitar dependências externas
+    const response = await fetch('https://github.com/login/oauth/access_token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({
         client_id,
         client_secret,
         code,
-      },
-      {
-        headers: {
-          Accept: 'application/json',
-        },
-      }
-    );
+      }),
+    });
 
-    const { access_token, error } = response.data;
+    const data = await response.json();
+    const { access_token, error } = data;
 
     if (error) {
       return res.status(400).send(`Erro do GitHub: ${error}`);
