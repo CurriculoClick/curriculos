@@ -234,16 +234,16 @@ body.modo-escuro {
 }
 
 /* Configurações de Preview (Dashboard) */
-body.is-preview .whatsapp-widget, 
-body.is-preview .voltar-ao-topo,
-body.is-preview .navegacao_botoes,
-body.is-preview #cores-picker-panel,
-body.is-preview #botao-cores,
-body.is-preview #botao-tema {
+.is-preview .whatsapp-widget, 
+.is-preview .voltar-ao-topo,
+.is-preview .navegacao_botoes,
+.is-preview #cores-picker-panel,
+.is-preview #botao-cores,
+.is-preview #botao-tema {
     display: none !important;
 }
 
-body.is-preview {
+.is-preview {
     overflow-x: hidden;
 }
 

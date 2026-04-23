@@ -1,8 +1,11 @@
 /**
- * Sistema Currículos Top - Carregamento Dinâmico de Dados
- * Este arquivo contém as funções para carregar os dados do currículo
- * dinamicamente a partir de um arquivo JSON.
+ * CurriculoClick - Loader Dinâmico
  */
+
+// Detecção IMEDIATA de Preview para evitar "piscada" de elementos indesejados
+if (window.self !== window.top) {
+    document.documentElement.classList.add('is-preview');
+}
 
 // Indicador para ativar logs de depuração em desenvolvimento
 const DEBUG = false;

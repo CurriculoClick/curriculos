@@ -224,8 +224,9 @@ body {
 .editor-grid { display: grid; grid-template-columns: 1fr 480px; gap: 2rem; }
 .preview-workspace { 
     position: sticky; 
-    top: 1rem; 
-    height: calc(100vh - 2rem);
+    top: 10px; 
+    height: calc(100vh - 40px);
+    min-height: 900px;
     display: flex;
     flex-direction: column;
 }
@@ -234,7 +235,7 @@ body {
     box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
     display: flex;
     flex-direction: column;
-    height: 100%;
+    flex: 1;
 }
 .browser-ctrl { background: #f1f5f9; padding: 0.7rem; display: flex; gap: 6px; flex-shrink: 0; }
 .browser-ctrl span { width: 10px; height: 10px; border-radius: 50%; background: #cbd5e1; }

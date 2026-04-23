@@ -1,0 +1,13 @@
+/**
+ * CurriculoClick - Loader Dinâmico
+ */
+
+// Detecção IMEDIATA de Preview para evitar "piscada" de elementos indesejados
+if (window.self !== window.top) {
+    document.documentElement.classList.add('is-preview');
+    if (document.body) document.body.classList.add('is-preview');
+}
+
+const DEBUG = true;
+
+// O restante do arquivo carregarDados.js continua abaixo...
