@@ -349,7 +349,8 @@ function aplicarDadosAoCurriculo(dados) {
     
     // PERFIL
     if (dados.perfil) {
-        const perfilTituloEl = document.querySelector('.perfil .section-titulo');
+        // Tenta encontrar o título pelo ID exclusivo (mais confiável)
+        const perfilTituloEl = document.getElementById('perfil-titulo-texto');
         if (perfilTituloEl && dados.perfil.titulo) {
             perfilTituloEl.textContent = dados.perfil.titulo;
         }

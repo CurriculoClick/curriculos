@@ -178,7 +178,12 @@
 
                             <!-- Card: Perfil -->
                             <div class="card">
-                                <div class="card-header"><h3><i class="fa-solid fa-user-pen"></i> Perfil Profissional</h3></div>
+                                <div class="card-header">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                        <h3><i class="fa-solid fa-user-pen"></i> <input type="text" id="perfil_titulo" value="Perfil Profissional" class="input-inline" style="border:none; background:transparent; font-weight:700; color:inherit; font-size:1rem; padding:0; width:180px;" oninput="debouncedSync()"></h3>
+                                        <i class="fa-solid fa-pen-to-square" style="font-size: 0.8rem; opacity: 0.5;"></i>
+                                    </div>
+                                </div>
                                 <div class="card-body">
                                     <textarea id="descricao" class="textarea-pro" rows="4" placeholder="Ex: 4 anos atuando na administração de pequenas e médias empresas em funções diversas. A habilidade com softwares de gestão e o comprometimento intenso..."></textarea>
                                 </div>
