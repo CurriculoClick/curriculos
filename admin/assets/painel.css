@@ -225,8 +225,7 @@ body {
 .preview-workspace { 
     position: sticky; 
     top: 10px; 
-    height: calc(100vh - 40px);
-    min-height: 900px;
+    height: 1200px;
     display: flex;
     flex-direction: column;
 }
