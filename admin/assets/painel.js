@@ -342,7 +342,7 @@ function preencherFormulario(data, slug) {
         }
         
         // PERFIL
-        if (document.getElementById('perfil_titulo')) document.getElementById('perfil_titulo').value = data.perfil?.titulo || 'Perfil Profissional';
+        if (document.getElementById('perfil_titulo')) document.getElementById('perfil_titulo').value = data.perfil?.titulo || 'Perfil';
         if (document.getElementById('descricao')) document.getElementById('descricao').value = data.perfil?.descricao || '';
         
         console.log("Formulário preenchido com sucesso para:", slug);
@@ -481,7 +481,7 @@ function collectData() {
         inicio: inicioObj,
         social: soc, 
         perfil: { 
-            titulo: document.getElementById('perfil_titulo')?.value || 'Perfil Profissional',
+            titulo: document.getElementById('perfil_titulo')?.value || 'Perfil',
             descricao: document.getElementById('descricao')?.value || '' 
         }, 
         habilidades: habs, idiomas: idis, experiencia_profissional: exps, educacao: edus, certificados: certs, interesses: ints,
