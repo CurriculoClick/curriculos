@@ -64,6 +64,30 @@
                     <!-- Editor Side -->
                     <div class="editor-workspace">
                         <form id="cvForm">
+                            <!-- Card: Assistente Mágico (IA) -->
+                            <div class="card ai-card" style="border: 2px solid #25d366; background: #25d36608; position: relative; overflow: hidden;">
+                                <div style="position: absolute; top: -10px; right: -10px; font-size: 5rem; color: #25d3660d; transform: rotate(15deg);">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                </div>
+                                <div class="card-header">
+                                    <h3 style="color: #128c7e;"><i class="fa-solid fa-wand-magic-sparkles"></i> Assistente Mágico (IA)</h3>
+                                </div>
+                                <div class="card-body">
+                                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+                                        Cole abaixo qualquer informação (texto bruto, mensagem de WhatsApp ou LinkedIn) e a IA preencherá o currículo automaticamente para você.
+                                    </p>
+                                    <div class="field-item">
+                                        <textarea id="aiRawInput" class="textarea-pro" rows="4" placeholder="Ex: O candidato se chama João Silva, mora em SP, tem 5 anos de exp como vendedor na Loja X e fala inglês básico..." style="border-color: #25d36644; background: white;"></textarea>
+                                    </div>
+                                    <button type="button" id="aiGenerateBtn" class="btn-pro" onclick="gerarCurriculoComIA()" style="width: 100%; justify-content: center; font-weight: 700; gap: 0.5rem; background: #25d366; color: white; border: none; padding: 1rem; border-radius: 0.8rem; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px #25d36644;">
+                                        <i class="fa-solid fa-wand-magic-sparkles"></i> Gerar com IA ✨
+                                    </button>
+                                    <div id="aiLoader" style="display: none; text-align: center; margin-top: 1rem; color: #128c7e; font-size: 0.9rem; font-weight: 600;">
+                                        <i class="fa-solid fa-spinner fa-spin"></i> O Gemini está criando o currículo perfeito...
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- Card: Identidade -->
                             <div class="card">
                                 <div class="card-header"><h3><i class="fa-solid fa-id-card"></i> Identidade</h3></div>
@@ -307,6 +331,7 @@
     </div>
 
     <script src="assets/painel.js?v=3.9"></script>
+    <script src="assets/ai.js"></script>
     <script>
         // Toggle Sidebar no Mobile
         function toggleSidebar() {
