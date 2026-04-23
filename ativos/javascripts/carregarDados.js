@@ -806,6 +806,11 @@ function atualizarMetaTagsOG(dados) {
 
 // Suporte para Live Preview (Dashboard)
 window.addEventListener('message', (event) => {
+    // Detectar se está dentro de um iframe (Preview do Painel)
+    if (window.self !== window.top) {
+        document.body.classList.add('is-preview');
+    }
+
     if (event.data && event.data.type === 'LIVE_PREVIEW_UPDATE') {
         if (DEBUG) console.log('Recebendo update em tempo real...');
         window.isLivePreview = true;

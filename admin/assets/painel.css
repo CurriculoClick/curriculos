@@ -221,11 +221,11 @@ body {
 }
 
 /* Preview Side */
-.editor-grid { display: grid; grid-template-columns: 1fr 480px; gap: 2rem; align-items: start; }
+.editor-grid { display: grid; grid-template-columns: 1fr 480px; gap: 2rem; }
 .preview-workspace { 
     position: sticky; 
-    top: 1.5rem; 
-    height: calc(100vh - 3rem);
+    top: 1rem; 
+    height: calc(100vh - 2rem);
     display: flex;
     flex-direction: column;
 }
