@@ -114,7 +114,9 @@ function setupCoreEvents() {
 function updateUrlDisplay(slug) {
     const display = document.getElementById('urlDisplay');
     if (!display) return;
-    const baseUrl = window.location.origin + window.location.pathname.replace('dashboard/', '');
+    // Para Vercel/Netlify, o link sempre deve apontar para a raiz do domínio.
+    // Isso garante que o endereço do painel (/admin) permaneça privado.
+    const baseUrl = window.location.origin + '/';
     display.textContent = `${baseUrl}?id=${slug}`;
 }
 

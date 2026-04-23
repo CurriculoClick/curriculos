@@ -52,17 +52,20 @@ export default async function middleware(req) {
         const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         
         const ogBlock = `
+    <meta property="og:type" content="profile">
     <meta property="og:title" content="${esc(titulo)}">
     <meta property="og:description" content="${esc(descricao)}">
     <meta property="og:image" content="${esc(fotoUrl)}">
     <meta property="og:url" content="${url.toString()}">
+    <meta property="og:site_name" content="Currículo Click">
+    <meta property="og:locale" content="pt_BR">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${esc(titulo)}">
     <meta name="twitter:description" content="${esc(descricao)}">
     <meta name="twitter:image" content="${esc(fotoUrl)}">`;
 
         const htmlModificado = html
-            .replace(/<meta id="og-title"[\s\S]*?<meta id="tw-image"[^>]*>/i, '') 
+            .replace(/<meta id="og-type"[\s\S]*?<meta id="tw-image"[^>]*>/i, '') 
             .replace('</head>', `${ogBlock}\n</head>`);
 
         return new Response(htmlModificado, {
@@ -76,5 +79,5 @@ export default async function middleware(req) {
 }
 
 export const config = {
-    matcher: '/',
+    matcher: ['/', '/index.html'],
 };
