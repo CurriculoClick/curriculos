@@ -180,8 +180,8 @@
                             <div class="card">
                                 <div class="card-header">
                                     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                                        <h3><i class="fa-solid fa-user-pen"></i> <input type="text" id="perfil_titulo" value="Perfil Profissional" class="input-inline" style="border:none; background:transparent; font-weight:700; color:inherit; font-size:1rem; padding:0; width:180px;" oninput="debouncedSync()"></h3>
-                                        <i class="fa-solid fa-pen-to-square" style="font-size: 0.8rem; opacity: 0.5;"></i>
+                                         <h3><i class="fa-solid fa-user-pen"></i> <input type="text" id="perfil_titulo" value="Perfil Profissional" class="input-inline-editable" placeholder="Ex: Perfil ou Objetivo" oninput="debouncedSync()"></h3>
+                                         <i class="fa-solid fa-pen-to-square" style="font-size: 0.8rem; opacity: 0.5;"></i>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -334,6 +334,31 @@
 
     <script src="assets/painel.js?v=3.9"></script>
     <script src="assets/ai.js"></script>
+    <style>
+        /* Inputs Editáveis em linha (Títulos) */
+        .input-inline-editable {
+            border: 1px solid transparent;
+            background: transparent;
+            font-weight: 700;
+            color: inherit;
+            font-size: 1rem;
+            padding: 2px 5px;
+            width: 220px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            cursor: text;
+        }
+        .input-inline-editable:hover {
+            border-bottom: 1px dashed var(--primary);
+            background: rgba(37, 99, 235, 0.05);
+        }
+        .input-inline-editable:focus {
+            border: 1px solid var(--primary);
+            background: white;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+    </style>
     <script>
         // Toggle Sidebar no Mobile
         function toggleSidebar() {
