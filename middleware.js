@@ -30,11 +30,29 @@ export default async function middleware(req) {
         let fotoUrl = `${url.origin}/ativos/imagens/og-default.png`;
 
         // Busca o JSON dos dados do candidato
-        const jsonUrl = `${url.origin}/dados/${idNormalizado}.json`;
-        const jsonRes = await fetch(jsonUrl);
+        // 1. Tentar buscar dados do GitHub API (para ser instantâneo e suportar repos privados)
+        const GITHUB_REPO = 'thiagodelgado/curriculoclick';
+        const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+        
+        let dados = null;
+        try {
+            const githubUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/dados/${idNormalizado}.json`;
+            const headers = GITHUB_TOKEN ? { 'Authorization': `token ${GITHUB_TOKEN}`, 'Accept': 'application/vnd.github.v3.raw' } : {};
+            
+            const githubRes = await fetch(githubUrl, { headers });
+            if (githubRes.ok) {
+                dados = await githubRes.json();
+            } else {
+                // Fallback para busca local se o GitHub falhar ou não tiver token
+                const localUrl = `${url.origin}/dados/${idNormalizado}.json`;
+                const localRes = await fetch(localUrl);
+                if (localRes.ok) dados = await localRes.json();
+            }
+        } catch (e) {
+            console.error('Erro ao buscar dados:', e);
+        }
 
-        if (jsonRes.ok) {
-            const dados = await jsonRes.json();
+        if (dados) {
             const nome = (dados.inicio && dados.inicio.nome) || 'Currículo Profissional';
             const profissao = (dados.inicio && dados.inicio.profissao) || '';
             const foto = (dados.inicio && dados.inicio.foto_perfil) || '';
