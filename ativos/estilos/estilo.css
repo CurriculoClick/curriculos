@@ -233,6 +233,22 @@ body.modo-escuro {
     --cor-corpo: #2B2B2B;
 }
 
+/* Configurações de Preview (Dashboard) */
+body.is-preview .whatsapp-widget, 
+body.is-preview .voltar-ao-topo,
+body.is-preview .navegacao_botoes,
+body.is-preview #cores-picker-panel,
+body.is-preview #botao-cores,
+body.is-preview #botao-tema {
+    display: none !important;
+}
+
+body.is-preview {
+    overflow-x: hidden;
+}
+
+/* --- ESTILO ORIGINAL --- */
+
 /* Botão Gerar PDF */
 
 .gerar-pdf {

@@ -809,6 +809,7 @@ window.addEventListener('message', (event) => {
     if (event.data && event.data.type === 'LIVE_PREVIEW_UPDATE') {
         if (DEBUG) console.log('Recebendo update em tempo real...');
         window.isLivePreview = true;
+        document.body.classList.add('is-preview');
         aplicarDadosAoCurriculo(event.data.dados);
         
         // Resetar flag após um tempo para permitir animação no próximo carregamento "real"
