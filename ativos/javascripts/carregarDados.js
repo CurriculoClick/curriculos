@@ -349,6 +349,11 @@ function aplicarDadosAoCurriculo(dados) {
     
     // PERFIL
     if (dados.perfil) {
+        const perfilTituloEl = document.querySelector('.perfil .section-titulo');
+        if (perfilTituloEl && dados.perfil.titulo) {
+            perfilTituloEl.textContent = dados.perfil.titulo;
+        }
+
         const perfilDesc = document.querySelector('.perfil_descricao');
         if (perfilDesc && dados.perfil.descricao) {
             perfilDesc.textContent = dados.perfil.descricao;
@@ -380,7 +385,7 @@ function aplicarDadosAoCurriculo(dados) {
                 div.innerHTML = `
                     <span class="habilidades_texto">${habilidade.nome}</span>
                     <div class="habilidades_barra">
-                        <span class="habilidades_progresso" style="width: ${habilidade.nivel}%;"></span>
+                        <span class="habilidades_progresso" style="width: ${habilidade.nivel || 80}%;"></span>
                     </div>
                 `;
                 habilidadesContainer.appendChild(div);

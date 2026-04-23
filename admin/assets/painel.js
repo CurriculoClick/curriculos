@@ -113,11 +113,9 @@ function setupCoreEvents() {
 
 function updateUrlDisplay(slug) {
     const display = document.getElementById('urlDisplay');
-    if (!display) return;
-    // Para Vercel/Netlify, o link sempre deve apontar para a raiz do domínio.
-    // Isso garante que o endereço do painel (/admin) permaneça privado.
-    const baseUrl = window.location.origin + '/';
-    display.textContent = `${baseUrl}?id=${slug}`;
+    const baseUrl = window.location.origin;
+    const fullUrl = `${baseUrl}/?id=${slug}`;
+    display.innerHTML = `<a href="${fullUrl}" target="_blank" style="color: inherit; text-decoration: none; border-bottom: 1px dashed var(--accent);">${fullUrl} <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.7rem; margin-left: 5px;"></i></a>`;
 }
 
 function debouncedSync() {
@@ -338,10 +336,19 @@ function preencherFormulario(data, slug) {
         if (waEl && data.whatsapp) { 
             waEl.value = (typeof data.whatsapp === 'object') ? (data.whatsapp.numero || '') : (typeof data.whatsapp === 'string' ? data.whatsapp : ''); 
         }
+        // WHATSAPP
+        const waEl = document.getElementById('wa_numero');
+        if (waEl && data.whatsapp) { 
+            waEl.value = (typeof data.whatsapp === 'object') ? (data.whatsapp.numero || '') : (typeof data.whatsapp === 'string' ? data.whatsapp : ''); 
+        }
         const waMsgEl = document.getElementById('wa_mensagem_pos');
         if (waMsgEl && data.whatsapp) {
             waMsgEl.value = data.whatsapp.mensagemPosCumprimento || '';
         }
+        
+        // PERFIL
+        if (document.getElementById('perfil_titulo')) document.getElementById('perfil_titulo').value = data.perfil?.titulo || 'Perfil Profissional';
+        if (document.getElementById('descricao')) document.getElementById('descricao').value = data.perfil?.descricao || '';
         
         console.log("Formulário preenchido com sucesso para:", slug);
         atualizarPreview(slug);
@@ -477,7 +484,12 @@ function collectData() {
     if (cnhVal) inicioObj.cnh = cnhVal;
     return {
         inicio: inicioObj,
-        social: soc, perfil: { descricao: document.getElementById('descricao')?.value || '' }, habilidades: habs, idiomas: idis, experiencia_profissional: exps, educacao: edus, certificados: certs, interesses: ints,
+        social: soc, 
+        perfil: { 
+            titulo: document.getElementById('perfil_titulo')?.value || 'Perfil Profissional',
+            descricao: document.getElementById('descricao')?.value || '' 
+        }, 
+        habilidades: habs, idiomas: idis, experiencia_profissional: exps, educacao: edus, certificados: certs, interesses: ints,
         whatsapp: { ativo: true, numero: document.getElementById('wa_numero')?.value || '', mensagemPosCumprimento: document.getElementById('wa_mensagem_pos')?.value || '', mensagemPadrao: "Olá! Gostaria de falar sobre o currículo." }
     };
 }
