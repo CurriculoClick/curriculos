@@ -336,11 +336,6 @@ function preencherFormulario(data, slug) {
         if (waEl && data.whatsapp) { 
             waEl.value = (typeof data.whatsapp === 'object') ? (data.whatsapp.numero || '') : (typeof data.whatsapp === 'string' ? data.whatsapp : ''); 
         }
-        // WHATSAPP
-        const waEl = document.getElementById('wa_numero');
-        if (waEl && data.whatsapp) { 
-            waEl.value = (typeof data.whatsapp === 'object') ? (data.whatsapp.numero || '') : (typeof data.whatsapp === 'string' ? data.whatsapp : ''); 
-        }
         const waMsgEl = document.getElementById('wa_mensagem_pos');
         if (waMsgEl && data.whatsapp) {
             waMsgEl.value = data.whatsapp.mensagemPosCumprimento || '';
