@@ -9,6 +9,11 @@ export default async function middleware(req) {
     const url = new URL(req.url);
     const id = url.searchParams.get('id');
 
+    // Evita loop infinito: se o cabeçalho de sub-requisição estiver presente, ignora o middleware
+    if (req.headers.get('x-middleware-sub-request') === 'true') {
+        return;
+    }
+
     // Se não houver ID, deixa passar para o arquivo estático
     if (!id) {
         return; 
@@ -18,8 +23,10 @@ export default async function middleware(req) {
     const idNormalizado = id.replace(/^curriculo[_-]/i, '').replace(/_/g, '-');
 
     try {
-        // Busca o index.html original
-        const indexRes = await fetch(new URL('/index.html', url.origin));
+        // Busca o index.html original enviando o header para evitar recursão
+        const indexRes = await fetch(new URL('/index.html', url.origin), {
+            headers: { 'x-middleware-sub-request': 'true' }
+        });
         if (!indexRes.ok) return;
         
         let html = await indexRes.text();
@@ -83,6 +90,7 @@ export default async function middleware(req) {
     <meta name="twitter:image" content="${esc(fotoUrl)}">`;
 
         const htmlModificado = html
+            .replace(/<title>[\s\S]*?<\/title>/i, `<title>${esc(titulo)}</title>`)
             .replace(/<meta id="og-type"[\s\S]*?<meta id="tw-image"[^>]*>/i, '') 
             .replace('</head>', `${ogBlock}\n</head>`);
 
