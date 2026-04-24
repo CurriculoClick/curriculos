@@ -243,6 +243,7 @@ body {
     flex: 1;
     border: none;
     background: white;
+    overflow-y: auto;
 }
 
 /* Responsive Media Queries */

@@ -245,6 +245,9 @@ body.modo-escuro {
 
 .is-preview {
     overflow-x: hidden;
+    overflow-y: auto !important;
+    height: auto !important;
+    min-height: 100vh;
 }
 
 /* --- ESTILO ORIGINAL --- */
