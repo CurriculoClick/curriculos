@@ -705,12 +705,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     } catch (e) {
         console.warn('Falha no carregamento local, mantendo HTML estático', e);
     }
-    // Remove a classe de loading para exibir o conteúdo atualizado
-    document.body.classList.remove('js-loading');
+    try {
+        // Remove a classe de loading para exibir o conteúdo
+        document.body.classList.remove('js-loading');
+        console.log('Loader removido com sucesso.');
+    } catch (e) {
+        console.warn('Erro ao remover loader:', e);
+    }
 
     // Aplica cor customizada se definida
     if (window.initialColorHex && window.innerWidth > 968) {
-        window.applyCustomColor(window.initialColorHex, window.initialColorName);
+        try {
+            window.applyCustomColor(window.initialColorHex, window.initialColorName);
+        } catch (e) {
+            console.warn('Erro ao aplicar cor inicial:', e);
+        }
     }
 });
 
