@@ -378,7 +378,13 @@ function aplicarDadosAoCurriculo(dados) {
     }
     
     // HABILIDADES
-    if (dados.habilidades && dados.habilidades.length > 0) {
+    const habData = dados.habilidades;
+    const habItens = Array.isArray(habData) ? habData : (habData?.itens || []);
+    const habTitulo = (typeof habData === 'object' && !Array.isArray(habData)) ? (habData.titulo || 'Habilidades') : 'Habilidades';
+    
+    if (document.getElementById('habilidades-titulo-texto')) document.getElementById('habilidades-titulo-texto').textContent = habTitulo;
+
+    if (habItens && habItens.length > 0) {
         const habilidadesContainer = document.querySelector('.habilidades_conteudo');
         if (habilidadesContainer) {
             habilidadesContainer.innerHTML = '';
@@ -410,7 +416,13 @@ function aplicarDadosAoCurriculo(dados) {
     }
     
     // IDIOMAS
-    if (dados.idiomas && dados.idiomas.length > 0) {
+    const idData = dados.idiomas;
+    const idItens = Array.isArray(idData) ? idData : (idData?.itens || []);
+    const idTitulo = (typeof idData === 'object' && !Array.isArray(idData)) ? (idData.titulo || 'Idiomas') : 'Idiomas';
+
+    if (document.getElementById('idiomas-titulo-texto')) document.getElementById('idiomas-titulo-texto').textContent = idTitulo;
+
+    if (idItens && idItens.length > 0) {
         const idiomasContainer = document.querySelector('.idiomas_conteudo');
         if (idiomasContainer) {
             idiomasContainer.innerHTML = '';
@@ -452,8 +464,13 @@ function aplicarDadosAoCurriculo(dados) {
     }
     
     // EXPERIÊNCIA PROFISSIONAL
-    const expData = dados.experiencia_profissional;
-    if (expData) {
+    const expDataRaw = dados.experiencia_profissional;
+    const expItens = Array.isArray(expDataRaw) ? expDataRaw : (expDataRaw?.itens || []);
+    const expTitulo = (typeof expDataRaw === 'object' && !Array.isArray(expDataRaw)) ? (expDataRaw.titulo || 'Experiência Profissional') : 'Experiência Profissional';
+
+    if (document.getElementById('experiencia-titulo-texto')) document.getElementById('experiencia-titulo-texto').textContent = expTitulo;
+
+    if (expDataRaw) {
         const experienciaContainer = document.querySelector('.experiencia_container');
         if (experienciaContainer) {
             experienciaContainer.innerHTML = '';
@@ -498,8 +515,13 @@ function aplicarDadosAoCurriculo(dados) {
     }
     
     // CERTIFICADOS
-    const certData = dados.certificados || dados.certificacoes;
-    if (certData) {
+    const certDataRaw = dados.certificados || dados.certificacoes;
+    const certItens = Array.isArray(certDataRaw) ? certDataRaw : (certDataRaw?.itens || []);
+    const certTitulo = (typeof certDataRaw === 'object' && !Array.isArray(certDataRaw)) ? (certDataRaw.titulo || 'Certificados') : 'Certificados';
+
+    if (document.getElementById('certificados-titulo-texto')) document.getElementById('certificados-titulo-texto').textContent = certTitulo;
+
+    if (certDataRaw) {
         const certificadosContainer = document.querySelector('.certificados_container');
         if (certificadosContainer) {
             certificadosContainer.innerHTML = '';
@@ -533,8 +555,13 @@ function aplicarDadosAoCurriculo(dados) {
     }
     
     // EDUCAÇÃO
-    const eduData = dados.educacao;
-    if (eduData) {
+    const eduDataRaw = dados.educacao;
+    const eduItens = Array.isArray(eduDataRaw) ? eduDataRaw : (eduDataRaw?.itens || []);
+    const eduTitulo = (typeof eduDataRaw === 'object' && !Array.isArray(eduDataRaw)) ? (eduDataRaw.titulo || 'Educação') : 'Educação';
+
+    if (document.getElementById('educacao-titulo-texto')) document.getElementById('educacao-titulo-texto').textContent = eduTitulo;
+
+    if (eduDataRaw) {
         const educacaoContainer = document.querySelector('.educacao_container');
         if (educacaoContainer) {
             educacaoContainer.innerHTML = '';
@@ -573,7 +600,13 @@ function aplicarDadosAoCurriculo(dados) {
     }
     
     // INTERESSES
-    if (dados.interesses && dados.interesses.length > 0) {
+    const intDataRaw = dados.interesses;
+    const intItens = Array.isArray(intDataRaw) ? intDataRaw : (intDataRaw?.itens || []);
+    const intTitulo = (typeof intDataRaw === 'object' && !Array.isArray(intDataRaw)) ? (intDataRaw.titulo || 'Interesses') : 'Interesses';
+
+    if (document.getElementById('interesses-titulo-texto')) document.getElementById('interesses-titulo-texto').textContent = intTitulo;
+
+    if (intItens && intItens.length > 0) {
         const interessesContainer = document.querySelector('.interesses_container');
         if (interessesContainer) {
             interessesContainer.innerHTML = '';

@@ -202,10 +202,10 @@
 
                             <!-- Card: Habilidades (Max 5) -->
                             <div class="card">
-                                <div class="card-header d-flex-sb">
-                                    <h3><i class="fa-solid fa-bolt"></i> Habilidades (Máx 5)</h3>
-                                    <button type="button" class="btn-add" onclick="adicionarHabilidade()"><i class="fa-solid fa-plus"></i></button>
-                                </div>
+                                 <div class="card-header d-flex-sb">
+                                     <h3><i class="fa-solid fa-bolt"></i> <input type="text" id="habilidades_titulo" value="Habilidades" class="input-inline-editable" oninput="debouncedSync()"></h3>
+                                     <button type="button" class="btn-add" onclick="adicionarHabilidade()"><i class="fa-solid fa-plus"></i></button>
+                                 </div>
                                 <div class="card-body" id="habilidadesList">
                                     <!-- JS populated -->
                                 </div>
@@ -213,10 +213,10 @@
 
                             <!-- Card: Idiomas (Max 3) -->
                             <div class="card">
-                                <div class="card-header d-flex-sb">
-                                    <h3><i class="fa-solid fa-language"></i> Idiomas (Máx 3)</h3>
-                                    <button type="button" class="btn-add" onclick="adicionarIdioma()"><i class="fa-solid fa-plus"></i></button>
-                                </div>
+                                 <div class="card-header d-flex-sb">
+                                     <h3><i class="fa-solid fa-language"></i> <input type="text" id="idiomas_titulo" value="Idiomas" class="input-inline-editable" oninput="debouncedSync()"></h3>
+                                     <button type="button" class="btn-add" onclick="adicionarIdioma()"><i class="fa-solid fa-plus"></i></button>
+                                 </div>
                                 <div class="card-body" id="idiomasList">
                                     <!-- JS populated -->
                                 </div>
@@ -224,10 +224,10 @@
 
                             <!-- Card: Experiência Profissional (Max 3) -->
                             <div class="card">
-                                <div class="card-header d-flex-sb">
-                                    <h3><i class="fa-solid fa-briefcase"></i> Experiência Profissional (Máx 3)</h3>
-                                    <button type="button" class="btn-add" onclick="adicionarExperiencia()"><i class="fa-solid fa-plus"></i></button>
-                                </div>
+                                 <div class="card-header d-flex-sb">
+                                     <h3><i class="fa-solid fa-briefcase"></i> <input type="text" id="experiencia_titulo" value="Experiência Profissional" class="input-inline-editable" oninput="debouncedSync()"></h3>
+                                     <button type="button" class="btn-add" onclick="adicionarExperiencia()"><i class="fa-solid fa-plus"></i></button>
+                                 </div>
                                 <div class="card-body" id="experienciasList">
                                     <!-- JS populated -->
                                 </div>
@@ -235,25 +235,25 @@
 
                              <!-- Card: Certificados -->
                              <div class="card">
-                                 <div class="card-header d-flex-sb">
-                                     <h3><i class="fa-solid fa-certificate"></i> Certificados</h3>
-                                     <button type="button" class="btn-add" onclick="adicionarCertificado()"><i class="fa-solid fa-plus"></i></button>
-                                 </div>
+                                  <div class="card-header d-flex-sb">
+                                      <h3><i class="fa-solid fa-certificate"></i> <input type="text" id="certificados_titulo" value="Certificados" class="input-inline-editable" oninput="debouncedSync()"></h3>
+                                      <button type="button" class="btn-add" onclick="adicionarCertificado()"><i class="fa-solid fa-plus"></i></button>
+                                  </div>
                                  <div class="card-body" id="certificadosList"></div>
                              </div>
 
                              <!-- Card: Educação -->
                              <div class="card">
-                                 <div class="card-header d-flex-sb">
-                                     <h3><i class="fa-solid fa-graduation-cap"></i> Educação</h3>
-                                     <button type="button" class="btn-add" onclick="adicionarEducacao()"><i class="fa-solid fa-plus"></i></button>
-                                 </div>
+                                  <div class="card-header d-flex-sb">
+                                      <h3><i class="fa-solid fa-graduation-cap"></i> <input type="text" id="educacao_titulo" value="Educação" class="input-inline-editable" oninput="debouncedSync()"></h3>
+                                      <button type="button" class="btn-add" onclick="adicionarEducacao()"><i class="fa-solid fa-plus"></i></button>
+                                  </div>
                                  <div class="card-body" id="educacaoList"></div>
                              </div>
 
                             <!-- Card: Interesses & Ícones -->
                             <div class="card">
-                                <div class="card-header"><h3><i class="fa-solid fa-face-smile"></i> Interesses e Ícones</h3></div>
+                                <div class="card-header"><h3><i class="fa-solid fa-face-smile"></i> <input type="text" id="interesses_titulo" value="Interesses" class="input-inline-editable" oninput="debouncedSync()"></h3></div>
                                 <div class="card-body">
                                     <div class="icon-grid" id="interestIcons">
                                         <!-- JS populated -->

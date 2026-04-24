@@ -225,18 +225,20 @@ async function carregarCurriculo(slug) {
     finally { showLoader(false); }
 }
 
-function preencherFormulario(data, slug) {
+async function preencherFormulario(data, slug) {
     try {
-        limparFormulario(false);
-        currentSlug = slug;
         currentData = data;
         isManualSlug = true;
 
-        // Identidade
-        const partesNome = (data.inicio?.nome || slug).split(' ');
-        if (document.getElementById('nome')) document.getElementById('nome').value = partesNome[0] || '';
-        if (document.getElementById('sobrenome')) document.getElementById('sobrenome').value = partesNome.slice(1).join(' ') || '';
-        if (document.getElementById('slug')) document.getElementById('slug').value = slug;
+        // Funções auxiliares para lidar com dados que podem ser Array ou Objeto (com título)
+        const getItens = (d) => Array.isArray(d) ? d : (d?.itens || []);
+        const getTitulo = (d, padrao) => (typeof d === 'object' && !Array.isArray(d)) ? (d.titulo || padrao) : padrao;
+
+        // INFORMAÇÕES BÁSICAS
+        const nomeCompleto = data.inicio?.nome || '';
+        const nomes = nomeCompleto.split(' ');
+        if (document.getElementById('nome')) document.getElementById('nome').value = nomes[0] || '';
+        if (document.getElementById('sobrenome')) document.getElementById('sobrenome').value = nomes.slice(1).join(' ') || '';
         updateUrlDisplay(slug);
         
         if (document.getElementById('profissao')) document.getElementById('profissao').value = data.inicio?.profissao || '';
@@ -244,7 +246,7 @@ function preencherFormulario(data, slug) {
         if (document.getElementById('email')) document.getElementById('email').value = data.inicio?.email || '';
         if (document.getElementById('telefone')) document.getElementById('telefone').value = data.inicio?.telefone || '';
         if (document.getElementById('idade')) document.getElementById('idade').value = data.inicio?.idade || '';
-        // Normaliza o estado civil para bater com os valores do <select>
+        
         const ecEl = document.getElementById('estado_civil');
         if (ecEl && data.inicio?.estado_civil) {
             const ecRaw = data.inicio.estado_civil.toLowerCase().trim();
@@ -255,7 +257,7 @@ function preencherFormulario(data, slug) {
             else if (ecRaw.includes('divorciado') || ecRaw.includes('divorciada')) ecNorm = 'Divorciado(a)';
             else if (ecRaw.includes('vi\u00favo') || ecRaw.includes('vi\u00fava')) ecNorm = 'Vi\u00favo(a)';
             else if (ecRaw.includes('uni\u00e3o') || ecRaw.includes('est\u00e1vel')) ecNorm = 'Uni\u00e3o Est\u00e1vel';
-            else ecNorm = data.inicio.estado_civil; // usa o valor original como fallback
+            else ecNorm = data.inicio.estado_civil;
             ecEl.value = ecNorm;
         }
         if (document.getElementById('cnh')) document.getElementById('cnh').value = data.inicio?.cnh || '';
@@ -265,92 +267,71 @@ function preencherFormulario(data, slug) {
             photo.src = `../${data.inicio.foto_perfil}?t=${Date.now()}`;
             photo.style.display = 'block';
         }
-        
-        if (document.getElementById('descricao')) document.getElementById('descricao').value = data.perfil?.descricao || '';
-        
+
+        // LIMPAR LISTAS DINÂMICAS
+        document.getElementById('socialList').innerHTML = '';
+        document.getElementById('habilidadesList').innerHTML = '';
+        document.getElementById('idiomasList').innerHTML = '';
+        document.getElementById('experienciasList').innerHTML = '';
+        document.getElementById('educacaoList').innerHTML = '';
+        document.getElementById('certificadosList').innerHTML = '';
+        document.querySelectorAll('.icon-item').forEach(i => i.classList.remove('selected'));
+
         // REDES SOCIAIS
-        if (data.social) {
-            if (Array.isArray(data.social)) {
-                data.social.forEach(s => adicionarSocial(s));
-            } else if (typeof data.social === 'object') {
-                Object.entries(data.social).forEach(([rede, url]) => {
-                    if (url && url !== "") {
-                        const redeFormatada = rede.charAt(0).toUpperCase() + rede.slice(1);
-                        adicionarSocial({ rede: redeFormatada, url: url });
-                    }
-                });
-            }
-        }
-        
+        getItens(data.social).forEach(s => adicionarSocial(s));
+
         // HABILIDADES
-        if (Array.isArray(data.habilidades)) data.habilidades.forEach(h => adicionarHabilidade(h));
-        
+        const habTitulo = getTitulo(data.habilidades, 'Habilidades');
+        if (document.getElementById('habilidades_titulo')) document.getElementById('habilidades_titulo').value = habTitulo;
+        getItens(data.habilidades).forEach(h => adicionarHabilidade(h));
+
         // IDIOMAS
-        if (Array.isArray(data.idiomas)) {
-            data.idiomas.forEach(i => {
-                let estrelas = i.estrelas;
-                if (!estrelas && i.nivel) {
-                    // Tenta traduzir legados de texto para estrelas
-                    const nivelLow = i.nivel.toLowerCase();
-                    if (nivelLow.includes('básico')) estrelas = 1;
-                    else if (nivelLow.includes('intermediário')) estrelas = 2;
-                    else if (nivelLow.includes('avançado')) estrelas = 3;
-                    else if (nivelLow.includes('fluente')) estrelas = 4;
-                    else if (nivelLow.includes('nativo')) estrelas = 5;
-                }
-                adicionarIdioma({ nome: i.nome, estrelas: estrelas || 5 });
-            });
-        }
+        const idTitulo = getTitulo(data.idiomas, 'Idiomas');
+        if (document.getElementById('idiomas_titulo')) document.getElementById('idiomas_titulo').value = idTitulo;
+        getItens(data.idiomas).forEach(i => {
+            const estrelas = i.estrelas || i.nivel || 5;
+            adicionarIdioma({ nome: i.nome, estrelas: estrelas });
+        });
         
         // TRAJETÓRIA
-        const exps = data.experiencia_profissional;
-        if (Array.isArray(exps)) exps.forEach(e => adicionarExperiencia(e));
-        else if (typeof exps === 'string' && exps.trim() !== "") adicionarExperiencia(exps);
+        const expTitulo = getTitulo(data.experiencia_profissional, 'Experiência Profissional');
+        if (document.getElementById('experiencia_titulo')) document.getElementById('experiencia_titulo').value = expTitulo;
+        getItens(data.experiencia_profissional).forEach(e => adicionarExperiencia(e));
 
-        const edus = data.educacao;
-        if (Array.isArray(edus)) edus.forEach(e => {
-            // Suporte a formatos antigos onde educacao era diferente
-            if (typeof e === 'object') adicionarEducacao(e);
-            else if (typeof e === 'string') adicionarEducacao(e);
+        const eduTitulo = getTitulo(data.educacao, 'Educação');
+        if (document.getElementById('educacao_titulo')) document.getElementById('educacao_titulo').value = eduTitulo;
+        getItens(data.educacao).forEach(e => adicionarEducacao(e));
+
+        const certsRaw = data.certificados || data.certificacoes;
+        const certTitulo = getTitulo(certsRaw, 'Certificados');
+        if (document.getElementById('certificados_titulo')) document.getElementById('certificados_titulo').value = certTitulo;
+        getItens(certsRaw).forEach(c => adicionarCertificado(c));
+
+        // INTERESSES
+        const intTitulo = getTitulo(data.interesses, 'Interesses');
+        if (document.getElementById('interesses_titulo')) document.getElementById('interesses_titulo').value = intTitulo;
+        getItens(data.interesses).forEach(int => {
+            const lowInt = (typeof int === 'string') ? int.toLowerCase().trim() : '';
+            const icon = document.querySelector(`.icon-item[title="${lowInt}"]`);
+            if (icon) icon.classList.add('selected');
         });
-        else if (typeof edus === 'string' && edus.trim() !== "") adicionarEducacao(edus);
-
-        const certs = data.certificados || data.certificacoes;
-        if (Array.isArray(certs)) certs.forEach(c => {
-            if (typeof c === 'object') adicionarCertificado(c);
-            else if (typeof c === 'string') adicionarCertificado(c);
-        });
-        else if (typeof certs === 'string' && certs.trim() !== "") adicionarCertificado(certs);
-
-        // ÍCONES
-        if (Array.isArray(data.interesses)) {
-            data.interesses.forEach(int => {
-                const lowInt = int.toLowerCase().trim();
-                const icon = document.querySelector(`.icon-item[title="${lowInt}"]`);
-                if (icon) icon.classList.add('selected');
-            });
-        }
         
         // WHATSAPP
-        const waEl = document.getElementById('wa_numero');
-        if (waEl && data.whatsapp) { 
-            waEl.value = (typeof data.whatsapp === 'object') ? (data.whatsapp.numero || '') : (typeof data.whatsapp === 'string' ? data.whatsapp : ''); 
+        if (data.whatsapp) {
+            if (document.getElementById('wa_numero')) document.getElementById('wa_numero').value = data.whatsapp.numero || '';
+            if (document.getElementById('wa_mensagem_pos')) document.getElementById('wa_mensagem_pos').value = data.whatsapp.mensagemPosCumprimento || '';
         }
-        const waMsgEl = document.getElementById('wa_mensagem_pos');
-        if (waMsgEl && data.whatsapp) {
-            waMsgEl.value = data.whatsapp.mensagemPosCumprimento || '';
-        }
-        
+
         // PERFIL
         if (document.getElementById('perfil_titulo')) document.getElementById('perfil_titulo').value = data.perfil?.titulo || 'Perfil';
         if (document.getElementById('descricao')) document.getElementById('descricao').value = data.perfil?.descricao || '';
         
         console.log("Formulário preenchido com sucesso para:", slug);
-        atualizarPreview(slug);
+        syncPreview();
 
     } catch (err) {
         console.error("Erro ao preencher formulário:", err);
-        alert("Ocorreu um erro ao processar os dados deste currículo. Verifique o console ou tente novamente.");
+        alert("Ocorreu um erro ao processar os dados deste currículo.");
     }
 }
 
@@ -484,7 +465,12 @@ function collectData() {
             titulo: document.getElementById('perfil_titulo')?.value || 'Perfil',
             descricao: document.getElementById('descricao')?.value || '' 
         }, 
-        habilidades: habs, idiomas: idis, experiencia_profissional: exps, educacao: edus, certificados: certs, interesses: ints,
+        habilidades: { titulo: document.getElementById('habilidades_titulo')?.value || 'Habilidades', itens: habs },
+        idiomas: { titulo: document.getElementById('idiomas_titulo')?.value || 'Idiomas', itens: idis },
+        experiencia_profissional: { titulo: document.getElementById('experiencia_titulo')?.value || 'Experiência Profissional', itens: exps },
+        educacao: { titulo: document.getElementById('educacao_titulo')?.value || 'Educação', itens: edus },
+        certificados: { titulo: document.getElementById('certificados_titulo')?.value || 'Certificados', itens: certs },
+        interesses: { titulo: document.getElementById('interesses_titulo')?.value || 'Interesses', itens: ints },
         whatsapp: { ativo: true, numero: document.getElementById('wa_numero')?.value || '', mensagemPosCumprimento: document.getElementById('wa_mensagem_pos')?.value || '', mensagemPadrao: "Olá! Gostaria de falar sobre o currículo." }
     };
 }
