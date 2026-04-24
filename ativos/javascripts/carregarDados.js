@@ -706,7 +706,28 @@ function aplicarDadosAoCurriculo(dados) {
         const secaoInteresses = document.getElementById('interesses');
         if (secaoInteresses) {
             secaoInteresses.style.display = 'none';
-        }
+    }
+
+    // WHATSAPP
+    configurarWhatsApp(dados);
+}
+
+function configurarWhatsApp(dados) {
+    const waWidget = document.getElementById('whatsapp-widget');
+    if (!waWidget) return;
+    
+    const waData = dados.whatsapp;
+    if (waData && waData.numero) {
+        let numero = (typeof waData === 'object') ? waData.numero : waData;
+        numero = numero.toString().replace(/\D/g, '');
+        if (numero.length === 11 && !numero.startsWith('55')) numero = '55' + numero;
+        
+        const msgStr = waData.mensagemPosCumprimento || 'Olá! Vi seu currículo no CurrículoClick e gostaria de conversar.';
+        const msg = encodeURIComponent(msgStr);
+        waWidget.href = `https://wa.me/${numero}?text=${msg}`;
+        waWidget.style.display = 'flex';
+    } else {
+        waWidget.style.display = 'none';
     }
 }
 
@@ -847,13 +868,13 @@ window.addEventListener('message', (event) => {
         document.body.classList.add('is-preview');
     }
 
-    if (event.data && event.data.type === 'LIVE_PREVIEW_UPDATE') {
-        if (DEBUG) console.log('Recebendo update em tempo real...');
+    if (event.data && (event.data.type === 'LIVE_PREVIEW_UPDATE' || event.data.type === 'sync')) {
+        console.log('Recebendo update em tempo real...');
         window.isLivePreview = true;
         document.body.classList.add('is-preview');
-        aplicarDadosAoCurriculo(event.data.dados);
+        // Usa a função correta que definimos acima
+        aplicarDadosAoCurriculo(event.data.dados || event.data.data);
         
-        // Resetar flag após um tempo para permitir animação no próximo carregamento "real"
         setTimeout(() => { window.isLivePreview = false; }, 2000);
     }
 });

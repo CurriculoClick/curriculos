@@ -327,7 +327,7 @@ async function preencherFormulario(data, slug) {
         if (document.getElementById('descricao')) document.getElementById('descricao').value = data.perfil?.descricao || '';
         
         console.log("Formulário preenchido com sucesso para:", slug);
-        syncPreview();
+        atualizarPreview(slug);
 
     } catch (err) {
         console.error("Erro ao preencher formulário:", err);
@@ -539,6 +539,16 @@ function updateURLManual() {
 
 function showLoader(s) { const l = document.getElementById('loader'); if (l) l.style.display = s ? 'flex' : 'none'; }
 function atualizarPreview(s = null) { const i = document.getElementById('previewFrame'); if (i) i.src = (s && s !== '') ? `../?id=${s}` : '../?id=modelo'; }
+
+function syncPreview() {
+    const slug = currentSlug || 'modelo';
+    const iframe = document.getElementById('previewFrame');
+    if (!iframe) return;
+    
+    // Envia os dados atuais do formulário para o iframe sem recarregar a página toda
+    const data = collectData();
+    iframe.contentWindow.postMessage({ type: 'sync', data: data }, '*');
+}
 
 // --- Cropper Logic ---
 function abrirCropper(imageSrc) {
