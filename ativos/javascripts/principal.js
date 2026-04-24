@@ -221,10 +221,8 @@ let botaoCurriculo = document.getElementById("botao-curriculo");
 function obterNomeArquivo() {
     const tituloEl = document.querySelector('.inicio_titulo');
     if (tituloEl) {
-        let nome = tituloEl.innerText.trim();
-        // Remove acentos e caracteres especiais para evitar erro no nome do arquivo
-        nome = nome.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-        return nome.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '');
+        const nome = tituloEl.innerText.trim();
+        return nome.replace(/\s+/g, '-');
     }
     return 'Curriculo';
 }
@@ -283,7 +281,7 @@ function gerarCurriculo() {
         filename: fileName,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: {
-            scale: 2, // Reduzido de 4 para 2 para maior compatibilidade e velocidade
+            scale: 4,
             useCORS: true,
             windowWidth: larguraPDF,
             windowHeight: alturaDesktop
@@ -294,12 +292,17 @@ function gerarCurriculo() {
     html2pdf()
         .set(opt)
         .from(areaCurriculo)
-        .save(fileName) // Agora passando o nome correto do arquivo
-        .then(() => {
-            if (typeof DEBUG !== 'undefined' && DEBUG) console.log('PDF gerado com sucesso:', fileName);
-        })
-        .catch(err => {
-            console.error('Erro ao gerar PDF:', err);
+        .toPdf()
+        .get('pdf')
+        .then(pdf => {
+            // Remover páginas extras em branco
+            let totalPages = pdf.internal.getNumberOfPages();
+            while (totalPages > 1) {
+                pdf.deletePage(totalPages);
+                totalPages--;
+            }
+            // Salvar PDF A4 gerado
+            pdf.save(fileName);
         })
         .finally(() => {
             // Restaura estilos inline se for mobile custom
