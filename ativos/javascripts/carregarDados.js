@@ -1,11 +1,8 @@
 /**
- * CurriculoClick - Loader Dinâmico
+ * Sistema Currículos Top - Carregamento Dinâmico de Dados
+ * Este arquivo contém as funções para carregar os dados do currículo
+ * dinamicamente a partir de um arquivo JSON.
  */
-
-// Detecção IMEDIATA de Preview para evitar "piscada" de elementos indesejados
-if (window.self !== window.top) {
-    document.documentElement.classList.add('is-preview');
-}
 
 // Indicador para ativar logs de depuração em desenvolvimento
 const DEBUG = false;
@@ -76,71 +73,134 @@ async function carregarDadosCliente(id) {
 // Função para aplicar os dados do JSON ao HTML
 function aplicarDadosAoCurriculo(dados) {
     // INÍCIO
-    try {
-        if (dados.inicio) {
-            // ... (bloco inicio) ...
-            const nomeParts = dados.inicio.nome.split(' ');
-            const nomeFormatado = nomeParts.map((parte, idx) => idx % 2 === 1 ? `<b>${parte}</b>` : parte).join(' ');
-            document.title = `Currículo Click | ${dados.inicio.nome}`;
-            const tituloEl = document.querySelector('.inicio_titulo');
-            if (tituloEl) tituloEl.innerHTML = nomeFormatado;
-            const logoEl = document.querySelector('.navegacao_logo');
-            if (logoEl) logoEl.textContent = dados.inicio.nome;
-            if (dados.inicio.profissao) {
-                const profissaoEl = document.querySelector('.inicio_profissao');
-                if (profissaoEl) animateProfession(profissaoEl, dados.inicio.profissao);
-            }
-            if (dados.inicio.botao_baixar) {
-                const botaoEl = document.getElementById('botao-download');
-                if (botaoEl) botaoEl.textContent = dados.inicio.botao_baixar;
-            }
-            if (dados.inicio.foto_perfil) {
-                const fotoEl = document.getElementById('inicio-imagem');
-                if (fotoEl) {
-                    const basePath = dados.inicio.foto_perfil.replace(/^\/+/, '');
-                    fotoEl.src = `${basePath}?v=${Date.now()}`;
-                    fotoEl.onerror = () => { fotoEl.onerror = null; fotoEl.src = 'ativos/imagens/placeholder.png'; };
-                }
-            }
-            atualizarMetaTagsOG(dados);
-            const idadeEl = document.getElementById('idade');
-            if (dados.inicio.idade || dados.inicio.estado_civil) {
-                if (idadeEl) {
-                    let content = '';
-                    if (dados.inicio.idade) content += `<i class="fa-solid fa-cake-candles inicio_icone"></i> ${dados.inicio.idade}`;
-                    if (dados.inicio.estado_civil) {
-                        content += (content ? ' ' : '') + `<i class="fa-solid fa-user inicio_icone"></i> ${dados.inicio.estado_civil}`;
-                    }
-                    idadeEl.innerHTML = content;
-                    idadeEl.style.display = '';
-                }
-            }
-            const cnhEl = document.getElementById('cnh');
-            if (cnhEl && dados.inicio.cnh) {
-                cnhEl.innerHTML = `<i class="fa-solid fa-id-card inicio_icone"></i> CNH Cat. ${dados.inicio.cnh}`;
-                cnhEl.style.display = '';
-            }
-            const endereco = dados.inicio.endereco || dados.inicio.localizacao;
-            if (endereco) {
-                const localizacaoEl = document.getElementById('localizacao');
-                if (localizacaoEl) localizacaoEl.innerHTML = `<i class="fa-solid fa-location-dot inicio_icone"></i> ${endereco}`;
-            }
-            if (dados.inicio.email) {
-                const emailAnchor = document.querySelector('#email a');
-                if (emailAnchor) {
-                    emailAnchor.href = `mailto:${dados.inicio.email}`;
-                    emailAnchor.innerHTML = `<i class="fa-solid fa-envelope inicio_icone"></i> ${dados.inicio.email}`;
-                }
-            }
-            if (dados.inicio.telefone) {
-                const telefoneAnchor = document.querySelector('#telefone a');
-                if (telefoneAnchor) {
-                    telefoneAnchor.href = `tel:${dados.inicio.telefone.replace(/\D/g, '')}`;
-                    telefoneAnchor.innerHTML = `<i class="fa-solid fa-phone inicio_icone"></i> ${dados.inicio.telefone}`;
-                }
+    if (dados.inicio) {
+        // Nome (alternando normal e negrito em cada parte)
+        const nomeParts = dados.inicio.nome.split(' ');
+        const nomeFormatado = nomeParts.map((parte, idx) => idx % 2 === 1 ? `<b>${parte}</b>` : parte).join(' ');
+        
+        // Atualizar título da página com o nome do candidato
+        document.title = `Currículo Click | ${dados.inicio.nome}`;
+        
+        const tituloEl = document.querySelector('.inicio_titulo');
+        if (tituloEl) {
+            tituloEl.innerHTML = nomeFormatado;
+        }
+        
+        // Atualizar também o logo da navegação
+        const logoEl = document.querySelector('.navegacao_logo');
+        if (logoEl) {
+            logoEl.textContent = dados.inicio.nome;
+        }
+        
+        // Profissão (anima com Typed.js simulando erro e correção)
+        if (dados.inicio.profissao) {
+            const profissaoEl = document.querySelector('.inicio_profissao');
+            if (profissaoEl) {
+                animateProfession(profissaoEl, dados.inicio.profissao);
             }
         }
-    } catch (e) { console.error('Erro na seção Inicio:', e); }
+        
+        // Botão Baixar
+        if (dados.inicio.botao_baixar) {
+            const botaoEl = document.getElementById('botao-download');
+            if (botaoEl) botaoEl.textContent = dados.inicio.botao_baixar;
+        }
+        
+        // Foto de perfil
+        if (dados.inicio.foto_perfil) {
+            const fotoEl = document.getElementById('inicio-imagem');
+            if (fotoEl) {
+                // Usa sempre caminho relativo sem barra inicial
+                const basePath = dados.inicio.foto_perfil.replace(/^\/+/, '');
+                const fotoUrl = `${basePath}?v=${Date.now()}`;
+                fotoEl.src = fotoUrl;
+                fotoEl.onerror = function() {
+                    // Fallback direto para placeholder
+                    fotoEl.onerror = null;
+                    fotoEl.src = 'ativos/imagens/placeholder.png';
+                };
+            }
+        }
+        
+        // Atualizar meta tags Open Graph dinamicamente no browser
+        atualizarMetaTagsOG(dados);
+        
+        // Idade e estado civil
+        const idadeEl = document.getElementById('idade');
+        if (dados.inicio.idade) {
+            if (idadeEl) {
+                let content = `<i class="fa-solid fa-cake-candles inicio_icone"></i> ${dados.inicio.idade}`;
+                if (dados.inicio.estado_civil) {
+                    const status = dados.inicio.estado_civil.toLowerCase();
+                    let icone = 'fa-user';
+                    if (status.includes('noiva') || status.includes('noivo')) icone = 'fa-ring';
+                    else if (status.includes('casad')) icone = 'fa-heart';
+                    else if (status.includes('divorc')) icone = 'fa-heart-crack';
+                    else if (status.includes('vi\u00fav')) icone = 'fa-heart-crack';
+                    else if (status.includes('uni\u00e3o')) icone = 'fa-handshake';
+                    content += ` <i class="fa-solid ${icone} inicio_icone" style="margin-left:calc(0.75rem + 5px)"></i> ${dados.inicio.estado_civil}`;
+                }
+                idadeEl.innerHTML = content;
+                idadeEl.style.display = '';
+            }
+        } else if (dados.inicio.estado_civil) {
+            // Exibe apenas estado civil sem idade
+            if (idadeEl) {
+                const status = dados.inicio.estado_civil.toLowerCase();
+                let icone = 'fa-user';
+                if (status.includes('noiva') || status.includes('noivo')) icone = 'fa-ring';
+                else if (status.includes('casad')) icone = 'fa-heart';
+                else if (status.includes('divorc')) icone = 'fa-heart-crack';
+                else if (status.includes('vi\u00fav')) icone = 'fa-heart-crack';
+                else if (status.includes('uni\u00e3o')) icone = 'fa-handshake';
+                idadeEl.innerHTML = `<i class="fa-solid ${icone} inicio_icone"></i> ${dados.inicio.estado_civil}`;
+                idadeEl.style.display = '';
+            }
+        } else {
+            // Só oculta se o elemento não tiver conteúdo estático já renderizado
+            if (idadeEl && idadeEl.textContent.trim() === '') {
+                idadeEl.style.display = 'none';
+            }
+        }
+        
+        // CNH
+        const cnhEl = document.getElementById('cnh');
+        if (cnhEl) {
+            if (dados.inicio.cnh) {
+                const iconesCNH = { 'A': 'fa-motorcycle', 'B': 'fa-car', 'AB': 'fa-car', 'C': 'fa-truck', 'D': 'fa-bus', 'E': 'fa-truck-moving', 'ACC': 'fa-bicycle' };
+                const iconeCNH = iconesCNH[dados.inicio.cnh] || 'fa-id-card';
+                cnhEl.innerHTML = `<i class="fa-solid ${iconeCNH} inicio_icone"></i> CNH Cat. ${dados.inicio.cnh}`;
+                cnhEl.style.display = '';
+            } else {
+                cnhEl.style.display = 'none';
+            }
+        }
+        
+        // Endereço / Localização
+        const endereco = dados.inicio.endereco || dados.inicio.localizacao;
+        if (endereco) {
+            const localizacaoEl = document.getElementById('localizacao');
+            if (localizacaoEl) localizacaoEl.innerHTML = `<i class="fa-solid fa-location-dot inicio_icone"></i> ${endereco}`;
+        }
+        
+        // Email
+        if (dados.inicio.email) {
+            const emailAnchor = document.querySelector('#email a');
+            if (emailAnchor) {
+                emailAnchor.href = `mailto:${dados.inicio.email}`;
+                emailAnchor.innerHTML = `<i class="fa-solid fa-envelope inicio_icone"></i> ${dados.inicio.email}`;
+            }
+        }
+        
+        // Telefone
+        if (dados.inicio.telefone) {
+            const telefoneAnchor = document.querySelector('#telefone a');
+            if (telefoneAnchor) {
+                telefoneAnchor.href = `tel:${dados.inicio.telefone.replace(/\D/g, '')}`;
+                telefoneAnchor.innerHTML = `<i class="fa-solid fa-phone inicio_icone"></i> ${dados.inicio.telefone}`;
+            }
+        }
+    }
     
     // REDES SOCIAIS
     const socialData = dados.social;
@@ -206,17 +266,15 @@ function aplicarDadosAoCurriculo(dados) {
             }
 
             redesArray.slice(0, 4).forEach(item => {
-                const rede = item.rede || '';
-                const raw = item.url || '';
-                const link = item.link || '';
-                const customLabel = item.label || '';
-                const customIconClass = item.iconClass || '';
-
-                if (!raw && !link) return;
+                const rede = item.rede;
+                const raw = item.url;
+                const link = item.link;
+                const customLabel = item.label;
+                const customIconClass = item.iconClass;
 
                 // Define texto a exibir e URL real
                 let displayUser = raw;
-                if (!customLabel && raw && /^https?:\/\//i.test(raw)) {
+                if (!customLabel && /^https?:\/\//i.test(raw)) {
                     // Extrai usuário da URL (remove domínio e query params)
                     try {
                         const urlObj = new URL(raw);
@@ -281,13 +339,7 @@ function aplicarDadosAoCurriculo(dados) {
                     }
                 })();
 
-                if (actualUrl) {
-                    try {
-                        criarLinkSocial(actualUrl, displayName, iconClass);
-                    } catch (e) {
-                        console.warn('Erro ao criar link social:', e);
-                    }
-                }
+                if (actualUrl) criarLinkSocial(actualUrl, displayName, iconClass);
             });
             
             const secaoSocial = document.querySelector('.redes-sociais');
@@ -323,25 +375,18 @@ function aplicarDadosAoCurriculo(dados) {
     }
     
     // HABILIDADES
-    const habData = dados.habilidades;
-    const habItens = Array.isArray(habData) ? habData : (habData?.itens || []);
-    const habTitulo = (typeof habData === 'object' && !Array.isArray(habData)) ? (habData.titulo || 'Habilidades') : 'Habilidades';
-    
-    if (document.getElementById('habilidades-titulo-texto')) document.getElementById('habilidades-titulo-texto').textContent = habTitulo;
-
-    if (habItens && habItens.length > 0) {
+    if (dados.habilidades && dados.habilidades.length > 0) {
         const habilidadesContainer = document.querySelector('.habilidades_conteudo');
         if (habilidadesContainer) {
             habilidadesContainer.innerHTML = '';
             
-            habItens.forEach(habilidade => {
-                if (!habilidade || !habilidade.nome) return;
+            dados.habilidades.forEach(habilidade => {
                 const div = document.createElement('div');
                 div.className = 'habilidades_nome';
                 div.innerHTML = `
                     <span class="habilidades_texto">${habilidade.nome}</span>
                     <div class="habilidades_barra">
-                        <span class="habilidades_progresso" style="width: ${habilidade.nivel || 80}%;"></span>
+                        <span class="habilidades_progresso" style="width: ${habilidade.nivel || 80}% !important;"></span>
                     </div>
                 `;
                 habilidadesContainer.appendChild(div);
@@ -362,26 +407,18 @@ function aplicarDadosAoCurriculo(dados) {
     }
     
     // IDIOMAS
-    const idData = dados.idiomas;
-    const idItens = Array.isArray(idData) ? idData : (idData?.itens || []);
-    const idTitulo = (typeof idData === 'object' && !Array.isArray(idData)) ? (idData.titulo || 'Idiomas') : 'Idiomas';
-
-    if (document.getElementById('idiomas-titulo-texto')) document.getElementById('idiomas-titulo-texto').textContent = idTitulo;
-
-    if (idItens && idItens.length > 0) {
+    if (dados.idiomas && dados.idiomas.length > 0) {
         const idiomasContainer = document.querySelector('.idiomas_conteudo');
         if (idiomasContainer) {
             idiomasContainer.innerHTML = '';
             
-            idItens.forEach(idioma => {
-                if (!idioma || !idioma.nome) return;
+            dados.idiomas.forEach(idioma => {
                 const li = document.createElement('li');
                 li.className = 'idiomas_nome';
                 
                 let estrelas = '';
-                const numEstrelas = parseInt(idioma.estrelas) || 0;
                 for (let i = 1; i <= 5; i++) {
-                    if (i <= numEstrelas) {
+                    if (i <= idioma.estrelas) {
                         estrelas += '<i class="fa-solid fa-star"></i>';
                     } else {
                         estrelas += '<i class="fa-regular fa-star idiomas_estrelas_desmarcado"></i>';
@@ -412,23 +449,17 @@ function aplicarDadosAoCurriculo(dados) {
     }
     
     // EXPERIÊNCIA PROFISSIONAL
-    const expDataRaw = dados.experiencia_profissional;
-    const expItens = Array.isArray(expDataRaw) ? expDataRaw : (expDataRaw?.itens || []);
-    const expTitulo = (typeof expDataRaw === 'object' && !Array.isArray(expDataRaw)) ? (expDataRaw.titulo || 'Experiência Profissional') : 'Experiência Profissional';
-
-    if (document.getElementById('experiencia-titulo-texto')) document.getElementById('experiencia-titulo-texto').textContent = expTitulo;
-
-    if (expDataRaw) {
+    const expData = dados.experiencia_profissional;
+    if (expData) {
         const experienciaContainer = document.querySelector('.experiencia_container');
         if (experienciaContainer) {
             experienciaContainer.innerHTML = '';
             
-            if (Array.isArray(expItens) && expItens.length > 0) {
-                expItens.forEach((exp, index) => {
-                    if (!exp) return;
+            if (Array.isArray(expData) && expData.length > 0) {
+                expData.forEach((exp, index) => {
                     const div = document.createElement('div');
                     div.className = 'experiencia_conteudo';
-                    const temLinha = index < expItens.length - 1;
+                    const temLinha = index < expData.length - 1;
                     div.innerHTML = `
                         <div class="experiencia_tempo">
                             <span class="experiencia_circulo"></span>
@@ -445,14 +476,14 @@ function aplicarDadosAoCurriculo(dados) {
                     `;
                     experienciaContainer.appendChild(div);
                 });
-            } else if (typeof expDataRaw === 'string' && expDataRaw.trim() !== '') {
+            } else if (typeof expData === 'string' && expData.trim() !== '') {
                 // Legado ou texto livre
                 const div = document.createElement('div');
                 div.className = 'experiencia_conteudo';
                 div.innerHTML = `
                     <div class="experiencia_tempo"><span class="experiencia_circulo"></span></div>
                     <div class="experiencia_dados bd-grid">
-                        <p class="experiencia_descricao" style="white-space: pre-wrap;">${expDataRaw}</p>
+                        <p class="experiencia_descricao" style="white-space: pre-wrap;">${expData}</p>
                     </div>
                 `;
                 experienciaContainer.appendChild(div);
@@ -460,23 +491,17 @@ function aplicarDadosAoCurriculo(dados) {
         }
         
         const secaoExperiencia = document.getElementById('experiencia');
-        if (secaoExperiencia) secaoExperiencia.style.display = (typeof expDataRaw === 'string' ? expDataRaw.trim() !== '' : expItens.length > 0) ? 'block' : 'none';
+        if (secaoExperiencia) secaoExperiencia.style.display = (typeof expData === 'string' ? expData.trim() !== '' : expData.length > 0) ? 'block' : 'none';
     }
     
     // CERTIFICADOS
-    const certDataRaw = dados.certificados || dados.certificacoes;
-    const certItens = Array.isArray(certDataRaw) ? certDataRaw : (certDataRaw?.itens || []);
-    const certTitulo = (typeof certDataRaw === 'object' && !Array.isArray(certDataRaw)) ? (certDataRaw.titulo || 'Certificados') : 'Certificados';
-
-    if (document.getElementById('certificados-titulo-texto')) document.getElementById('certificados-titulo-texto').textContent = certTitulo;
-
-    if (certDataRaw) {
+    const certData = dados.certificados || dados.certificacoes;
+    if (certData) {
         const certificadosContainer = document.querySelector('.certificados_container');
         if (certificadosContainer) {
             certificadosContainer.innerHTML = '';
-            if (Array.isArray(certItens) && certItens.length > 0) {
-                certItens.slice(0, 3).forEach(cert => {
-                    if (!cert) return;
+            if (Array.isArray(certData) && certData.length > 0) {
+                certData.slice(0, 3).forEach(cert => {
                     const div = document.createElement('div');
                     div.className = 'certificados_conteudo';
                     div.innerHTML = `
@@ -488,39 +513,33 @@ function aplicarDadosAoCurriculo(dados) {
                     `;
                     certificadosContainer.appendChild(div);
                 });
-            } else if (typeof certDataRaw === 'string' && certDataRaw.trim() !== '') {
+            } else if (typeof certData === 'string' && certData.trim() !== '') {
                 const div = document.createElement('div');
                 div.className = 'certificados_conteudo';
                 div.innerHTML = `
                     <div class="certificados_item"><span class="certificados_circulo"></span></div>
                     <div class="certificados_dados bd-grid">
-                        <p class="experiencia_descricao" style="white-space: pre-wrap;">${certDataRaw}</p>
+                        <p class="experiencia_descricao" style="white-space: pre-wrap;">${certData}</p>
                     </div>
                 `;
                 certificadosContainer.appendChild(div);
             }
         }
         const secaoCertificados = document.getElementById('certificados');
-        if (secaoCertificados) secaoCertificados.style.display = (typeof certDataRaw === 'string' ? certDataRaw.trim() !== '' : certItens.length > 0) ? 'block' : 'none';
+        if (secaoCertificados) secaoCertificados.style.display = (typeof certData === 'string' ? certData.trim() !== '' : certData.length > 0) ? 'block' : 'none';
     }
     
     // EDUCAÇÃO
-    const eduDataRaw = dados.educacao;
-    const eduItens = Array.isArray(eduDataRaw) ? eduDataRaw : (eduDataRaw?.itens || []);
-    const eduTitulo = (typeof eduDataRaw === 'object' && !Array.isArray(eduDataRaw)) ? (eduDataRaw.titulo || 'Educação') : 'Educação';
-
-    if (document.getElementById('educacao-titulo-texto')) document.getElementById('educacao-titulo-texto').textContent = eduTitulo;
-
-    if (eduDataRaw) {
+    const eduData = dados.educacao;
+    if (eduData) {
         const educacaoContainer = document.querySelector('.educacao_container');
         if (educacaoContainer) {
             educacaoContainer.innerHTML = '';
-            if (Array.isArray(eduItens) && eduItens.length > 0) {
-                eduItens.slice(0, 3).forEach((edu, index) => {
-                    if (!edu) return;
+            if (Array.isArray(eduData) && eduData.length > 0) {
+                eduData.slice(0, 3).forEach((edu, index) => {
                     const div = document.createElement('div');
                     div.className = 'educacao_conteudo';
-                    const temLinha = index < eduItens.length - 1;
+                    const temLinha = index < eduData.length - 1;
                     div.innerHTML = `
                         <div class="educacao_tempo">
                             <span class="educacao_circulo"></span>
@@ -534,36 +553,29 @@ function aplicarDadosAoCurriculo(dados) {
                     `;
                     educacaoContainer.appendChild(div);
                 });
-            } else if (typeof eduDataRaw === 'string' && eduDataRaw.trim() !== '') {
+            } else if (typeof eduData === 'string' && eduData.trim() !== '') {
                 const div = document.createElement('div');
                 div.className = 'educacao_conteudo';
                 div.innerHTML = `
                     <div class="educacao_tempo"><span class="educacao_circulo"></span></div>
                     <div class="educacao_dados bd-grid">
-                        <p class="experiencia_descricao" style="white-space: pre-wrap;">${eduDataRaw}</p>
+                        <p class="experiencia_descricao" style="white-space: pre-wrap;">${eduData}</p>
                     </div>
                 `;
                 educacaoContainer.appendChild(div);
             }
         }
         const secaoEducacao = document.getElementById('educacao');
-        if (secaoEducacao) secaoEducacao.style.display = (typeof eduDataRaw === 'string' ? eduDataRaw.trim() !== '' : eduItens.length > 0) ? 'block' : 'none';
+        if (secaoEducacao) secaoEducacao.style.display = (typeof eduData === 'string' ? eduData.trim() !== '' : eduData.length > 0) ? 'block' : 'none';
     }
     
     // INTERESSES
-    const intDataRaw = dados.interesses;
-    const intItens = Array.isArray(intDataRaw) ? intDataRaw : (intDataRaw?.itens || []);
-    const intTitulo = (typeof intDataRaw === 'object' && !Array.isArray(intDataRaw)) ? (intDataRaw.titulo || 'Interesses') : 'Interesses';
-
-    if (document.getElementById('interesses-titulo-texto')) document.getElementById('interesses-titulo-texto').textContent = intTitulo;
-
-    if (intItens && intItens.length > 0) {
+    if (dados.interesses && dados.interesses.length > 0) {
         const interessesContainer = document.querySelector('.interesses_container');
         if (interessesContainer) {
             interessesContainer.innerHTML = '';
             
-            intItens.forEach(interesse => {
-                if (!interesse) return;
+            dados.interesses.forEach(interesse => {
                 const div = document.createElement('div');
                 div.className = 'interesses_conteudo';
                 
@@ -658,28 +670,7 @@ function aplicarDadosAoCurriculo(dados) {
         const secaoInteresses = document.getElementById('interesses');
         if (secaoInteresses) {
             secaoInteresses.style.display = 'none';
-    }
-
-    // WHATSAPP
-    configurarWhatsApp(dados);
-}
-
-function configurarWhatsApp(dados) {
-    const waWidget = document.getElementById('whatsapp-widget');
-    if (!waWidget) return;
-    
-    const waData = dados.whatsapp;
-    if (waData && waData.numero) {
-        let numero = (typeof waData === 'object') ? waData.numero : waData;
-        numero = numero.toString().replace(/\D/g, '');
-        if (numero.length === 11 && !numero.startsWith('55')) numero = '55' + numero;
-        
-        const msgStr = waData.mensagemPosCumprimento || 'Olá! Vi seu currículo no CurrículoClick e gostaria de conversar.';
-        const msg = encodeURIComponent(msgStr);
-        waWidget.href = `https://wa.me/${numero}?text=${msg}`;
-        waWidget.style.display = 'flex';
-    } else {
-        waWidget.style.display = 'none';
+        }
     }
 }
 
@@ -705,21 +696,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     } catch (e) {
         console.warn('Falha no carregamento local, mantendo HTML estático', e);
     }
-    try {
-        // Remove a classe de loading para exibir o conteúdo
-        document.body.classList.remove('js-loading');
-        console.log('Loader removido com sucesso.');
-    } catch (e) {
-        console.warn('Erro ao remover loader:', e);
-    }
+    // Remove a classe de loading para exibir o conteúdo atualizado
+    document.body.classList.remove('js-loading');
 
     // Aplica cor customizada se definida
     if (window.initialColorHex && window.innerWidth > 968) {
-        try {
-            window.applyCustomColor(window.initialColorHex, window.initialColorName);
-        } catch (e) {
-            console.warn('Erro ao aplicar cor inicial:', e);
-        }
+        window.applyCustomColor(window.initialColorHex, window.initialColorName);
     }
 });
 
@@ -823,19 +805,15 @@ function atualizarMetaTagsOG(dados) {
 }
 
 // Suporte para Live Preview (Dashboard)
-window.addEventListener('message', (event) => {
-    // Detectar se está dentro de um iframe (Preview do Painel)
-    if (window.self !== window.top) {
-        document.body.classList.add('is-preview');
-    }
+// Detecção automática de Iframe para modo Preview
+if (window.self !== window.top) {
+    document.body.classList.add('is-preview');
+    window.isLivePreview = true;
+}
 
-    if (event.data && (event.data.type === 'LIVE_PREVIEW_UPDATE' || event.data.type === 'sync')) {
-        console.log('Recebendo update em tempo real...');
-        window.isLivePreview = true;
-        document.body.classList.add('is-preview');
-        // Usa a função correta que definimos acima
-        aplicarDadosAoCurriculo(event.data.dados || event.data.data);
-        
-        setTimeout(() => { window.isLivePreview = false; }, 2000);
+window.addEventListener('message', (event) => {
+    if (event.data && event.data.type === 'LIVE_PREVIEW_UPDATE') {
+        if (DEBUG) console.log('Recebendo update em tempo real...');
+        aplicarDadosAoCurriculo(event.data.dados);
     }
 });

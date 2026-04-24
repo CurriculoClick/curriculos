@@ -192,11 +192,9 @@ window.removeEventListener('resize', () => {});
 
 botaoDownload.addEventListener('click', (e) => {
     e.preventDefault();
-    console.log('Botão Mobile clicado');
+    // Aplica escala para A4 e gera o PDF
     adicionarEscalaCurriculo();
-    setTimeout(() => {
-        gerarCurriculo();
-    }, 100);
+    gerarCurriculo();
 });
 
 /* Reduzir o tamanho e formatar para folha A4 */
@@ -290,22 +288,6 @@ function gerarCurriculo() {
         },
         jsPDF: { format: 'a4', orientation: 'portrait' }
     };
-
-    if (!areaCurriculo) {
-        areaCurriculo = document.getElementById('area-curriculo');
-    }
-
-    if (!areaCurriculo) {
-        alert('Erro: Área do currículo não encontrada para gerar o PDF.');
-        removerEscalaCurriculo();
-        return;
-    }
-
-    if (typeof html2pdf === 'undefined') {
-        alert('Erro: Biblioteca de PDF não carregada. Por favor, recarregue a página.');
-        removerEscalaCurriculo();
-        return;
-    }
 
     html2pdf()
         .set(opt)

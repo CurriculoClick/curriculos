@@ -234,20 +234,17 @@ body.modo-escuro {
 }
 
 /* Configurações de Preview (Dashboard) */
-.is-preview .whatsapp-widget, 
-.is-preview .voltar-ao-topo,
-.is-preview .navegacao_botoes,
-.is-preview #cores-picker-panel,
-.is-preview #botao-cores,
-.is-preview #botao-tema {
+body.is-preview .whatsapp-widget, 
+body.is-preview .voltar-ao-topo,
+body.is-preview .navegacao_botoes,
+body.is-preview #cores-picker-panel,
+body.is-preview #botao-cores,
+body.is-preview #botao-tema {
     display: none !important;
 }
 
-.is-preview {
+body.is-preview {
     overflow-x: hidden;
-    overflow-y: auto !important;
-    height: auto !important;
-    min-height: 100vh;
 }
 
 /* --- ESTILO ORIGINAL --- */

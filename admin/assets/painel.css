@@ -221,29 +221,20 @@ body {
 }
 
 /* Preview Side */
-.editor-grid { display: grid; grid-template-columns: 1fr 480px; gap: 2rem; }
-.preview-workspace { 
-    position: sticky; 
-    top: 10px; 
-    height: 1200px;
-    display: flex;
-    flex-direction: column;
-}
+.editor-grid { display: grid; grid-template-columns: 1fr 480px; gap: 2rem; align-items: start; }
+.preview-workspace { position: sticky; top: 2rem; }
 .browser-mockup { 
     background: white; border-radius: 0.75rem; overflow: hidden; 
     box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
-    display: flex;
-    flex-direction: column;
-    flex: 1;
 }
-.browser-ctrl { background: #f1f5f9; padding: 0.7rem; display: flex; gap: 6px; flex-shrink: 0; }
+.browser-ctrl { background: #f1f5f9; padding: 0.7rem; display: flex; gap: 6px; }
 .browser-ctrl span { width: 10px; height: 10px; border-radius: 50%; background: #cbd5e1; }
 .browser-mockup iframe { 
     width: 100%; 
-    flex: 1;
+    height: 800px; 
     border: none;
-    background: white;
-    overflow-y: auto;
+    transform: scale(0.98);
+    transform-origin: top center;
 }
 
 /* Responsive Media Queries */
