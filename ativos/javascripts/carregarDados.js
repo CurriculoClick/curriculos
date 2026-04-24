@@ -389,7 +389,7 @@ function aplicarDadosAoCurriculo(dados) {
         if (habilidadesContainer) {
             habilidadesContainer.innerHTML = '';
             
-            dados.habilidades.forEach(habilidade => {
+            habItens.forEach(habilidade => {
                 const div = document.createElement('div');
                 div.className = 'habilidades_nome';
                 div.innerHTML = `
@@ -427,7 +427,7 @@ function aplicarDadosAoCurriculo(dados) {
         if (idiomasContainer) {
             idiomasContainer.innerHTML = '';
             
-            dados.idiomas.forEach(idioma => {
+            idItens.forEach(idioma => {
                 const li = document.createElement('li');
                 li.className = 'idiomas_nome';
                 
@@ -475,11 +475,11 @@ function aplicarDadosAoCurriculo(dados) {
         if (experienciaContainer) {
             experienciaContainer.innerHTML = '';
             
-            if (Array.isArray(expData) && expData.length > 0) {
-                expData.forEach((exp, index) => {
+            if (Array.isArray(expItens) && expItens.length > 0) {
+                expItens.forEach((exp, index) => {
                     const div = document.createElement('div');
                     div.className = 'experiencia_conteudo';
-                    const temLinha = index < expData.length - 1;
+                    const temLinha = index < expItens.length - 1;
                     div.innerHTML = `
                         <div class="experiencia_tempo">
                             <span class="experiencia_circulo"></span>
@@ -496,14 +496,14 @@ function aplicarDadosAoCurriculo(dados) {
                     `;
                     experienciaContainer.appendChild(div);
                 });
-            } else if (typeof expData === 'string' && expData.trim() !== '') {
+            } else if (typeof expDataRaw === 'string' && expDataRaw.trim() !== '') {
                 // Legado ou texto livre
                 const div = document.createElement('div');
                 div.className = 'experiencia_conteudo';
                 div.innerHTML = `
                     <div class="experiencia_tempo"><span class="experiencia_circulo"></span></div>
                     <div class="experiencia_dados bd-grid">
-                        <p class="experiencia_descricao" style="white-space: pre-wrap;">${expData}</p>
+                        <p class="experiencia_descricao" style="white-space: pre-wrap;">${expDataRaw}</p>
                     </div>
                 `;
                 experienciaContainer.appendChild(div);
@@ -511,7 +511,7 @@ function aplicarDadosAoCurriculo(dados) {
         }
         
         const secaoExperiencia = document.getElementById('experiencia');
-        if (secaoExperiencia) secaoExperiencia.style.display = (typeof expData === 'string' ? expData.trim() !== '' : expData.length > 0) ? 'block' : 'none';
+        if (secaoExperiencia) secaoExperiencia.style.display = (typeof expDataRaw === 'string' ? expDataRaw.trim() !== '' : expItens.length > 0) ? 'block' : 'none';
     }
     
     // CERTIFICADOS
@@ -525,8 +525,8 @@ function aplicarDadosAoCurriculo(dados) {
         const certificadosContainer = document.querySelector('.certificados_container');
         if (certificadosContainer) {
             certificadosContainer.innerHTML = '';
-            if (Array.isArray(certData) && certData.length > 0) {
-                certData.slice(0, 3).forEach(cert => {
+            if (Array.isArray(certItens) && certItens.length > 0) {
+                certItens.slice(0, 3).forEach(cert => {
                     const div = document.createElement('div');
                     div.className = 'certificados_conteudo';
                     div.innerHTML = `
@@ -538,20 +538,20 @@ function aplicarDadosAoCurriculo(dados) {
                     `;
                     certificadosContainer.appendChild(div);
                 });
-            } else if (typeof certData === 'string' && certData.trim() !== '') {
+            } else if (typeof certDataRaw === 'string' && certDataRaw.trim() !== '') {
                 const div = document.createElement('div');
                 div.className = 'certificados_conteudo';
                 div.innerHTML = `
                     <div class="certificados_item"><span class="certificados_circulo"></span></div>
                     <div class="certificados_dados bd-grid">
-                        <p class="experiencia_descricao" style="white-space: pre-wrap;">${certData}</p>
+                        <p class="experiencia_descricao" style="white-space: pre-wrap;">${certDataRaw}</p>
                     </div>
                 `;
                 certificadosContainer.appendChild(div);
             }
         }
         const secaoCertificados = document.getElementById('certificados');
-        if (secaoCertificados) secaoCertificados.style.display = (typeof certData === 'string' ? certData.trim() !== '' : certData.length > 0) ? 'block' : 'none';
+        if (secaoCertificados) secaoCertificados.style.display = (typeof certDataRaw === 'string' ? certDataRaw.trim() !== '' : certItens.length > 0) ? 'block' : 'none';
     }
     
     // EDUCAÇÃO
@@ -565,11 +565,11 @@ function aplicarDadosAoCurriculo(dados) {
         const educacaoContainer = document.querySelector('.educacao_container');
         if (educacaoContainer) {
             educacaoContainer.innerHTML = '';
-            if (Array.isArray(eduData) && eduData.length > 0) {
-                eduData.slice(0, 3).forEach((edu, index) => {
+            if (Array.isArray(eduItens) && eduItens.length > 0) {
+                eduItens.slice(0, 3).forEach((edu, index) => {
                     const div = document.createElement('div');
                     div.className = 'educacao_conteudo';
-                    const temLinha = index < eduData.length - 1;
+                    const temLinha = index < eduItens.length - 1;
                     div.innerHTML = `
                         <div class="educacao_tempo">
                             <span class="educacao_circulo"></span>
@@ -583,20 +583,20 @@ function aplicarDadosAoCurriculo(dados) {
                     `;
                     educacaoContainer.appendChild(div);
                 });
-            } else if (typeof eduData === 'string' && eduData.trim() !== '') {
+            } else if (typeof eduDataRaw === 'string' && eduDataRaw.trim() !== '') {
                 const div = document.createElement('div');
                 div.className = 'educacao_conteudo';
                 div.innerHTML = `
                     <div class="educacao_tempo"><span class="educacao_circulo"></span></div>
                     <div class="educacao_dados bd-grid">
-                        <p class="experiencia_descricao" style="white-space: pre-wrap;">${eduData}</p>
+                        <p class="experiencia_descricao" style="white-space: pre-wrap;">${eduDataRaw}</p>
                     </div>
                 `;
                 educacaoContainer.appendChild(div);
             }
         }
         const secaoEducacao = document.getElementById('educacao');
-        if (secaoEducacao) secaoEducacao.style.display = (typeof eduData === 'string' ? eduData.trim() !== '' : eduData.length > 0) ? 'block' : 'none';
+        if (secaoEducacao) secaoEducacao.style.display = (typeof eduDataRaw === 'string' ? eduDataRaw.trim() !== '' : eduItens.length > 0) ? 'block' : 'none';
     }
     
     // INTERESSES
@@ -611,7 +611,7 @@ function aplicarDadosAoCurriculo(dados) {
         if (interessesContainer) {
             interessesContainer.innerHTML = '';
             
-            dados.interesses.forEach(interesse => {
+            intItens.forEach(interesse => {
                 const div = document.createElement('div');
                 div.className = 'interesses_conteudo';
                 
