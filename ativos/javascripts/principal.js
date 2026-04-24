@@ -283,7 +283,7 @@ function gerarCurriculo() {
         filename: fileName,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: {
-            scale: 4,
+            scale: 2, // Reduzido de 4 para 2 para maior compatibilidade e velocidade
             useCORS: true,
             windowWidth: larguraPDF,
             windowHeight: alturaDesktop
@@ -294,7 +294,7 @@ function gerarCurriculo() {
     html2pdf()
         .set(opt)
         .from(areaCurriculo)
-        .save()
+        .save(fileName) // Agora passando o nome correto do arquivo
         .then(() => {
             if (typeof DEBUG !== 'undefined' && DEBUG) console.log('PDF gerado com sucesso:', fileName);
         })
