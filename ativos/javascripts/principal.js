@@ -221,8 +221,10 @@ let botaoCurriculo = document.getElementById("botao-curriculo");
 function obterNomeArquivo() {
     const tituloEl = document.querySelector('.inicio_titulo');
     if (tituloEl) {
-        const nome = tituloEl.innerText.trim();
-        return nome.replace(/\s+/g, '-');
+        let nome = tituloEl.innerText.trim();
+        // Remove acentos e caracteres especiais para evitar erro no nome do arquivo
+        nome = nome.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+        return nome.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '');
     }
     return 'Curriculo';
 }
@@ -292,17 +294,12 @@ function gerarCurriculo() {
     html2pdf()
         .set(opt)
         .from(areaCurriculo)
-        .toPdf()
-        .get('pdf')
-        .then(pdf => {
-            // Remover páginas extras em branco
-            let totalPages = pdf.internal.getNumberOfPages();
-            while (totalPages > 1) {
-                pdf.deletePage(totalPages);
-                totalPages--;
-            }
-            // Salvar PDF A4 gerado
-            pdf.save(fileName);
+        .save()
+        .then(() => {
+            if (typeof DEBUG !== 'undefined' && DEBUG) console.log('PDF gerado com sucesso:', fileName);
+        })
+        .catch(err => {
+            console.error('Erro ao gerar PDF:', err);
         })
         .finally(() => {
             // Restaura estilos inline se for mobile custom
