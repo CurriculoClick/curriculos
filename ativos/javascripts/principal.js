@@ -292,18 +292,7 @@ function gerarCurriculo() {
     html2pdf()
         .set(opt)
         .from(areaCurriculo)
-        .toPdf()
-        .get('pdf')
-        .then(pdf => {
-            // Remover páginas extras em branco
-            let totalPages = pdf.internal.getNumberOfPages();
-            while (totalPages > 1) {
-                pdf.deletePage(totalPages);
-                totalPages--;
-            }
-            // Salvar PDF A4 gerado
-            pdf.save(fileName);
-        })
+        .save()
         .finally(() => {
             // Restaura estilos inline se for mobile custom
             if (savedInline && window.innerWidth <= 968 && customColorActive) {
