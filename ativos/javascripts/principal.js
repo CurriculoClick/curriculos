@@ -301,8 +301,17 @@ function gerarCurriculo() {
                 pdf.deletePage(totalPages);
                 totalPages--;
             }
-            // Salvar PDF A4 gerado
-            pdf.save(fileName);
+            // Salvar PDF A4 gerado (contorno para o bug de extensão no Chrome)
+            const blob = pdf.output('blob');
+            const blobPdf = new Blob([blob], { type: 'application/pdf' });
+            const url = window.URL.createObjectURL(blobPdf);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            setTimeout(() => window.URL.revokeObjectURL(url), 1000);
         })
         .finally(() => {
             // Restaura estilos inline se for mobile custom
