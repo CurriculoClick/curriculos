@@ -8,10 +8,10 @@ export default async function handler(req, res) {
 
     const idNormalizado = id.replace(/^curriculo[_-]/i, '').replace(/_/g, '-');
     
-    // Busca o index.html original do repositório
+    // Busca o index.html original da própria Vercel
     let html = '';
     try {
-        const indexRes = await fetch('https://raw.githubusercontent.com/thiagodelgado/curriculoclick/main/index.html');
+        const indexRes = await fetch(`https://${req.headers.host}/index.html`);
         if (indexRes.ok) {
             html = await indexRes.text();
         } else {
@@ -26,12 +26,11 @@ export default async function handler(req, res) {
     let fotoUrl = `https://${req.headers.host}/ativos/imagens/og-default.png`;
 
     try {
-        const githubUrl = `https://api.github.com/repos/thiagodelgado/curriculoclick/contents/dados/${idNormalizado}.json`;
-        const headers = process.env.GITHUB_TOKEN ? { 'Authorization': `token ${process.env.GITHUB_TOKEN}`, 'Accept': 'application/vnd.github.v3.raw' } : {};
+        const localUrl = `https://${req.headers.host}/dados/${idNormalizado}.json`;
+        const localRes = await fetch(localUrl);
         
-        const githubRes = await fetch(githubUrl, { headers });
-        if (githubRes.ok) {
-            const dados = await githubRes.json();
+        if (localRes.ok) {
+            const dados = await localRes.json();
             const nome = (dados.inicio && dados.inicio.nome) || 'Currículo Profissional';
             const profissao = (dados.inicio && dados.inicio.profissao) || '';
             const foto = (dados.inicio && dados.inicio.foto_perfil) || '';
