@@ -175,25 +175,48 @@
             if (savedToken) document.getElementById('githubToken').value = savedToken;
         };
 
-        configForm.addEventListener('submit', (e) => {
+        configForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const token = document.getElementById('githubToken').value;
-            const repo = document.getElementById('repoPath').value;
+            const token = document.getElementById('githubToken').value.trim();
+            const repo = document.getElementById('repoPath').value.trim();
+            const btnSalvar = document.querySelector('.btn-salvar');
+
+            status.innerText = "Validando credenciais na API do GitHub...";
+            status.className = "status-msg status-sucesso";
+            status.style.backgroundColor = "#e2e8f0";
+            status.style.color = "#475569";
+            status.style.display = "block";
+            btnSalvar.disabled = true;
+            btnSalvar.innerText = "Aguarde...";
 
             try {
+                const res = await fetch(`https://api.github.com/repos/${repo}`, {
+                    headers: { 'Authorization': `token ${token}` }
+                });
+
+                if (!res.ok) {
+                    if (res.status === 401) throw new Error("Token inválido ou expirado.");
+                    if (res.status === 404) throw new Error("Repositório não encontrado ou o Token não tem acesso a ele.");
+                    throw new Error("Falha na validação com o GitHub.");
+                }
+
                 localStorage.setItem('cc_github_token', token);
                 localStorage.setItem('cc_github_repo', repo);
                 
-                status.innerText = "Configurações salvas com sucesso!";
+                status.innerText = "Acesso Autorizado! Entrando no painel...";
                 status.className = "status-msg status-sucesso";
+                status.style.cssText = "display: block;"; // reseta estilos inline exceto display
                 
                 setTimeout(() => {
                     window.location.href = 'index.html';
                 }, 1500);
             } catch (err) {
-                status.innerText = "Erro ao salvar: " + err.message;
+                status.innerText = "Erro: " + err.message;
                 status.className = "status-msg status-erro";
+                status.style.cssText = "display: block;";
+                btnSalvar.disabled = false;
+                btnSalvar.innerText = "Salvar Configurações";
             }
         });
     </script>
