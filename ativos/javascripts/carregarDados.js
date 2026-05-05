@@ -200,6 +200,21 @@ function aplicarDadosAoCurriculo(dados) {
                 telefoneAnchor.innerHTML = `<i class="fa-solid fa-phone inicio_icone"></i> ${dados.inicio.telefone}`;
             }
         }
+
+        // Telefone 2
+        const telefone2El = document.getElementById('telefone2');
+        if (telefone2El) {
+            if (dados.inicio.telefone2) {
+                const telefone2Anchor = telefone2El.querySelector('a');
+                if (telefone2Anchor) {
+                    telefone2Anchor.href = `tel:${dados.inicio.telefone2.replace(/\D/g, '')}`;
+                    telefone2Anchor.innerHTML = `<i class="fa-solid fa-phone inicio_icone"></i> ${dados.inicio.telefone2}`;
+                }
+                telefone2El.style.display = '';
+            } else {
+                telefone2El.style.display = 'none';
+            }
+        }
     }
     
     // REDES SOCIAIS

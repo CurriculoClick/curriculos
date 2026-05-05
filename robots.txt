@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://curriculoclick.vercel.app/sitemap.xml
