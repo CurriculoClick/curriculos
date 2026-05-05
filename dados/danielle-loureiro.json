@@ -1,7 +1,7 @@
 {
   "inicio": {
     "nome": "Danielle Loureiro",
-    "profissao": "",
+    "profissao": "Técnica de Enfermagem",
     "endereco": "Itaguaí - RJ",
     "localizacao": "Itaguaí - RJ",
     "email": "dani.loureiro29@gmail.com",
@@ -43,7 +43,7 @@
   ],
   "whatsapp": {
     "ativo": true,
-    "numero": "",
+    "numero": " 5521993543808 ",
     "mensagemPosCumprimento": "",
     "mensagemPadrao": "Olá! Gostaria de falar sobre o currículo."
   }
