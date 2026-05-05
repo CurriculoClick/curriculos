@@ -362,6 +362,22 @@ function aplicarDadosAoCurriculo(dados) {
         }
     }
     
+    // TÍTULOS PERSONALIZADOS
+    if (dados.titulos_personalizados) {
+        if (dados.titulos_personalizados.experiencia) {
+            const lblExp = document.getElementById('lbl_experiencia');
+            if (lblExp) lblExp.textContent = dados.titulos_personalizados.experiencia;
+        }
+        if (dados.titulos_personalizados.certificados) {
+            const lblCert = document.getElementById('lbl_certificados');
+            if (lblCert) lblCert.textContent = dados.titulos_personalizados.certificados;
+        }
+        if (dados.titulos_personalizados.educacao) {
+            const lblEdu = document.getElementById('lbl_educacao');
+            if (lblEdu) lblEdu.textContent = dados.titulos_personalizados.educacao;
+        }
+    }
+
     // PERFIL
     if (dados.perfil) {
         // Tenta encontrar o título pelo ID exclusivo (mais confiável)

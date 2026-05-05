@@ -273,6 +273,16 @@ function preencherFormulario(data, slug) {
         
         if (document.getElementById('descricao')) document.getElementById('descricao').value = data.perfil?.descricao || '';
         
+        // Títulos Personalizados
+        if (data.perfil?.titulo) {
+            if (document.getElementById('perfil_titulo')) document.getElementById('perfil_titulo').value = data.perfil.titulo;
+        }
+        if (data.titulos_personalizados) {
+            if (document.getElementById('experiencia_titulo')) document.getElementById('experiencia_titulo').value = data.titulos_personalizados.experiencia || 'Experiência Profissional';
+            if (document.getElementById('certificados_titulo')) document.getElementById('certificados_titulo').value = data.titulos_personalizados.certificados || 'Certificados';
+            if (document.getElementById('educacao_titulo')) document.getElementById('educacao_titulo').value = data.titulos_personalizados.educacao || 'Educação';
+        }
+        
         // REDES SOCIAIS
         if (data.social) {
             if (Array.isArray(data.social)) {
@@ -489,7 +499,12 @@ function collectData() {
         perfil: { 
             titulo: document.getElementById('perfil_titulo')?.value || 'Perfil',
             descricao: document.getElementById('descricao')?.value || '' 
-        }, 
+        },
+        titulos_personalizados: {
+            experiencia: document.getElementById('experiencia_titulo')?.value || 'Experiência Profissional',
+            certificados: document.getElementById('certificados_titulo')?.value || 'Certificados',
+            educacao: document.getElementById('educacao_titulo')?.value || 'Educação'
+        },
         habilidades: habs, idiomas: idis, experiencia_profissional: exps, educacao: edus, certificados: certs, interesses: ints,
         whatsapp: { ativo: true, numero: document.getElementById('wa_numero')?.value || '', mensagemPosCumprimento: document.getElementById('wa_mensagem_pos')?.value || '', mensagemPadrao: "Olá! Gostaria de falar sobre o currículo." }
     };
