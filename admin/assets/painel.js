@@ -375,7 +375,7 @@ function adicionarSocial(d=null) {
     const l = document.getElementById('socialList'); if (!l) return;
     const div = document.createElement('div'); div.className = 'dynamic-item form-row'; 
     const redes = ['WhatsApp','Instagram','LinkedIn','Facebook','TikTok','GitHub','Site','Twitter','YouTube'];
-    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><select class="input-pro s-rede">${redes.map(r => `<option value="${r}" ${d?.rede === r ? 'selected' : ''}>${r}</option>`).join('')}</select></div><div class="field-item"><input type="text" class="input-pro s-url" placeholder="Ex: instagram.com/milena" value="${d?.url || ''}"></div>`; 
+    div.innerHTML = `<div class="dynamic-item-controls"><button type="button" class="btn-control" onclick="moveItemUp(this)" title="Subir"><i class="fa-solid fa-chevron-up"></i></button><button type="button" class="btn-control" onclick="moveItemDown(this)" title="Descer"><i class="fa-solid fa-chevron-down"></i></button><button type="button" class="btn-remove" onclick="this.closest('.dynamic-item').remove(); syncPreview()" title="Remover">×</button></div><div class="field-item"><select class="input-pro s-rede">${redes.map(r => `<option value="${r}" ${d?.rede === r ? 'selected' : ''}>${r}</option>`).join('')}</select></div><div class="field-item"><input type="text" class="input-pro s-url" placeholder="Ex: instagram.com/milena" value="${d?.url || ''}"></div>`; 
     l.appendChild(div); if(!d) syncPreview(); 
 }
 
@@ -383,7 +383,7 @@ function adicionarHabilidade(d=null) {
     const l = document.getElementById('habilidadesList'); if (!l) return;
     if (l.children.length >= LIMIT_HABILIDADES && !d) return alert(`Limite: ${LIMIT_HABILIDADES}`); 
     const div = document.createElement('div'); div.className = 'dynamic-item form-row'; 
-    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><input type="text" class="input-pro h-nome" placeholder="Ex: Power Point" value="${d?.nome || ''}"></div><div class="field-item"><input type="number" class="input-pro h-nivel" placeholder="0 a 100" value="${d?.nivel || 80}"></div>`; 
+    div.innerHTML = `<div class="dynamic-item-controls"><button type="button" class="btn-control" onclick="moveItemUp(this)" title="Subir"><i class="fa-solid fa-chevron-up"></i></button><button type="button" class="btn-control" onclick="moveItemDown(this)" title="Descer"><i class="fa-solid fa-chevron-down"></i></button><button type="button" class="btn-remove" onclick="this.closest('.dynamic-item').remove(); syncPreview()" title="Remover">×</button></div><div class="field-item"><input type="text" class="input-pro h-nome" placeholder="Ex: Power Point" value="${d?.nome || ''}"></div><div class="field-item"><input type="number" class="input-pro h-nivel" placeholder="0 a 100" value="${d?.nivel || 80}"></div>`; 
     l.appendChild(div); if(!d) syncPreview(); 
 }
 
@@ -396,7 +396,7 @@ function adicionarIdioma(d=null) {
     const s3 = d?.estrelas == 3 ? 'selected' : '';
     const s4 = d?.estrelas == 4 ? 'selected' : '';
     const s5 = (d?.estrelas == 5 || !d) ? 'selected' : '';
-    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><input type="text" class="input-pro i-nome" placeholder="Ex: Inglês" value="${d?.nome || ''}"></div><div class="field-item"><select class="input-pro i-estrelas"><option value="1" ${s1}>1 Estrela</option><option value="2" ${s2}>2 Estrelas</option><option value="3" ${s3}>3 Estrelas</option><option value="4" ${s4}>4 Estrelas</option><option value="5" ${s5}>5 Estrelas</option></select></div>`; 
+    div.innerHTML = `<div class="dynamic-item-controls"><button type="button" class="btn-control" onclick="moveItemUp(this)" title="Subir"><i class="fa-solid fa-chevron-up"></i></button><button type="button" class="btn-control" onclick="moveItemDown(this)" title="Descer"><i class="fa-solid fa-chevron-down"></i></button><button type="button" class="btn-remove" onclick="this.closest('.dynamic-item').remove(); syncPreview()" title="Remover">×</button></div><div class="field-item"><input type="text" class="input-pro i-nome" placeholder="Ex: Inglês" value="${d?.nome || ''}"></div><div class="field-item"><select class="input-pro i-estrelas"><option value="1" ${s1}>1 Estrela</option><option value="2" ${s2}>2 Estrelas</option><option value="3" ${s3}>3 Estrelas</option><option value="4" ${s4}>4 Estrelas</option><option value="5" ${s5}>5 Estrelas</option></select></div>`; 
     l.appendChild(div); if(!d) syncPreview(); 
 }
 
@@ -409,7 +409,7 @@ function adicionarExperiencia(d=null) {
     const emp = isL ? '' : (d?.empresa || '');
     const per = isL ? '' : (d?.periodo || d?.data || '');
     const desc = isL ? d : (d?.descricao || '');
-    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="form-row"><div class="field-item"><label>Cargo</label><input type="text" class="input-pro e-cargo" placeholder="Ex: Administradora Financeira" value="${cargo}"></div><div class="field-item"><label>Empresa</label><input type="text" class="input-pro e-empresa" placeholder="Ex: Pizza Hunt - Brasil" value="${emp}"></div></div><div class="field-item"><label>Período</label><input type="text" class="input-pro e-periodo" placeholder="Ex: Janeiro 2022 - Atual" value="${per}"></div><div class="field-item"><label>Atividades</label><textarea class="textarea-pro e-desc" rows="2" placeholder="Ex: Planejamento financeiro, controle financeiro e tomada de decisões financeiras estratégicas...">${desc}</textarea></div>`; 
+    div.innerHTML = `<div class="dynamic-item-controls"><button type="button" class="btn-control" onclick="moveItemUp(this)" title="Subir"><i class="fa-solid fa-chevron-up"></i></button><button type="button" class="btn-control" onclick="moveItemDown(this)" title="Descer"><i class="fa-solid fa-chevron-down"></i></button><button type="button" class="btn-remove" onclick="this.closest('.dynamic-item').remove(); syncPreview()" title="Remover">×</button></div><div class="form-row"><div class="field-item"><label>Cargo</label><input type="text" class="input-pro e-cargo" placeholder="Ex: Administradora Financeira" value="${cargo}"></div><div class="field-item"><label>Empresa</label><input type="text" class="input-pro e-empresa" placeholder="Ex: Pizza Hunt - Brasil" value="${emp}"></div></div><div class="field-item"><label>Período</label><input type="text" class="input-pro e-periodo" placeholder="Ex: Janeiro 2022 - Atual" value="${per}"></div><div class="field-item"><label>Atividades</label><textarea class="textarea-pro e-desc" rows="2" placeholder="Ex: Planejamento financeiro...">${desc}</textarea></div>`; 
     l.appendChild(div); if(!d) syncPreview(); 
 }
 
@@ -421,7 +421,7 @@ function adicionarEducacao(d=null) {
     const curso = isL ? d : (d?.curso || d?.titulo || '');
     const inst = isL ? '' : (d?.instituicao || '');
     const per = isL ? '' : (d?.periodo || d?.ano || '');
-    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><label>Curso</label><input type="text" class="input-pro edu-curso" placeholder="Ex: Administração" value="${curso}"></div><div class="field-item"><label>Instituição</label><input type="text" class="input-pro edu-inst" placeholder="Ex: Centro Educacional Anhanguera" value="${inst}"></div><div class="field-item"><label>Período</label><input type="text" class="input-pro edu-per" placeholder="Ex: 2022 - Cursando" value="${per}"></div>`; 
+    div.innerHTML = `<div class="dynamic-item-controls"><button type="button" class="btn-control" onclick="moveItemUp(this)" title="Subir"><i class="fa-solid fa-chevron-up"></i></button><button type="button" class="btn-control" onclick="moveItemDown(this)" title="Descer"><i class="fa-solid fa-chevron-down"></i></button><button type="button" class="btn-remove" onclick="this.closest('.dynamic-item').remove(); syncPreview()" title="Remover">×</button></div><div class="field-item"><label>Curso</label><input type="text" class="input-pro edu-curso" placeholder="Ex: Administração" value="${curso}"></div><div class="field-item"><label>Instituição</label><input type="text" class="input-pro edu-inst" placeholder="Ex: Centro Educacional Anhanguera" value="${inst}"></div><div class="field-item"><label>Período</label><input type="text" class="input-pro edu-per" placeholder="Ex: 2022 - Cursando" value="${per}"></div>`; 
     l.appendChild(div); if(!d) syncPreview(); 
 }
 
@@ -432,8 +432,26 @@ function adicionarCertificado(d=null) {
     const isL = typeof d === 'string';
     const ano = isL ? '' : (d?.ano || '');
     const tit = isL ? d : (d?.titulo || d?.nome || '');
-    div.innerHTML = `<button type="button" class="btn-remove" onclick="this.parentElement.remove(); syncPreview()">×</button><div class="field-item"><label>Ano</label><input type="text" class="input-pro cert-ano" placeholder="Ex: 2023" value="${ano}"></div><div class="field-item"><label>Título</label><input type="text" class="input-pro cert-titulo" placeholder="Ex: Coursera | Administração Financeira" value="${tit}"></div>`; 
+    div.innerHTML = `<div class="dynamic-item-controls"><button type="button" class="btn-control" onclick="moveItemUp(this)" title="Subir"><i class="fa-solid fa-chevron-up"></i></button><button type="button" class="btn-control" onclick="moveItemDown(this)" title="Descer"><i class="fa-solid fa-chevron-down"></i></button><button type="button" class="btn-remove" onclick="this.closest('.dynamic-item').remove(); syncPreview()" title="Remover">×</button></div><div class="field-item"><label>Ano</label><input type="text" class="input-pro cert-ano" placeholder="Ex: 2023" value="${ano}"></div><div class="field-item"><label>Título</label><input type="text" class="input-pro cert-titulo" placeholder="Ex: Coursera | Administração Financeira" value="${tit}"></div>`; 
     l.appendChild(div); if(!d) syncPreview(); 
+}
+
+function moveItemUp(btn) {
+    const item = btn.closest('.dynamic-item');
+    const prev = item.previousElementSibling;
+    if (prev) {
+        item.parentNode.insertBefore(item, prev);
+        syncPreview();
+    }
+}
+
+function moveItemDown(btn) {
+    const item = btn.closest('.dynamic-item');
+    const next = item.nextElementSibling;
+    if (next) {
+        item.parentNode.insertBefore(next, item);
+        syncPreview();
+    }
 }
 
 // --- Publicar ---
