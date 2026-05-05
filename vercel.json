@@ -1,30 +1,20 @@
 {
   "version": 2,
   "trailingSlash": true,
-  "routes": [
+  "rewrites": [
     {
-      "src": "/admin/configuracao.html",
-      "dest": "/admin/configuracao.html"
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "id"
+        }
+      ],
+      "destination": "/api/meta"
     },
     {
-      "src": "/admin/(.*\\.(js|css|yml|json|png|jpg|jpeg|svg|woff|woff2|html))$",
-      "dest": "/admin/$1"
-    },
-    {
-      "src": "/admin/(.*)",
-      "dest": "/admin/index.html"
-    },
-    {
-      "src": "/",
-      "dest": "/api/meta"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
+      "source": "/admin/:path*",
+      "destination": "/admin/index.html"
     }
   ]
 }
