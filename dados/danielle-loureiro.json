@@ -30,7 +30,11 @@
   },
   "habilidades": [
     {
-      "nome": "Enfermagem",
+      "nome": "Assistência",
+      "nivel": 100
+    },
+    {
+      "nome": "Medicação",
       "nivel": 100
     }
   ],
