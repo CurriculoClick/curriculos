@@ -215,6 +215,18 @@ function aplicarDadosAoCurriculo(dados) {
                 telefone2El.style.display = 'none';
             }
         }
+
+        // Registro Profissional
+        const regProfContainer = document.getElementById('registro_profissional_container');
+        const regProfTexto = document.getElementById('registro_profissional_texto');
+        if (regProfContainer && regProfTexto) {
+            if (dados.inicio.registro_profissional) {
+                regProfTexto.textContent = dados.inicio.registro_profissional;
+                regProfContainer.style.display = '';
+            } else {
+                regProfContainer.style.display = 'none';
+            }
+        }
     }
     
     // REDES SOCIAIS

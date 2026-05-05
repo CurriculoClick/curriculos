@@ -248,6 +248,7 @@ function preencherFormulario(data, slug) {
         if (document.getElementById('email')) document.getElementById('email').value = data.inicio?.email || '';
         if (document.getElementById('telefone')) document.getElementById('telefone').value = data.inicio?.telefone || '';
         if (document.getElementById('telefone2')) document.getElementById('telefone2').value = data.inicio?.telefone2 || '';
+        if (document.getElementById('registro_profissional')) document.getElementById('registro_profissional').value = data.inicio?.registro_profissional || '';
         if (document.getElementById('idade')) document.getElementById('idade').value = data.inicio?.idade || '';
         // Normaliza o estado civil para bater com os valores do <select>
         const ecEl = document.getElementById('estado_civil');
@@ -489,7 +490,8 @@ function collectData() {
     const estCivilVal = document.getElementById('estado_civil')?.value || '';
     const cnhVal = document.getElementById('cnh')?.value || '';
     const telefone2Val = document.getElementById('telefone2')?.value || '';
-    const inicioObj = { nome: full, profissao: document.getElementById('profissao')?.value || '', endereco: document.getElementById('endereco')?.value || '', localizacao: document.getElementById('endereco')?.value || '', email: document.getElementById('email')?.value || '', telefone: document.getElementById('telefone')?.value || '', telefone2: telefone2Val, botao_baixar: "BAIXAR" };
+    const registroProfissionalVal = document.getElementById('registro_profissional')?.value || '';
+    const inicioObj = { nome: full, profissao: document.getElementById('profissao')?.value || '', endereco: document.getElementById('endereco')?.value || '', localizacao: document.getElementById('endereco')?.value || '', email: document.getElementById('email')?.value || '', telefone: document.getElementById('telefone')?.value || '', telefone2: telefone2Val, registro_profissional: registroProfissionalVal, botao_baixar: "BAIXAR" };
     if (idadeVal) inicioObj.idade = idadeVal;
     if (estCivilVal) inicioObj.estado_civil = estCivilVal;
     if (cnhVal) inicioObj.cnh = cnhVal;
