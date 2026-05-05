@@ -38,7 +38,7 @@ export default async function middleware(req) {
 
         // Busca o JSON dos dados do candidato
         // 1. Tentar buscar dados do GitHub API (para ser instantâneo e suportar repos privados)
-        const GITHUB_REPO = 'thiagodelgado/curriculoclick';
+        const GITHUB_REPO = 'CurriculoClick/curriculos';
         const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
         
         let dados = null;
