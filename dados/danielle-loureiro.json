@@ -41,6 +41,12 @@
       "empresa": "CNV Cursos de Informática Ltda",
       "periodo": "2009 - 2014",
       "descricao": "Consultora de vendas de cursos, com experiência em atendimento ao cliente, apresentação de produtos educacionais e negociação, focada em identificar necessidades e fechar matrículas."
+    },
+    {
+      "cargo": "Auxiliar de Escritório",
+      "empresa": "G S Azevedo Contabilidade Empresarial",
+      "periodo": "2016 - 2024",
+      "descricao": "Auxiliar de escritório em contabilidade, com experiência em rotinas administrativas, organização de documentos, atendimento ao cliente e apoio em atividades financeiras e contábeis."
     }
   ],
   "educacao": [
@@ -57,15 +63,15 @@
   ],
   "certificados": [
     {
-      "ano": "",
+      "ano": "2021",
       "titulo": "Clínica Vicente Moretti"
     },
     {
-      "ano": "",
+      "ano": "2020",
       "titulo": "UBS Piranema – Seropédica"
     },
     {
-      "ano": "",
+      "ano": "2019",
       "titulo": "Hospital Evangélico Tijuca"
     }
   ],
