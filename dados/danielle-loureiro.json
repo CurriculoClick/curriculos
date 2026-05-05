@@ -10,6 +10,7 @@
     "registro_profissional": "COREN-RJ  1680583-TE ",
     "botao_baixar": "BAIXAR",
     "idade": "39 anos",
+    "estado_civil": "Casado(a)",
     "foto_perfil": "dados/uploads/danielle-loureiro.png"
   },
   "social": [
@@ -69,7 +70,7 @@
     {
       "curso": "Curso de Letras - Língua Portuguesa",
       "instituicao": "Faculdade Machado de Assis (FAMA)",
-      "periodo": ""
+      "periodo": "Conclusão | 8 Períodos "
     },
     {
       "curso": "Técnica de Emfermagem",
@@ -84,11 +85,11 @@
   ],
   "certificados": [
     {
-      "ano": "2021",
+      "ano": "2019",
       "titulo": "Clínica Vicente Moretti"
     },
     {
-      "ano": "2020",
+      "ano": "2019",
       "titulo": "UBS Piranema – Seropédica"
     },
     {
@@ -109,7 +110,7 @@
   "whatsapp": {
     "ativo": true,
     "numero": " 5521993543808 ",
-    "mensagemPosCumprimento": "Me chamo Danielle, sou Técnica de enfermagem. Estou me candidatando a vaga.",
+    "mensagemPosCumprimento": "Olá, me chamo Danielle, sou Técnica de Enfermagem e gostaria de me candidatar à vaga. Fico à disposição para mais informações.",
     "mensagemPadrao": "Olá! Gostaria de falar sobre o currículo."
   }
 }
