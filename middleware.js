@@ -27,7 +27,7 @@ export default async function middleware(req) {
         const indexRes = await fetch(new URL('/index.html', url.origin), {
             headers: { 'x-middleware-sub-request': 'true' }
         });
-        if (!indexRes.ok) return new Response(null, { headers: { 'x-middleware-next': '1' } });
+        if (!indexRes.ok) return new Response(null, { headers: { 'x-middleware-next': '1', 'x-middleware-debug': 'falha-fetch-index' } });
         
         let html = await indexRes.text();
 
@@ -94,13 +94,14 @@ export default async function middleware(req) {
             .replace(/<meta id="og-type"[\s\S]*?<meta id="tw-image"[^>]*>/i, '') 
             .replace('</head>', `${ogBlock}\n</head>`);
 
-        return new Response(htmlModificado, {
-            headers: { 'content-type': 'text/html; charset=utf-8' },
+        const finalResponse = new Response(htmlModificado, {
+            headers: { 'content-type': 'text/html; charset=utf-8', 'x-middleware-debug': 'sucesso' },
         });
+        return finalResponse;
 
     } catch (e) {
         console.error('Erro no Middleware:', e);
-        return new Response(null, { headers: { 'x-middleware-next': '1' } });
+        return new Response(null, { headers: { 'x-middleware-next': '1', 'x-middleware-debug': 'erro-try-catch' } });
     }
 }
 
