@@ -1,0 +1,96 @@
+{
+  "inicio": {
+    "nome": "João Vitor Gomes do Nascimento",
+    "profissao": "Estudante",
+    "endereco": "Vales dos Reis, Cariacica - ES",
+    "localizacao": "Vales dos Reis, Cariacica - ES",
+    "email": "costagomescamila9@gmail.com",
+    "telefone": "(27) 9 9504-1127",
+    "telefone2": "(27) 9 9852-0630",
+    "botao_baixar": "BAIXAR",
+    "idade": "18 anos",
+    "estado_civil": "Solteiro(a)",
+    "foto_perfil": "dados/uploads/joao-vitor-gomes-do-nascimento.png"
+  },
+  "social": [],
+  "perfil": {
+    "titulo": "Perfil",
+    "descricao": "Estudante dedicado, com interesse em atuar na área de carga e descarga. Possui boa disposição física, responsabilidade e facilidade para trabalho em equipe. Comprometido com prazos, organização e execução eficiente das atividades, buscando sempre aprender e contribuir com a rotina operacional da empresa."
+  },
+  "habilidades": [
+    {
+      "nome": "Windows",
+      "nivel": 100
+    },
+    {
+      "nome": "Word",
+      "nivel": 100
+    },
+    {
+      "nome": "Excel",
+      "nivel": 100
+    },
+    {
+      "nome": "Power Point",
+      "nivel": 100
+    }
+  ],
+  "idiomas": [
+    {
+      "nome": "Português",
+      "estrelas": 5
+    }
+  ],
+  "experiencia_profissional": [
+    {
+      "cargo": "Embalador e Serviçoes Gerais",
+      "empresa": "Supermercados Perim",
+      "periodo": "2024 - Jovem Aprendiz",
+      "descricao": "Atuando na organização, limpeza e apoio às rotinas operacionais do ambiente de trabalho. É responsável por embalar produtos, conferir mercadorias, manter o local limpo e organizado, além de auxiliar em diversas tarefas conforme a necessidade da equipe, contribuindo para o bom funcionamento do setor."
+    },
+    {
+      "cargo": "Carga e Descarga",
+      "empresa": "Gama ",
+      "periodo": "2025 - 2026",
+      "descricao": "Atuação no carregamento e descarregamento de mercadorias, organizando volumes, conferindo itens e garantindo o transporte seguro e eficiente dos produtos."
+    }
+  ],
+  "educacao": [
+    {
+      "curso": "Ensino Médio",
+      "instituicao": "UEMF - Governador Christiano Dias Lopes Filho",
+      "periodo": "Cursando"
+    },
+    {
+      "curso": "Programa | Jovem Aprendiz",
+      "instituicao": "Programa de Contratação Formal - Supermercados Perim",
+      "periodo": "2024"
+    }
+  ],
+  "certificados": [
+    {
+      "ano": "2026",
+      "titulo": "Senac - Informática Básica."
+    },
+    {
+      "ano": "2025",
+      "titulo": "Fundação Bradesco - Informática Básica."
+    }
+  ],
+  "interesses": [
+    "vídeo game",
+    "filmes",
+    "leitura",
+    "música",
+    "tecnologia",
+    "família",
+    "internet",
+    "notícias"
+  ],
+  "whatsapp": {
+    "ativo": true,
+    "numero": "5527996067542",
+    "mensagemPosCumprimento": "Me chamo João Victor, sou estudante e busco atuar na área de carga e descarga.",
+    "mensagemPadrao": "Olá! Gostaria de falar sobre o currículo."
+  }
+}
