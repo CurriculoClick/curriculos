@@ -43,9 +43,13 @@ export default async function handler(req, res) {
             if (foto) {
                 fotoUrl = `https://${req.headers.host}/${foto.replace(/^\/+/, '')}`;
             }
+        } else {
+            console.error('Erro na resposta do localUrl:', localRes.status, localRes.statusText);
+            titulo = `Erro de Resposta: ${localRes.status}`; // Para forçar a exibição no teste
         }
     } catch (e) {
-        console.error('Erro ao buscar metadados JSON:', e);
+        console.error('Exceção ao buscar metadados JSON:', e.message);
+        titulo = `Exceção: ${e.message}`; // Exibir no OG tag para debugar
     }
 
     const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
