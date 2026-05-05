@@ -1,17 +1,29 @@
 {
   "version": 2,
-  "rewrites": [
+  "routes": [
     {
-      "source": "/admin/configuracao.html",
-      "destination": "/admin/configuracao.html"
+      "src": "/admin/configuracao.html",
+      "dest": "/admin/configuracao.html"
     },
     {
-      "source": "/admin/:path*",
-      "destination": "/admin/index.html"
+      "src": "/admin/(.*\\.(js|css|yml|json|png|jpg|jpeg|svg|woff|woff2|html))$",
+      "dest": "/admin/$1"
     },
     {
-      "source": "/",
-      "destination": "/api/meta"
+      "src": "/admin/(.*)",
+      "dest": "/admin/index.html"
+    },
+    {
+      "src": "/",
+      "dest": "/api/meta"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
     }
   ]
 }
