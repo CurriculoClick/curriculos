@@ -5,9 +5,9 @@
 
 const GITHUB_API = 'https://api.github.com';
 let githubToken = localStorage.getItem('cc_github_token');
-let githubRepo = localStorage.getItem('cc_github_repo') || 'thiagodelgado/curriculoclick';
-if (githubRepo === 'CurriculoClick/curriculos') {
-    githubRepo = 'thiagodelgado/curriculoclick';
+let githubRepo = localStorage.getItem('cc_github_repo') || 'CurriculoClick/curriculos';
+if (githubRepo === 'thiagodelgado/curriculoclick') {
+    githubRepo = 'CurriculoClick/curriculos';
     localStorage.setItem('cc_github_repo', githubRepo);
 }
 

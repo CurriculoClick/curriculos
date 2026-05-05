@@ -47,7 +47,7 @@ async function carregarDadosCliente(id) {
             if (DEBUG) console.warn(`Falha na rota estática (404). Acionando Smart Fallback Dinâmico na API public...`);
             
             // Fallback via API (Bypassa o tempo de build do GitHub Pages)
-            const fallbackRepo = localStorage.getItem('cc_github_repo') || 'thiagodelgado/curriculoclick';
+            const fallbackRepo = localStorage.getItem('cc_github_repo') || 'CurriculoClick/curriculos';
             const apiRes = await fetch(`https://api.github.com/repos/${fallbackRepo}/contents/dados/${id}.json?t=${Date.now()}`);
             
             if (!apiRes.ok) throw new Error("Fallback Dinâmico também falhou. Arquivo inexistente em todas as instâncias.");
