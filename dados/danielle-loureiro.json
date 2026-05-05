@@ -1,0 +1,50 @@
+{
+  "inicio": {
+    "nome": "Danielle Loureiro",
+    "profissao": "",
+    "endereco": "Itaguaí - RJ",
+    "localizacao": "Itaguaí - RJ",
+    "email": "dani.loureiro29@gmail.com",
+    "telefone": " (21) 9 9354-3808 ",
+    "telefone2": "",
+    "botao_baixar": "BAIXAR",
+    "idade": "39 anos",
+    "foto_perfil": "dados/uploads/danielle-loureiro.png"
+  },
+  "social": [
+    {
+      "rede": "Instagram",
+      "url": ""
+    }
+  ],
+  "perfil": {
+    "titulo": "COREN-RJ  1680583-TE ",
+    "descricao": ""
+  },
+  "habilidades": [],
+  "idiomas": [
+    {
+      "nome": "Português",
+      "estrelas": 5
+    }
+  ],
+  "experiencia_profissional": [],
+  "educacao": [],
+  "certificados": [],
+  "interesses": [
+    "filmes",
+    "culinária",
+    "leitura",
+    "música",
+    "tecnologia",
+    "família",
+    "internet",
+    "saúde e beleza"
+  ],
+  "whatsapp": {
+    "ativo": true,
+    "numero": "",
+    "mensagemPosCumprimento": "",
+    "mensagemPadrao": "Olá! Gostaria de falar sobre o currículo."
+  }
+}
