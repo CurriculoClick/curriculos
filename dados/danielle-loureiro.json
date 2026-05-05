@@ -10,6 +10,7 @@
     "registro_profissional": "COREN-RJ  1680583-TE ",
     "botao_baixar": "BAIXAR",
     "idade": "39 anos",
+    "estado_civil": "Solteiro(a)",
     "foto_perfil": "dados/uploads/danielle-loureiro.png"
   },
   "social": [
@@ -25,7 +26,7 @@
   "titulos_personalizados": {
     "experiencia": "Experiência Profissional",
     "certificados": "Certificados",
-    "educacao": "Educação"
+    "educacao": "Formação | Cursos"
   },
   "habilidades": [],
   "idiomas": [
@@ -35,16 +36,27 @@
     }
   ],
   "experiencia_profissional": [],
-  "educacao": [],
+  "educacao": [
+    {
+      "curso": "Técnica de Emfermagem",
+      "instituicao": "Colégio Bezerra de Araújo",
+      "periodo": "2019 - 2021"
+    },
+    {
+      "curso": "Enfermagem do Trabalho",
+      "instituicao": "Colégio Santos Maia",
+      "periodo": "Abril - 2026 | Dezembro 2026 | Período 8 meses | Cursando"
+    }
+  ],
   "certificados": [],
   "interesses": [
-    "leitura",
-    "internet",
+    "voluntariado",
     "enfermagem",
     "farmácia",
     "pesquisa clínica",
     "segurança do trabalho",
     "plantão",
+    "trabalho em equipe",
     "primeiros socorros"
   ],
   "whatsapp": {
