@@ -875,6 +875,7 @@ img {
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
 }
 
 .interesses_icone {
@@ -982,9 +983,10 @@ img {
     }
 
     .interesses_container {
-        grid-template-columns: repeat(4, max-content);
-        column-gap: 3.5rem;
-        padding-left: 2rem;
+        grid-template-columns: repeat(4, 1fr);
+        column-gap: 1.5rem;
+        row-gap: 1.5rem;
+        padding-left: 1rem;
     }
 
     body.modo-escuro #cores-picker-panel {
