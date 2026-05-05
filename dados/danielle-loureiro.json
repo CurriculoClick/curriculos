@@ -7,6 +7,7 @@
     "email": "dani.loureiro29@gmail.com",
     "telefone": " (21) 9 9354-3808 ",
     "telefone2": "",
+    "registro_profissional": "COREN-RJ  1680583-TE ",
     "botao_baixar": "BAIXAR",
     "idade": "39 anos",
     "foto_perfil": "dados/uploads/danielle-loureiro.png"
@@ -18,7 +19,7 @@
     }
   ],
   "perfil": {
-    "titulo": "COREN-RJ  1680583-TE ",
+    "titulo": "Perfil ",
     "descricao": "Profissional de enfermagem com experiência em assistência ao paciente, realizando cuidados básicos, administração de medicamentos, verificação de sinais vitais e apoio em procedimentos. Comprometida com a segurança, bem-estar e qualidade no atendimento em saúde."
   },
   "titulos_personalizados": {
