@@ -25,7 +25,7 @@
   },
   "titulos_personalizados": {
     "experiencia": "Experiência Profissional",
-    "certificados": "Certificados",
+    "certificados": "Estágios ",
     "educacao": "Formação | Cursos"
   },
   "habilidades": [],
@@ -35,7 +35,14 @@
       "estrelas": 5
     }
   ],
-  "experiencia_profissional": [],
+  "experiencia_profissional": [
+    {
+      "cargo": "Consultora de vendas",
+      "empresa": "CNV Cursos de Informática Ltda",
+      "periodo": "2009 - 2014",
+      "descricao": "Consultora de vendas de cursos, com experiência em atendimento ao cliente, apresentação de produtos educacionais e negociação, focada em identificar necessidades e fechar matrículas."
+    }
+  ],
   "educacao": [
     {
       "curso": "Técnica de Emfermagem",
@@ -48,7 +55,20 @@
       "periodo": "Abril - 2026 | Dezembro 2026 | Período 8 meses | Cursando"
     }
   ],
-  "certificados": [],
+  "certificados": [
+    {
+      "ano": "",
+      "titulo": "Clínica Vicente Moretti"
+    },
+    {
+      "ano": "",
+      "titulo": "UBS Piranema – Seropédica"
+    },
+    {
+      "ano": "",
+      "titulo": "Hospital Evangélico Tijuca"
+    }
+  ],
   "interesses": [
     "voluntariado",
     "enfermagem",
