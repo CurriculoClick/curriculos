@@ -1,9 +1,10 @@
 export default async function handler(req, res) {
     const { id } = req.query;
     if (!id) {
-        // Redireciona ou serve fallback caso seja chamado direto
+        // Se não tem ID, serve o index.html original como se fosse o Vercel padrão
+        const fallbackRes = await fetch(`https://${req.headers.host}/index.html`);
         res.setHeader('Content-Type', 'text/html; charset=utf-8');
-        return res.status(200).send('<h1>No ID provided</h1>');
+        return res.status(200).send(await fallbackRes.text());
     }
 
     const idNormalizado = id.replace(/^curriculo[_-]/i, '').replace(/_/g, '-');
