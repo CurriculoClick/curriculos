@@ -36,6 +36,14 @@
     {
       "nome": "Medicação",
       "nivel": 100
+    },
+    {
+      "nome": "Curativos",
+      "nivel": 100
+    },
+    {
+      "nome": "Vacinação",
+      "nivel": 100
     }
   ],
   "idiomas": [
