@@ -656,7 +656,19 @@ function aplicarDadosAoCurriculo(dados) {
                     'trilhas': 'fa-hiking',
                     'política': 'fa-landmark',
                     'notícias': 'fa-newspaper',
-                    'computador': 'fa-desktop'
+                    'computador': 'fa-desktop',
+                    'medicina': 'fa-user-doctor',
+                    'enfermagem': 'fa-user-nurse',
+                    'farmácia': 'fa-pills',
+                    'odontologia': 'fa-tooth',
+                    'nutrição': 'fa-apple-whole',
+                    'psicologia': 'fa-brain',
+                    'gestão hospitalar': 'fa-hospital',
+                    'pesquisa clínica': 'fa-microscope',
+                    'segurança do trabalho': 'fa-hard-hat',
+                    'plantão': 'fa-clock',
+                    'trabalho em equipe': 'fa-people-group',
+                    'primeiros socorros': 'fa-kit-medical'
                 };
                 
                 // Verificar se o interesse corresponde a algum ícone conhecido
