@@ -28,7 +28,12 @@
     "certificados": "Estágios ",
     "educacao": "Formação | Cursos"
   },
-  "habilidades": [],
+  "habilidades": [
+    {
+      "nome": "Enfermagem",
+      "nivel": 100
+    }
+  ],
   "idiomas": [
     {
       "nome": "Português",
