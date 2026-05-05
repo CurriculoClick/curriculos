@@ -9,6 +9,11 @@ export default async function middleware(req) {
     const url = new URL(req.url);
     const id = url.searchParams.get('id');
 
+    // Evita loop infinito: se o cabeçalho de sub-requisição estiver presente, ignora o middleware
+    if (req.headers.get('x-middleware-sub-request') === 'true') {
+        return new Response(null, { headers: { 'x-middleware-next': '1' } });
+    }
+
     // Se não houver ID, deixa passar para o arquivo estático
     if (!id) {
         return new Response(null, { headers: { 'x-middleware-next': '1' } });
@@ -18,8 +23,10 @@ export default async function middleware(req) {
     const idNormalizado = id.replace(/^curriculo[_-]/i, '').replace(/_/g, '-');
 
     try {
-        // Busca o index.html original diretamente do repositório para evitar loops no Vercel Edge
-        const indexRes = await fetch('https://raw.githubusercontent.com/thiagodelgado/curriculoclick/main/index.html');
+        // Busca o index.html original da própria Vercel, enviando o header para evitar recursão
+        const indexRes = await fetch(new URL('/index.html', url.origin), {
+            headers: { 'x-middleware-sub-request': 'true' }
+        });
         if (!indexRes.ok) return new Response(null, { headers: { 'x-middleware-next': '1' } });
         
         let html = await indexRes.text();
