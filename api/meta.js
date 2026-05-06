@@ -69,11 +69,11 @@ export default async function handler(req, res) {
     <meta name="twitter:description" content="${esc(descricao)}">
     <meta name="twitter:image" content="${esc(fotoUrl)}">`;
 
-    // Remove tags OG antigas para não duplicar
+    // Remove tags OG e Twitter antigas para não duplicar, independentemente da ordem dos atributos
     const htmlModificado = html
         .replace(/<title>[\s\S]*?<\/title>/i, `<title>${esc(titulo)}</title>`)
-        .replace(/<meta property="og:[^>]*>/gi, '')
-        .replace(/<meta name="twitter:[^>]*>/gi, '')
+        .replace(/<meta[^>]*property=["']og:[^>]*>/gi, '')
+        .replace(/<meta[^>]*name=["']twitter:[^>]*>/gi, '')
         .replace('</head>', `${ogBlock}\n</head>`);
 
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
